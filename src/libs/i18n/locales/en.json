@@ -1,0 +1,45 @@
+{
+	"Dashboards": "Dashboard",
+	"Settings": "Settings",
+	"Site Options": "Site Options",
+	"Site Settings": "Site Settings",
+	"Roles & Permissions": "Roles & Permissions",
+	"Moderators": "Moderators",
+
+	"Site Users": "Site Users",
+	"Members": "Members",
+	"All members": "All members",
+	"Options": "Options",
+	"Cities": "Cities",
+	"Branch acceptance": "Branch acceptance",
+	"Awaiting": "Awaiting",
+	"Accepted": "Accepted",
+	"Refused": "Refused",
+
+	"Subscribers": "Subscribers",
+	"Activated": "Activated",
+	"Awaiting activation": "Awaiting activation",
+
+	"Volunteers": "Volunteers",
+
+	"Courses": "Courses",
+	"Tags": "Tags",
+	"All courses": "All courses",
+	"Templates": "Templates",
+	"Questionnaires": "Questionnaires",
+
+	"Site management": "Site management",
+	"News categories": "News categories",
+	"Menus": "Menus",
+	"Pages": "Pages",
+	"News": "News",
+	"Ads": "Ads",
+
+	"Upload center": "Upload center",
+
+	"Technical support": "Technical support",
+
+	"Studio": "Studio",
+	"Photos gallery": "Photos gallery",
+	"Videos gallery": "Videos gallery"
+}

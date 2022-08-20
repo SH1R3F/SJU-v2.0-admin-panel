@@ -1,0 +1,45 @@
+{
+	"Dashboards": "الرئيسية",
+	"Settings": "الإعدادات",
+	"Site Options": "خيارات الموقع",
+	"Site Settings": "إعدادات الموقع",
+	"Roles & Permissions": "المجموعات والصلاحيات",
+	"Moderators": "المدراء",
+
+	"Site Users": "مستخدمي الموقع",
+	"Members": "الأعضاء",
+	"All members": "كل الأعضاء",
+	"Options": "الخيارات",
+	"Cities": "المدن",
+	"Branch acceptance": "موافقة الفرع",
+	"Awaiting": "في الإنتظار",
+	"Accepted": "تمت الموافقة",
+	"Refused": "المرفوضون",
+
+	"Subscribers": "المشتركين",
+	"Activated": "المفعلين",
+	"Awaiting activation": "بإنتظار التفعيل",
+
+	"Volunteers": "المتطوعون",
+
+	"Courses": "الفعاليات",
+	"Tags": "المسميات",
+	"All courses": "كل الفعاليات",
+	"Templates": "القوالب",
+	"Questionnaires": "الإستبيانات",
+
+	"Site management": "إدارة الموقع",
+	"News categories": "تصنيفات الأخبار",
+	"Menus": "القوائم",
+	"Pages": "الصفحات",
+	"News": "الأخبار",
+	"Ads": "الإعلانات",
+
+	"Upload center": "مركز التحميل",
+
+	"Technical support": "الدعم الفنـي",
+
+	"Studio": "الاستوديو",
+	"Photos gallery": "مكتبة الصور",
+	"Videos gallery": "مكتبة الفيديو"
+}
