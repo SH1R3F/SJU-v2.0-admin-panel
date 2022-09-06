@@ -14,8 +14,14 @@ function loadLocaleMessages() {
 	});
 	return messages;
 }
+
+// Current locale
+export const locale = "ar";
+
 export default new VueI18n({
-	locale: "ar",
-	fallbackLocale: "ar",
+	locale: locale,
+	fallbackLocale: process.env.VUE_APP_FALLBACK_LOCALE,
 	messages: loadLocaleMessages(),
+	// silentTranslationWarn: process.env.VUE_APP_ENV === "production",
+	silentTranslationWarn: true,
 });

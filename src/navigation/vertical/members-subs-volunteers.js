@@ -43,16 +43,15 @@ export default [
 	},
 	{
 		title: "Subscribers",
-		route: "apps-email",
 		icon: "UserPlusIcon",
 		children: [
 			{
 				title: "Activated",
-				route: { name: "apps-invoice-preview", params: { id: 4987 } },
+				route: { name: "activated-subscribers" },
 			},
 			{
 				title: "Awaiting activation",
-				route: { name: "apps-invoice-preview", params: { id: 4987 } },
+				route: { name: "apps-invoice-preview" },
 			},
 		],
 	},

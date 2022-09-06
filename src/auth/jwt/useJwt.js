@@ -3,7 +3,7 @@ import axios from "@axios";
 
 const { jwt } = useJwt(axios, {
 	// Endpoints
-	loginEndpoint: `${process.env.VUE_APP_API_BASEURL}/admin/login`,
+	loginEndpoint: `${process.env.VUE_APP_API_BASEURL}/login`,
 	// registerEndpoint: "/jwt/register",
 	// refreshEndpoint: "/jwt/refresh-token",
 	// logoutEndpoint: "/jwt/logout",

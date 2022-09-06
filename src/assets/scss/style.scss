@@ -8,3 +8,18 @@ WE WILL RELEASE FUTURE UPDATES SO IN ORDER TO NOT OVERWRITE YOUR STYLES IT'S BET
 [dir="rtl"] * {
 	font-family: "Cairo", sans-serif;
 }
+
+// Datepicker styles
+.vpd-icon-btn,
+.vpd-header,
+.vpd-day-effect {
+	background-color: #007c42 !important;
+}
+.vpd-actions button,
+.vpd-addon-list-item.selected {
+	color: #007c42 !important;
+}
+.vpd-month-label span:hover {
+	color: #007c42 !important;
+	border-color: #007c42 !important;
+}

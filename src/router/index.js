@@ -11,6 +11,7 @@ import pages from "./routes/pages";
 import chartsMaps from "./routes/charts-maps";
 import formsTable from "./routes/forms-tables";
 import others from "./routes/others";
+import i18n from "@/libs/i18n";
 
 Vue.use(VueRouter);
 
@@ -51,6 +52,13 @@ router.beforeEach((to, _, next) => {
 	if (to.meta.redirectIfLoggedIn && isLoggedIn) {
 		const userData = getUserData();
 		next(getHomeRouteForLoggedInUser(userData ? userData.role : null));
+	}
+
+	// Page title
+	if (to.meta.pageTitle) {
+		document.title = i18n.t(to.meta.pageTitle) + " | " + i18n.t(process.env.VUE_APP_SITE_NAME);
+	} else {
+		document.title = i18n.t(process.env.VUE_APP_SITE_NAME);
 	}
 
 	return next();
