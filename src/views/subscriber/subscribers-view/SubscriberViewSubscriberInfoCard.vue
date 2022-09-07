@@ -42,17 +42,6 @@
 							</td>
 						</tr>
 
-						<!-- National id -->
-						<tr>
-							<th class="pb-50">
-								<feather-icon icon="CreditCardIcon" class="mr-75" />
-								<span class="font-weight-bold">{{ $t("National id") }}</span>
-							</th>
-							<td class="pb-50 text-capitalize">
-								{{ subscriberData.national_id }}
-							</td>
-						</tr>
-
 						<!-- Gender -->
 						<tr>
 							<th class="pb-50">
@@ -137,7 +126,7 @@
 							autoHideDelay: 100,
 						});
 						setTimeout(() => {
-							router.push({ name: "activated-subscribers" });
+							router.push({ name: "active-subscribers" });
 						}, 1500);
 					})
 					.catch((error) => {

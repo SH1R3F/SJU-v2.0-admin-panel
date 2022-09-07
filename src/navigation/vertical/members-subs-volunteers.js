@@ -46,12 +46,12 @@ export default [
 		icon: "UserPlusIcon",
 		children: [
 			{
-				title: "Activated",
-				route: { name: "activated-subscribers" },
+				title: "Active subscribers",
+				route: { name: "active-subscribers" },
 			},
 			{
 				title: "Awaiting activation",
-				route: { name: "apps-invoice-preview" },
+				route: { name: "inactive-subscribers" },
 			},
 		],
 	},

@@ -41,7 +41,7 @@
 				<template #cell(subscriber)="data">
 					<b-media vertical-align="center" class="align-items-center">
 						<template #aside>
-							<b-avatar size="32" :src="data.item.avatar" :text="avatarText(data.item.fullName.split(' ')[0])" :variant="`light-${resolveUserRoleVariant(data.item.role)}`" :to="{ name: 'apps-users-view', params: { id: data.item.id } }" />
+							<b-avatar size="32" :src="data.item.avatar" :text="avatarText(data.item.fullName.split(' ')[0])" :variant="data.item.avatar ? '' : 'light-success'" :to="{ name: 'apps-users-view', params: { id: data.item.id } }" />
 						</template>
 						<b-link :to="{ name: 'show-subscriber', params: { id: data.item.id } }" class="font-weight-bold d-block text-nowrap">
 							{{ data.item.fullName }}
@@ -51,8 +51,8 @@
 
 				<!-- Column: Status [Will be updated when activation coded] -->
 				<template #cell(status)="data">
-					<b-badge pill :variant="`light-${resolveUserStatusVariant(data.item.status)}`" class="text-capitalize">
-						{{ data.item.status }}
+					<b-badge pill :variant="data.item.status ? 'light-success' : 'light-danger'" class="text-capitalize">
+						{{ $t($status[data.item.status].text) }}
 					</b-badge>
 				</template>
 
@@ -72,7 +72,7 @@
 							<span class="align-middle ml-50">{{ $t("Edit") }}</span>
 						</b-dropdown-item>
 
-						<b-dropdown-item>
+						<b-dropdown-item v-b-modal.modal-danger @click="toBeDeletedId = data.item.id">
 							<feather-icon icon="TrashIcon" />
 							<span class="align-middle ml-50">{{ $t("Delete") }}</span>
 						</b-dropdown-item>
@@ -101,11 +101,15 @@
 			</div>
 			<!-- Table footer -->
 		</b-card>
+		<!-- Modal for subscriber deletion -->
+		<b-modal id="modal-danger" ok-only ok-variant="danger" :ok-title="$t('Accept')" @ok="deleteSubscriber" modal-class="modal-danger" centered :title="$t('Delete subscriber?')">
+			<b-card-text>{{ $t("Are you sure you want to delete this subscriber? You won't be able to undo this step and all subscriber data will be delete with no way to retreive.") }}</b-card-text>
+		</b-modal>
 	</div>
 </template>
 
 <script>
-	import { BCard, BRow, BCol, BFormInput, BButton, BTable, BMedia, BAvatar, BLink, BBadge, BDropdown, BDropdownItem, BPagination } from "bootstrap-vue";
+	import { BCard, BRow, BCol, BFormInput, BButton, BTable, BMedia, BAvatar, BLink, BBadge, BDropdown, BDropdownItem, BPagination, BCardText } from "bootstrap-vue";
 	import vSelect from "vue-select";
 	import store from "@/store";
 	import { ref, onUnmounted } from "@vue/composition-api";
@@ -114,6 +118,7 @@
 	import SubscribersListAddNew from "./SubscribersListAddNew.vue";
 	import useSubscribersList from "./useSubscribersList";
 	import subscriberStoreModule from "../subscriberStoreModule";
+	import { $status } from "@siteConfig";
 
 	export default {
 		components: {
@@ -135,6 +140,7 @@
 			BPagination,
 
 			vSelect,
+			BCardText,
 		},
 		setup() {
 			const SUBSCRIBER_APP_STORE_MODULE_NAME = "app-subscriber";
@@ -163,11 +169,6 @@
 				refUserListTable,
 				refetchData,
 
-				// UI
-				resolveUserRoleVariant,
-				resolveUserRoleIcon,
-				resolveUserStatusVariant,
-
 				// Extra Filters
 				nationalIdFilter,
 				nameFilter,
@@ -175,11 +176,34 @@
 				emailFilter,
 			} = useSubscribersList();
 
+			const toBeDeletedId = ref(null);
+			const deleteSubscriber = function () {
+				store
+					.dispatch("app-subscriber/deleteSubscriber", { id: toBeDeletedId.value })
+					.then((response) => {
+						// Success message and update users
+						this.$bvToast.toast(response.data.message, {
+							variant: "success",
+							solid: true,
+						});
+						refetchData();
+					})
+					.catch((error) => {
+						this.$bvToast.toast(error.message, {
+							variant: "danger",
+							solid: true,
+						});
+						return;
+					});
+			};
+
 			return {
 				// Sidebar
 				isAddNewSubscriberSidebarActive,
 
 				fetchSubscribers,
+				deleteSubscriber,
+				toBeDeletedId,
 				tableColumns,
 				perPage,
 				currentPage,
@@ -195,17 +219,18 @@
 				// Filter
 				avatarText,
 
-				// UI
-				resolveUserRoleVariant,
-				resolveUserRoleIcon,
-				resolveUserStatusVariant,
-
+				$status,
 				// Extra Filters
 				nationalIdFilter,
 				nameFilter,
 				mobileFilter,
 				emailFilter,
 			};
+		},
+		watch: {
+			$route(to, from) {
+				this.refetchData();
+			},
 		},
 	};
 </script>

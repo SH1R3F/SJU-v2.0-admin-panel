@@ -6,6 +6,7 @@ import i18n from "@/libs/i18n";
 // Notification
 import { useToast } from "vue-toastification/composition";
 import ToastificationContent from "@core/components/toastification/ToastificationContent.vue";
+import router from "@/router";
 
 export default function useSubscribersList() {
 	// Use toast
@@ -59,9 +60,9 @@ export default function useSubscribersList() {
 				page: currentPage.value,
 				sortBy: sortBy.value,
 				sortDesc: isSortDirDesc.value,
+				status: router.currentRoute.name === "active-subscribers" ? 1 : 0,
 
 				// Filtering
-				national_id: nationalIdFilter.value,
 				name: nameFilter.value,
 				mobile: mobileFilter.value,
 				email: emailFilter.value,

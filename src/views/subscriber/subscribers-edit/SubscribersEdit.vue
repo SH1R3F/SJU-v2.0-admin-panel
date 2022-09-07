@@ -5,7 +5,7 @@
 			<h4 class="alert-heading">{{ $t("Error fetching subscriber data") }}</h4>
 			<div class="alert-body">
 				{{ $t("No subscriber found with this subscriber id") }}. {{ $t("Go to") }}
-				<b-link class="alert-link" :to="{ name: 'activated-subscribers' }"> {{ $t("Subscribers List") }} </b-link>
+				<b-link class="alert-link" :to="{ name: 'active-subscribers' }"> {{ $t("Subscribers List") }} </b-link>
 				{{ $t("for other subscribers") }}.
 			</div>
 		</b-alert>

@@ -1,3 +1,4 @@
+import router from "@/router";
 import axios from "@axios";
 
 export default {
@@ -9,7 +10,7 @@ export default {
 		fetchSubscribers(ctx, queryParams) {
 			return new Promise((resolve, reject) => {
 				axios
-					.get("/subscribers", { params: queryParams })
+					.get(`/subscribers`, { params: queryParams })
 					.then((response) => resolve(response))
 					.catch((error) => reject(error));
 			});

@@ -24,20 +24,6 @@
 		<!-- User Info: Input Fields -->
 		<validation-observer #default="{ handleSubmit }" ref="refFormObserver">
 			<b-form @submit.prevent="handleSubmit(onSubmit)" @reset.prevent="resetForm">
-				<!-- Field: National id -->
-				<b-row>
-					<b-col cols="12" md="12">
-						<b-form-group :label="$t('National id')" label-for="national-id">
-							<validation-provider #default="validationContext" name="national_id" rules="required">
-								<b-form-input id="national-id" v-model="formData.national_id" autofocus :state="getValidationState(validationContext)" trim />
-								<b-form-invalid-feedback>
-									{{ validationContext.errors[0] }}
-								</b-form-invalid-feedback>
-							</validation-provider>
-						</b-form-group>
-					</b-col>
-				</b-row>
-
 				<!-- Field: Email -->
 				<b-row>
 					<b-col cols="12" md="12">
@@ -141,8 +127,8 @@
 			};
 
 			// Form config for submit & rest
-			const { avatar, email: subscriberEmail, national_id } = props.subscriberData;
-			const oldData = { avatar, subscriberEmail, national_id };
+			const { avatar, email: subscriberEmail } = props.subscriberData;
+			const oldData = { avatar, subscriberEmail };
 			const formData = ref(JSON.parse(JSON.stringify(oldData)));
 			const resetsubscriberData = () => {
 				formData.value = JSON.parse(JSON.stringify(oldData));

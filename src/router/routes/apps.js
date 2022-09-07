@@ -226,8 +226,25 @@ export default [
 	// *------------------- Subscribers ------------------*
 	// *===============================================---*
 	{
-		path: "/subscribers/activated",
-		name: "activated-subscribers",
+		path: "/subscribers/active",
+		name: "active-subscribers",
+		component: () => import("@/views/subscriber/subscribers-list/SubscribersList.vue"),
+		meta: {
+			pageTitle: "List subscribers",
+			breadcrumb: [
+				{
+					text: "Subscribers",
+				},
+				{
+					text: "List subscribers",
+					active: true,
+				},
+			],
+		},
+	},
+	{
+		path: "/subscribers/inactive",
+		name: "inactive-subscribers",
 		component: () => import("@/views/subscriber/subscribers-list/SubscribersList.vue"),
 		meta: {
 			pageTitle: "List subscribers",

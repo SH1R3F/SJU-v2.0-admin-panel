@@ -12,16 +12,6 @@
 			<validation-observer #default="{ handleSubmit }" ref="refFormObserver">
 				<!-- Form -->
 				<b-form class="p-2" @submit.prevent="handleSubmit(onSubmit)" @reset.prevent="resetForm">
-					<!-- National ID -->
-					<validation-provider #default="validationContext" vid="national_id" :name="$t('National id')" rules="required">
-						<b-form-group :label="$t('National id')" label-for="national_id">
-							<b-form-input id="national_id" v-model="subscriberData.national_id" autofocus :state="getValidationState(validationContext)" trim />
-							<b-form-invalid-feedback>
-								{{ validationContext.errors[0] }}
-							</b-form-invalid-feedback>
-						</b-form-group>
-					</validation-provider>
-
 					<!-- Full Name (Arabic) -->
 					<validation-provider #default="validationContext" vid="fname_ar" :name="$t('First name')" rules="required">
 						<b-form-group :label="$t('First name')" label-for="fname_ar">
@@ -210,7 +200,6 @@
 			});
 
 			const blankSubscriberData = {
-				national_id: "",
 				fname_ar: "",
 				sname_ar: "",
 				tname_ar: "",

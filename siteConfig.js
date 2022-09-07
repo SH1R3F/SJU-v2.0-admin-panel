@@ -1568,7 +1568,10 @@ export const $mobileCodes = [
 	},
 ];
 
-export const $status = ["غير فعال", "فعال"];
+export const $status = [
+	{ text: i18n.t("Inactive"), value: "0" },
+	{ text: i18n.t("Active"), value: "1" },
+];
 
 export const $genders = [
 	{ text: i18n.t("Male"), value: "0" },
