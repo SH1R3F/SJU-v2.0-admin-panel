@@ -246,6 +246,18 @@ export default [
 		path: "/subscribers/:id",
 		name: "show-subscriber",
 		component: () => import("@/views/subscriber/subscribers-view/SubscribersView.vue"),
+		meta: {
+			pageTitle: "Show subscriber",
+			breadcrumb: [
+				{
+					text: "Subscribers",
+				},
+				{
+					text: "Show subscriber",
+					active: true,
+				},
+			],
+		},
 	},
 	{
 		path: "/subscribers/edit/:id",

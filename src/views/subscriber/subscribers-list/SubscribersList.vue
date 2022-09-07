@@ -1,9 +1,9 @@
 <template>
 	<div>
-		<subscribers-list-add-new :is-add-new-user-sidebar-active.sync="isAddNewUserSidebarActive" :role-options="roleOptions" :plan-options="planOptions" @refetch-data="refetchData" />
+		<subscribers-list-add-new :is-add-new-subscriber-sidebar-active.sync="isAddNewSubscriberSidebarActive" @refetch-data="refetchData" />
 
 		<!-- Filters -->
-		<subscribers-list-filters :role-filter.sync="roleFilter" :plan-filter.sync="planFilter" :status-filter.sync="statusFilter" :role-options="roleOptions" :plan-options="planOptions" :status-options="statusOptions" />
+		<subscribers-list-filters :national-id-filter.sync="nationalIdFilter" :name-filter.sync="nameFilter" :mobile-filter.sync="mobileFilter" :email-filter.sync="emailFilter" />
 
 		<!-- Table Container Card -->
 		<b-card no-body class="mb-0">
@@ -24,7 +24,7 @@
 							<b-form-input v-model="searchQuery" class="d-inline-block mr-1" :placeholder="$t('Search')" />
 
 							<!-- Add new -->
-							<b-button variant="primary" @click="isAddNewUserSidebarActive = true">
+							<b-button variant="primary" @click="isAddNewSubscriberSidebarActive = true">
 								<span class="text-nowrap">{{ $t("Add") }}</span>
 							</b-button>
 						</div>
@@ -33,7 +33,7 @@
 			</div>
 			<!-- Header of table -->
 
-			<b-table ref="refUserListTable" class="position-relative" :fields="tableColumns" :items="fetchSubscribers" responsive primary-key="id" :sort-by.sync="sortBy" show-empty empty-text="No matching records found" :sort-desc.sync="isSortDirDesc">
+			<b-table ref="refUserListTable" class="position-relative" :fields="tableColumns" :items="fetchSubscribers" responsive primary-key="id" :sort-by.sync="sortBy" show-empty :empty-text="$t('No matching records found')" :sort-desc.sync="isSortDirDesc">
 				<!-- Column: # -->
 				<template #cell(#)="data"> {{ (currentPage - 1) * perPage + (data.index + 1) }} </template>
 
@@ -49,7 +49,7 @@
 					</b-media>
 				</template>
 
-				<!-- Column: Status -->
+				<!-- Column: Status [Will be updated when activation coded] -->
 				<template #cell(status)="data">
 					<b-badge pill :variant="`light-${resolveUserStatusVariant(data.item.status)}`" class="text-capitalize">
 						{{ data.item.status }}
@@ -147,28 +147,7 @@
 				if (store.hasModule(SUBSCRIBER_APP_STORE_MODULE_NAME)) store.unregisterModule(SUBSCRIBER_APP_STORE_MODULE_NAME);
 			});
 
-			const isAddNewUserSidebarActive = ref(false);
-
-			const roleOptions = [
-				{ label: "Admin", value: "admin" },
-				{ label: "Author", value: "author" },
-				{ label: "Editor", value: "editor" },
-				{ label: "Maintainer", value: "maintainer" },
-				{ label: "Subscriber", value: "subscriber" },
-			];
-
-			const planOptions = [
-				{ label: "Basic", value: "basic" },
-				{ label: "Company", value: "company" },
-				{ label: "Enterprise", value: "enterprise" },
-				{ label: "Team", value: "team" },
-			];
-
-			const statusOptions = [
-				{ label: "Pending", value: "pending" },
-				{ label: "Active", value: "active" },
-				{ label: "Inactive", value: "inactive" },
-			];
+			const isAddNewSubscriberSidebarActive = ref(false);
 
 			const {
 				tableColumns,
@@ -190,14 +169,15 @@
 				resolveUserStatusVariant,
 
 				// Extra Filters
-				roleFilter,
-				planFilter,
-				statusFilter,
+				nationalIdFilter,
+				nameFilter,
+				mobileFilter,
+				emailFilter,
 			} = useSubscribersList();
 
 			return {
 				// Sidebar
-				isAddNewUserSidebarActive,
+				isAddNewSubscriberSidebarActive,
 
 				fetchSubscribers,
 				tableColumns,
@@ -220,14 +200,11 @@
 				resolveUserRoleIcon,
 				resolveUserStatusVariant,
 
-				roleOptions,
-				planOptions,
-				statusOptions,
-
 				// Extra Filters
-				roleFilter,
-				planFilter,
-				statusFilter,
+				nationalIdFilter,
+				nameFilter,
+				mobileFilter,
+				emailFilter,
 			};
 		},
 	};

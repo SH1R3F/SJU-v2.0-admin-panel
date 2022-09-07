@@ -30,7 +30,7 @@ export default {
 					.catch((error) => reject(error));
 			});
 		},
-		// Fetch courses that user has enrolled in
+		// Fetch courses that user has enrolled in // Will be updated when courses functionality are added
 		fetchCourses(ctx, { id }) {
 			return new Promise((resolve, reject) => {
 				axios
@@ -39,13 +39,21 @@ export default {
 					.catch((error) => reject(error));
 			});
 		},
-		// addUser(ctx, userData) {
-		// 	return new Promise((resolve, reject) => {
-		// 		axios
-		// 			.post("/apps/user/users", { user: userData })
-		// 			.then((response) => resolve(response))
-		// 			.catch((error) => reject(error));
-		// 	});
-		// },
+		addSubscriber(ctx, subscriberData) {
+			return new Promise((resolve, reject) => {
+				axios
+					.post("/subscribers/store", subscriberData)
+					.then((response) => resolve(response))
+					.catch((error) => reject(error));
+			});
+		},
+		deleteSubscriber(ctx, { id }) {
+			return new Promise((resolve, reject) => {
+				axios
+					.post(`/subscribers/delete/${id}`)
+					.then((response) => resolve(response))
+					.catch((error) => reject(error));
+			});
+		},
 	},
 };

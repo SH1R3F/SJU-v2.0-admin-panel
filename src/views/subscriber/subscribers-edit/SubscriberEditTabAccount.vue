@@ -3,7 +3,7 @@
 		<!-- Media -->
 		<b-media class="mb-2">
 			<template #aside>
-				<b-avatar ref="previewEl" :src="subscriberData.avatar" :text="avatarText(subscriberData.fname_ar)" variant="" size="90px" rounded />
+				<b-avatar ref="previewEl" :src="formData.avatar" :text="avatarText(subscriberData.fname_ar)" :variant="formData.avatar ? '' : `light-success`" size="90px" rounded />
 			</template>
 			<h4 class="mb-1">
 				{{ subscriberData.fullName }}
@@ -14,7 +14,7 @@
 					<span class="d-none d-sm-inline">{{ $t("Change") }}</span>
 					<feather-icon icon="EditIcon" class="d-inline d-sm-none" />
 				</b-button>
-				<b-button variant="outline-secondary" class="ml-1">
+				<b-button variant="outline-secondary" class="ml-1" @click="cancelAvatar">
 					<span class="d-none d-sm-inline">{{ $t("Cancel") }}</span>
 					<feather-icon icon="TrashIcon" class="d-inline d-sm-none" />
 				</b-button>
@@ -22,15 +22,31 @@
 		</b-media>
 
 		<!-- User Info: Input Fields -->
-		<validation-observer ref="accountForm">
-			<b-form @submit="saveAccountInfo">
+		<validation-observer #default="{ handleSubmit }" ref="refFormObserver">
+			<b-form @submit.prevent="handleSubmit(onSubmit)" @reset.prevent="resetForm">
+				<!-- Field: National id -->
+				<b-row>
+					<b-col cols="12" md="12">
+						<b-form-group :label="$t('National id')" label-for="national-id">
+							<validation-provider #default="validationContext" name="national_id" rules="required">
+								<b-form-input id="national-id" v-model="formData.national_id" autofocus :state="getValidationState(validationContext)" trim />
+								<b-form-invalid-feedback>
+									{{ validationContext.errors[0] }}
+								</b-form-invalid-feedback>
+							</validation-provider>
+						</b-form-group>
+					</b-col>
+				</b-row>
+
 				<!-- Field: Email -->
 				<b-row>
 					<b-col cols="12" md="12">
 						<b-form-group :label="$t('Email')" label-for="email">
-							<validation-provider #default="{ errors }" name="email" rules="required|email">
-								<b-form-input id="email" v-model="formData.email" />
-								<small class="text-danger">{{ errors[0] }}</small>
+							<validation-provider #default="validationContext" name="email" rules="required|email">
+								<b-form-input id="email" v-model="formData.subscriberEmail" autofocus :state="getValidationState(validationContext)" trim />
+								<b-form-invalid-feedback>
+									{{ validationContext.errors[0] }}
+								</b-form-invalid-feedback>
 							</validation-provider>
 						</b-form-group>
 					</b-col>
@@ -40,17 +56,21 @@
 				<b-row>
 					<b-col cols="12" md="6">
 						<b-form-group :label="$t('Password')" label-for="password">
-							<validation-provider #default="{ errors }" name="password" rules="min:6">
-								<b-form-input id="password" v-model="formData.password" type="password" />
-								<small class="text-danger">{{ errors[0] }}</small>
+							<validation-provider #default="validationContext" vid="password" :name="$t('Password')" rules="min:6">
+								<b-form-input id="password" v-model="formData.password" type="password" :state="getValidationState(validationContext)" />
+								<b-form-invalid-feedback>
+									{{ validationContext.errors[0] }}
+								</b-form-invalid-feedback>
 							</validation-provider>
 						</b-form-group>
 					</b-col>
 					<b-col cols="12" md="6">
 						<b-form-group :label="$t('Password confirmation')" label-for="password-confirmation">
-							<validation-provider #default="{ errors }" name="password_confirmation" rules="confirmed:password">
-								<b-form-input id="password-confirmation" v-model="formData.password_confirmation" type="password" />
-								<small class="text-danger">{{ errors[0] }}</small>
+							<validation-provider #default="validationContext" vid="password_confirmation" :name="$t('Password confirmation')" rules="confirmed:password">
+								<b-form-input id="password-confirmation" v-model="formData.password_confirmation" type="password" :state="getValidationState(validationContext)" />
+								<b-form-invalid-feedback>
+									{{ validationContext.errors[0] }}
+								</b-form-invalid-feedback>
 							</validation-provider>
 						</b-form-group>
 					</b-col>
@@ -65,7 +85,7 @@
 </template>
 
 <script>
-	import { BButton, BMedia, BAvatar, BRow, BCol, BFormGroup, BFormInput, BForm } from "bootstrap-vue";
+	import { BButton, BMedia, BAvatar, BRow, BCol, BFormGroup, BFormInput, BForm, BFormInvalidFeedback } from "bootstrap-vue";
 	import { avatarText } from "@core/utils/filter";
 	import { useInputImageRenderer } from "@core/comp-functions/forms/form-utils";
 	import { onUnmounted, ref } from "@vue/composition-api";
@@ -74,6 +94,7 @@
 	import store from "@/store";
 	import { ValidationProvider, ValidationObserver } from "vee-validate";
 	import { required, email, min } from "@validations";
+	import formValidation from "@/@core/comp-functions/forms/form-validation";
 
 	export default {
 		components: {
@@ -87,6 +108,7 @@
 			BForm,
 			ValidationProvider,
 			ValidationObserver,
+			BFormInvalidFeedback,
 		},
 
 		props: {
@@ -97,7 +119,7 @@
 		},
 
 		setup(props) {
-			// Module configurations
+			// MODULE CONFIGURATION
 			const SUBSCRIBER_APP_STORE_MODULE_NAME = "app-subscriber";
 			if (!store.hasModule(SUBSCRIBER_APP_STORE_MODULE_NAME)) store.registerModule(SUBSCRIBER_APP_STORE_MODULE_NAME, subscriberStoreModule);
 			onUnmounted(() => {
@@ -107,47 +129,45 @@
 			// Demo Purpose => Update image on click of update
 			const refInputEl = ref(null);
 			const previewEl = ref(null);
-			const accountForm = ref(null);
 			const { inputImageRenderer } = useInputImageRenderer(refInputEl, (base64) => {
 				// eslint-disable-next-line no-param-reassign
-				props.subscriberData.avatar = base64;
+				// props.subscriberData.avatar = base64;
+				formData.value.avatar = base64;
 			});
 
-			// Subscriber account information form
-			const { email } = props.subscriberData;
-			const formData = ref({ email });
+			// Cancel Avatar
+			const cancelAvatar = () => {
+				formData.value.avatar = null;
+			};
 
-			const saveAccountInfo = function (e) {
-				e.preventDefault();
+			// Form config for submit & rest
+			const { avatar, email: subscriberEmail, national_id } = props.subscriberData;
+			const oldData = { avatar, subscriberEmail, national_id };
+			const formData = ref(JSON.parse(JSON.stringify(oldData)));
+			const resetsubscriberData = () => {
+				formData.value = JSON.parse(JSON.stringify(oldData));
+			};
 
-				// Vee validation configuration
-
-				// Validation
-				accountForm.value
-					.validate()
-					.then((success) => {
-						if (success) {
-							// Submitting
-							store
-								.dispatch("app-subscriber/updateSubscriber", { id: router.currentRoute.params.id, form: formData.value })
-								.then((response) => {
-									this.$bvToast.toast(response.message, {
-										variant: "success",
-										solid: true,
-									});
-								})
-								.catch((error) => {
-									if (error.response.status === 400) {
-										// Set errors
-										accountForm.value.setErrors(error.response.data);
-									}
-								});
-						}
+			// Submitting
+			const onSubmit = function () {
+				store
+					.dispatch("app-subscriber/updateSubscriber", { id: router.currentRoute.params.id, form: formData.value })
+					.then((response) => {
+						this.$bvToast.toast(response.message, {
+							variant: "success",
+							solid: true,
+						});
 					})
-					.catch(() => {
-						return;
+					.catch((error) => {
+						if (error.response.status === 400) {
+							// Set errors
+							refFormObserver.value.setErrors(error.response.data);
+						}
 					});
 			};
+
+			// Form validation configuration
+			const { refFormObserver, getValidationState, resetForm } = formValidation(resetsubscriberData);
 
 			return {
 				avatarText,
@@ -155,12 +175,15 @@
 				refInputEl,
 				previewEl,
 				inputImageRenderer,
+				cancelAvatar,
 				formData,
-				saveAccountInfo,
 				required,
 				email,
 				min,
-				accountForm,
+				refFormObserver,
+				onSubmit,
+				resetForm,
+				getValidationState,
 			};
 		},
 	};

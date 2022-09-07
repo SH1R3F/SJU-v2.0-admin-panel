@@ -29,9 +29,10 @@ export default function useSubscribersList() {
 	const searchQuery = ref("");
 	const sortBy = ref("id");
 	const isSortDirDesc = ref(true);
-	const roleFilter = ref(null);
-	const planFilter = ref(null);
-	const statusFilter = ref(null);
+	const nationalIdFilter = ref(null);
+	const nameFilter = ref(null);
+	const mobileFilter = ref(null);
+	const emailFilter = ref(null);
 
 	const dataMeta = computed(() => {
 		const localItemsCount = refUserListTable.value ? refUserListTable.value.localItems.length : 0;
@@ -46,7 +47,7 @@ export default function useSubscribersList() {
 		refUserListTable.value.refresh();
 	};
 
-	watch([currentPage, perPage, searchQuery, roleFilter, planFilter, statusFilter], () => {
+	watch([currentPage, perPage, searchQuery, nationalIdFilter, nameFilter, mobileFilter, emailFilter], () => {
 		refetchData();
 	});
 
@@ -60,9 +61,10 @@ export default function useSubscribersList() {
 				sortDesc: isSortDirDesc.value,
 
 				// Filtering
-				role: roleFilter.value,
-				plan: planFilter.value,
-				status: statusFilter.value,
+				national_id: nationalIdFilter.value,
+				name: nameFilter.value,
+				mobile: mobileFilter.value,
+				email: emailFilter.value,
 			})
 			.then((response) => {
 				const { users, total } = response.data;
@@ -73,7 +75,7 @@ export default function useSubscribersList() {
 				toast({
 					component: ToastificationContent,
 					props: {
-						title: "Error fetching users list",
+						title: i18n.t("Error fetching subscribers list"),
 						icon: "AlertTriangleIcon",
 						variant: "danger",
 					},
@@ -129,8 +131,9 @@ export default function useSubscribersList() {
 		refetchData,
 
 		// Extra Filters
-		roleFilter,
-		planFilter,
-		statusFilter,
+		nationalIdFilter,
+		nameFilter,
+		mobileFilter,
+		emailFilter,
 	};
 }

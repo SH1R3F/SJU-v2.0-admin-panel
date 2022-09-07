@@ -1,6 +1,7 @@
 <template>
 	<b-card :title="$t('Subscriber log')">
 		<app-timeline>
+			<!-- Success on course.. Gonna be updated when courses added -->
 			<app-timeline-item>
 				<div class="d-flex flex-sm-row flex-column flex-wrap justify-content-between mb-1 mb-sm-0">
 					<h6>{{ $t("Course success") }}</h6>
@@ -12,6 +13,7 @@
 				</p>
 			</app-timeline-item>
 
+			<!-- enroll to course.. Gonna be updated when courses added -->
 			<app-timeline-item variant="warning">
 				<div class="d-flex flex-sm-row flex-column flex-wrap justify-content-between mb-1 mb-sm-0">
 					<h6>{{ $t("Course enrollment") }}</h6>

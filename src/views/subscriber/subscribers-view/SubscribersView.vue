@@ -58,9 +58,9 @@
 			});
 
 			store
-				.dispatch("app-subscriber/fetchUser", { id: router.currentRoute.params.id })
+				.dispatch("app-subscriber/fetchSubscriber", { id: router.currentRoute.params.id })
 				.then((response) => {
-					subscriberData.value = response.data.data;
+					subscriberData.value = response.data;
 				})
 				.catch((error) => {
 					if (error.response.status === 404) {

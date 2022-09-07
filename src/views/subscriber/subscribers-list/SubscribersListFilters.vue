@@ -7,38 +7,21 @@
 		</b-card-header>
 		<b-card-body>
 			<b-row>
-				<b-col cols="12" md="4" class="mb-md-0 mb-2">
-					<label>Role</label>
-					<v-select
-						:dir="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'"
-						:value="roleFilter"
-						:options="roleOptions"
-						class="w-100"
-						:reduce="(val) => val.value"
-						@input="(val) => $emit('update:roleFilter', val)"
-					/>
+				<b-col cols="12" md="3" class="mb-md-0 mb-2">
+					<label>{{ $t("National id") }}</label>
+					<b-form-input id="national-id" :value="nationalIdFilter" class="w-100" @input="(val) => $emit('update:nationalIdFilter', val)" />
 				</b-col>
-				<b-col cols="12" md="4" class="mb-md-0 mb-2">
-					<label>Plan</label>
-					<v-select
-						:dir="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'"
-						:value="planFilter"
-						:options="planOptions"
-						class="w-100"
-						:reduce="(val) => val.value"
-						@input="(val) => $emit('update:planFilter', val)"
-					/>
+				<b-col cols="12" md="3" class="mb-md-0 mb-2">
+					<label>{{ $t("Name") }}</label>
+					<b-form-input id="name" :value="nameFilter" class="w-100" @input="(val) => $emit('update:nameFilter', val)" />
 				</b-col>
-				<b-col cols="12" md="4" class="mb-md-0 mb-2">
-					<label>Status</label>
-					<v-select
-						:dir="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'"
-						:value="statusFilter"
-						:options="statusOptions"
-						class="w-100"
-						:reduce="(val) => val.value"
-						@input="(val) => $emit('update:statusFilter', val)"
-					/>
+				<b-col cols="12" md="3" class="mb-md-0 mb-2">
+					<label>{{ $t("Mobile") }}</label>
+					<b-form-input id="mobile" :value="mobileFilter" class="w-100" @input="(val) => $emit('update:mobileFilter', val)" />
+				</b-col>
+				<b-col cols="12" md="3" class="mb-md-0 mb-2">
+					<label>{{ $t("Email") }}</label>
+					<b-form-input id="email" :value="emailFilter" class="w-100" @input="(val) => $emit('update:emailFilter', val)" />
 				</b-col>
 			</b-row>
 		</b-card-body>
@@ -46,7 +29,7 @@
 </template>
 
 <script>
-	import { BCard, BCardHeader, BCardBody, BRow, BCol } from "bootstrap-vue";
+	import { BCard, BCardHeader, BFormInput, BCardBody, BRow, BCol } from "bootstrap-vue";
 	import vSelect from "vue-select";
 
 	export default {
@@ -57,31 +40,24 @@
 			BCardHeader,
 			BCardBody,
 			vSelect,
+			BFormInput,
 		},
 		props: {
-			roleFilter: {
+			nationalIdFilter: {
 				type: [String, null],
 				default: null,
 			},
-			planFilter: {
+			nameFilter: {
 				type: [String, null],
 				default: null,
 			},
-			statusFilter: {
+			mobileFilter: {
 				type: [String, null],
 				default: null,
 			},
-			roleOptions: {
-				type: Array,
-				required: true,
-			},
-			planOptions: {
-				type: Array,
-				required: true,
-			},
-			statusOptions: {
-				type: Array,
-				required: true,
+			emailFilter: {
+				type: [String, null],
+				default: null,
 			},
 		},
 	};
