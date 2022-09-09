@@ -1578,7 +1578,16 @@ export const $genders = [
 	{ text: i18n.t("Female"), value: "1" },
 ];
 
-export const $gender = [
-	{ text: i18n.t("Male"), value: "0" },
-	{ text: i18n.t("Female"), value: "1" },
+export const $languages = [
+	{ label: i18n.t("Arabic"), value: "0" },
+	{ label: i18n.t("English"), value: "1" },
+];
+
+export const $layouts = [
+	{ label: i18n.t("A4 landscape"), value: "0" },
+	{ label: i18n.t("A4 portrait"), value: "1" },
+	{ label: i18n.t("Letter landscape"), value: "2" },
+	{ label: i18n.t("Letter portrait"), value: "3" },
+	{ label: i18n.t("A3 landscape"), value: "4" },
+	{ label: i18n.t("A3 portrait"), value: "5" },
 ];

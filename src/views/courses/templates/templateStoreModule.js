@@ -6,50 +6,42 @@ export default {
 	getters: {},
 	mutations: {},
 	actions: {
-		fetchNamings(ctx, { naming, queryParams }) {
+		fetchTemplates(ctx, { queryParams }) {
 			return new Promise((resolve, reject) => {
 				axios
-					.get(`/courses/namings/${naming}`, { params: queryParams })
+					.get(`/courses/templates/`, { params: queryParams })
 					.then((response) => resolve(response))
 					.catch((error) => reject(error));
 			});
 		},
-		fetchNaming(ctx, { naming, id }) {
+		fetchTemplate(ctx, { id }) {
 			return new Promise((resolve, reject) => {
 				axios
-					.get(`/courses/namings/${naming}/show/${id}`)
+					.get(`/courses/templates/show/${id}`)
 					.then((response) => resolve(response.data))
 					.catch((error) => reject(error));
 			});
 		},
-		updateNaming(ctx, { naming, id, form }) {
+		updateTemplate(ctx, { id, form }) {
 			return new Promise((resolve, reject) => {
 				axios
-					.post(`/courses/namings/${naming}/update/${id}`, form)
+					.post(`/courses/templates/update/${id}`, form)
 					.then((response) => resolve(response.data))
 					.catch((error) => reject(error));
 			});
 		},
-		addNaming(ctx, { naming, namingData }) {
+		addTemplate(ctx, { templateData }) {
 			return new Promise((resolve, reject) => {
 				axios
-					.post(`/courses/namings/${naming}/store`, namingData)
+					.post(`/courses/templates/store`, templateData)
 					.then((response) => resolve(response))
 					.catch((error) => reject(error));
 			});
 		},
-		deleteNaming(ctx, { id, naming }) {
+		deleteTemplate(ctx, { id }) {
 			return new Promise((resolve, reject) => {
 				axios
-					.post(`/courses/namings/${naming}/delete/${id}`)
-					.then((response) => resolve(response))
-					.catch((error) => reject(error));
-			});
-		},
-		toggleStatus(ctx, { id, naming }) {
-			return new Promise((resolve, reject) => {
-				axios
-					.post(`/courses/namings/${naming}/toggle/${id}`)
+					.post(`/courses/templates/delete/${id}`)
 					.then((response) => resolve(response))
 					.catch((error) => reject(error));
 			});

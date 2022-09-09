@@ -1,9 +1,9 @@
 <template>
 	<div class="mb-2">
-		<namings-list-add-new v-if="namingSlug !== 'gender'" :naming="namingSlug" :is-add-new-naming-sidebar-active.sync="isAddNewNamingSidebarActive" @refetch-data="refetchData" />
+		<templates-list-add-new :is-add-new-template-sidebar-active.sync="isAddNewTemplateSidebarActive" @refetch-data="refetchData" />
 
 		<!-- Table Container Card -->
-		<b-card :title="$t(namingTitle)" class="mb-0">
+		<b-card class="mb-0">
 			<!-- Header of table -->
 			<div class="m-2">
 				<!-- Table Top -->
@@ -21,7 +21,7 @@
 							<b-form-input v-model="searchQuery" class="d-inline-block mr-1" :placeholder="$t('Search')" />
 
 							<!-- Add new -->
-							<b-button v-if="namingSlug !== 'gender'" variant="primary" @click="isAddNewNamingSidebarActive = true">
+							<b-button variant="primary" @click="isAddNewTemplateSidebarActive = true">
 								<span class="text-nowrap">{{ $t("Add") }}</span>
 							</b-button>
 						</div>
@@ -30,7 +30,7 @@
 			</div>
 			<!-- Header of table -->
 
-			<b-table ref="refNamingListTable" class="position-relative" :fields="tableColumns" :items="fetchNamings" responsive primary-key="id" :sort-by.sync="sortBy" show-empty :empty-text="$t('No matching records found')" :sort-desc.sync="isSortDirDesc">
+			<b-table ref="refTemplateListTable" class="position-relative" :fields="tableColumns" :items="fetchTemplates" responsive primary-key="id" :sort-by.sync="sortBy" show-empty :empty-text="$t('No matching records found')" :sort-desc.sync="isSortDirDesc">
 				<!-- Column: # -->
 				<template #cell(#)="data"> {{ (currentPage - 1) * perPage + (data.index + 1) }} </template>
 
@@ -38,37 +38,31 @@
 				<template #cell(name)="data">
 					<b-media vertical-align="center" class="align-items-center">
 						<template #aside>
-							<b-avatar size="32" :src="data.item.image" :text="avatarText(data.item.name_ar)" :variant="data.item.image ? '' : 'light-success'" :to="{ name: 'apps-users-view', params: { id: data.item.id } }" />
+							<b-avatar size="32" :text="avatarText(data.item.name)" variant="light-success" :to="{ name: 'edit-template', params: { id: data.item.id } }" />
 						</template>
-						<b-link :to="{ name: 'edit-naming', params: { naming: namingSlug, id: data.item.id } }" class="font-weight-bold d-block text-nowrap">
-							{{ dblocalize(data.item, "name") }}
+						<b-link :to="{ name: 'edit-template', params: { id: data.item.id } }" class="font-weight-bold d-block text-nowrap">
+							{{ data.item.name }}
 						</b-link>
 					</b-media>
 				</template>
 
-				<!-- Column: Description -->
-				<template #cell(description)="data">
-					{{ dblocalize(data.item, "description") }}
+				<!-- Column: Language -->
+				<template #cell(language)="data">
+					{{ $languages[data.item.language]["label"] }}
 				</template>
 
-				<!-- Column: Status [Will be updated when activation coded] -->
-				<template #cell(status)="data">
-					<b-badge pill :variant="data.item.status ? 'light-success' : 'light-danger'" class="text-capitalize">
-						{{ $t($status[data.item.status].text) }}
-					</b-badge>
+				<!-- Column: Layout -->
+				<template #cell(layout)="data">
+					{{ $layouts[data.item.layout]["label"] }}
 				</template>
 
 				<!-- Column: Actions -->
 				<template #cell(actions)="data">
-					<b-button :title="$t(data.item.status ? 'Deactivate' : 'Activate')" @click="toggleStatus(data.item.id)" v-ripple.400="'rgba(255, 255, 255, 0.15)'" :variant="data.item.status ? 'warning' : 'success'" class="btn-icon ml-1" size="sm">
-						<feather-icon :icon="data.item.status ? 'ToggleLeftIcon' : 'ToggleRightIcon'" />
-					</b-button>
-
-					<b-button v-if="namingSlug !== 'gender'" :title="$t('Edit')" :to="{ name: 'edit-naming', params: { naming: namingSlug, id: data.item.id } }" v-ripple.400="'rgba(255, 255, 255, 0.15)'" variant="info" class="btn-icon ml-1" size="sm">
+					<b-button :title="$t('Edit')" :to="{ name: 'edit-template', params: { id: data.item.id } }" v-ripple.400="'rgba(255, 255, 255, 0.15)'" variant="info" class="btn-icon ml-1" size="sm">
 						<feather-icon icon="EditIcon" />
 					</b-button>
 
-					<b-button v-if="namingSlug !== 'gender'" :title="$t('Delete')" v-b-modal.modal-danger @click="toBeDeletedId = data.item.id" v-ripple.400="'rgba(255, 255, 255, 0.15)'" variant="danger" class="btn-icon mx-1" size="sm">
+					<b-button :title="$t('Delete')" v-b-modal.modal-danger @click="toBeDeletedId = data.item.id" v-ripple.400="'rgba(255, 255, 255, 0.15)'" variant="danger" class="btn-icon mx-1" size="sm">
 						<feather-icon icon="TrashIcon" />
 					</b-button>
 				</template>
@@ -82,7 +76,7 @@
 					</b-col>
 					<!-- Pagination -->
 					<b-col cols="12" sm="6" class="d-flex align-items-center justify-content-center justify-content-sm-end">
-						<b-pagination v-model="currentPage" :total-rows="totalNamings" :per-page="perPage" first-number last-number class="mb-0 mt-1 mt-sm-0" prev-class="prev-item" next-class="next-item">
+						<b-pagination v-model="currentPage" :total-rows="totalTemplates" :per-page="perPage" first-number last-number class="mb-0 mt-1 mt-sm-0" prev-class="prev-item" next-class="next-item">
 							<template #prev-text>
 								<feather-icon icon="ChevronLeftIcon" size="18" />
 							</template>
@@ -95,9 +89,9 @@
 			</div>
 			<!-- Table footer -->
 		</b-card>
-		<!-- Modal for naming deletion -->
-		<b-modal id="modal-danger" ok-only ok-variant="danger" :ok-title="$t('Accept')" @ok="deleteNaming" modal-class="modal-danger" centered :title="$t('Delete naming?')">
-			<b-card-text>{{ $t("Are you sure you want to delete this naming? You won't be able to undo this step and all naming data will be delete with no way to retreive.") }}</b-card-text>
+		<!-- Modal for templates deletion -->
+		<b-modal id="modal-danger" ok-only ok-variant="danger" :ok-title="$t('Accept')" @ok="deleteTemplate" modal-class="modal-danger" centered :title="$t('Delete template?')">
+			<b-card-text>{{ $t("Are you sure you want to delete this template? You won't be able to undo this step and all template data will be delete with no way to retreive.") }}</b-card-text>
 		</b-modal>
 	</div>
 </template>
@@ -108,15 +102,15 @@
 	import store from "@/store";
 	import { ref, onUnmounted } from "@vue/composition-api";
 	import { avatarText } from "@core/utils/filter";
-	import NamingsListAddNew from "./NamingsListAddNew.vue";
-	import useNamingsList from "./useNamingsList";
-	import namingStoreModule from "../namingStoreModule";
-	import { $status } from "@siteConfig";
+	import TemplatesListAddNew from "./TemplatesListAddNew.vue";
+	import useTemplatesList from "./useTemplatesList";
+	import templateStoreModule from "../templateStoreModule";
+	import { $languages, $layouts } from "@siteConfig";
 	import Ripple from "vue-ripple-directive";
 
 	export default {
 		components: {
-			NamingsListAddNew,
+			TemplatesListAddNew,
 
 			BCard,
 			BRow,
@@ -138,35 +132,25 @@
 		directives: {
 			Ripple,
 		},
-		props: {
-			namingSlug: {
-				type: String,
-				required: true,
-			},
-			namingTitle: {
-				type: String,
-				required: true,
-			},
-		},
-		setup(props) {
-			const COURSE_NAMING_STORE_MODULE_NAME = "course-naming";
+		setup() {
+			const COURSE_TEMPLATE_STORE_MODULE_NAME = "course-template";
 
 			// Register module
-			if (!store.hasModule(COURSE_NAMING_STORE_MODULE_NAME)) store.registerModule(COURSE_NAMING_STORE_MODULE_NAME, namingStoreModule);
+			if (!store.hasModule(COURSE_TEMPLATE_STORE_MODULE_NAME)) store.registerModule(COURSE_TEMPLATE_STORE_MODULE_NAME, templateStoreModule);
 
 			// UnRegister on leave
 			onUnmounted(() => {
-				if (store.hasModule(COURSE_NAMING_STORE_MODULE_NAME)) store.unregisterModule(COURSE_NAMING_STORE_MODULE_NAME);
+				if (store.hasModule(COURSE_TEMPLATE_STORE_MODULE_NAME)) store.unregisterModule(COURSE_TEMPLATE_STORE_MODULE_NAME);
 			});
 
-			const isAddNewNamingSidebarActive = ref(false);
+			const isAddNewTemplateSidebarActive = ref(false);
 
-			const { tableColumns, fetchNamings, perPage, currentPage, totalNamings, dataMeta, perPageOptions, searchQuery, sortBy, isSortDirDesc, refNamingListTable, refetchData } = useNamingsList(props.namingSlug);
+			const { tableColumns, fetchTemplates, perPage, currentPage, totalTemplates, dataMeta, perPageOptions, searchQuery, sortBy, isSortDirDesc, refTemplateListTable, refetchData } = useTemplatesList();
 
 			const toBeDeletedId = ref(null);
-			const deleteNaming = function () {
+			const deleteTemplate = function () {
 				store
-					.dispatch("course-naming/deleteNaming", { id: toBeDeletedId.value, naming: props.namingSlug })
+					.dispatch("course-template/deleteTemplate", { id: toBeDeletedId.value })
 					.then((response) => {
 						// Success message and update users
 						this.$bvToast.toast(response.data.message, {
@@ -186,7 +170,7 @@
 
 			const toggleStatus = function (id) {
 				store
-					.dispatch("course-naming/toggleStatus", { id, naming: props.namingSlug })
+					.dispatch("course-template/toggleStatus", { id })
 					.then((response) => {
 						// Success message and update users
 						this.$bvToast.toast(response.data.message, {
@@ -206,28 +190,29 @@
 
 			return {
 				// Sidebar
-				isAddNewNamingSidebarActive,
+				isAddNewTemplateSidebarActive,
 
-				fetchNamings,
-				deleteNaming,
+				fetchTemplates,
+				deleteTemplate,
 				toggleStatus,
 				toBeDeletedId,
 				tableColumns,
 				perPage,
 				currentPage,
-				totalNamings,
+				totalTemplates,
 				dataMeta,
 				perPageOptions,
 				searchQuery,
 				sortBy,
 				isSortDirDesc,
-				refNamingListTable,
+				refTemplateListTable,
 				refetchData,
 
 				// Filter
 				avatarText,
 
-				$status,
+				$languages,
+				$layouts,
 			};
 		},
 	};

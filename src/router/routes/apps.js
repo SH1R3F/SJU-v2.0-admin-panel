@@ -318,7 +318,7 @@ export default [
 		},
 	},
 	{
-		path: "/courses/:naming/edit/:id",
+		path: "/courses/:naming(type|category|gender|location)/edit/:id",
 		name: "edit-naming",
 		component: () => import("@/views/courses/namings/namings-edit/NamingsEdit.vue"),
 		meta: {
@@ -332,6 +332,68 @@ export default [
 				},
 				{
 					text: "Edit naming",
+					active: true,
+				},
+			],
+		},
+	},
+
+	// *===============================================---*
+	// *-------------- Courses Templates -----------------*
+	// *===============================================---*
+	{
+		path: "/courses/templates",
+		name: "courses-templates",
+		component: () => import("@/views/courses/templates/templates-list/TemplatesList.vue"),
+		meta: {
+			pageTitle: "List templates",
+			breadcrumb: [
+				{
+					text: "Courses",
+				},
+				{
+					text: "Templates",
+					active: true,
+				},
+			],
+		},
+	},
+	{
+		path: "/courses/templates/edit/:id",
+		name: "edit-template",
+		component: () => import("@/views/courses/templates/templates-edit/TemplatesEdit.vue"),
+		meta: {
+			pageTitle: "Edit template",
+			breadcrumb: [
+				{
+					text: "Courses",
+				},
+				{
+					text: "Templates",
+				},
+				{
+					text: "Edit template",
+					active: true,
+				},
+			],
+		},
+	},
+
+	// *===============================================---*
+	// *-------------- Courses Questionnaires -----------------*
+	// *===============================================---*
+	{
+		path: "/courses/questionnaires",
+		name: "courses-questionnaires",
+		component: () => import("@/views/courses/templates/templates-list/TemplatesList.vue"),
+		meta: {
+			pageTitle: "List questionnaires",
+			breadcrumb: [
+				{
+					text: "Courses",
+				},
+				{
+					text: "Questionnaires",
 					active: true,
 				},
 			],

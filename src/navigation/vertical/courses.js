@@ -20,11 +20,11 @@ export default [
 			},
 			{
 				title: "Templates",
-				route: { name: "apps-invoice-edit", params: { id: 4987 } },
+				route: { name: "courses-templates" },
 			},
 			{
 				title: "Questionnaires",
-				route: { name: "apps-invoice-preview", params: { id: 4987 } },
+				route: { name: "courses-questionnaires" },
 			},
 		],
 	},

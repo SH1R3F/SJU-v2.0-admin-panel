@@ -48,7 +48,7 @@ export default function useSubscribersList(naming) {
 	const fetchNamings = (ctx, callback) => {
 		store
 			.dispatch("course-naming/fetchNamings", {
-				naming: naming,
+				naming,
 				queryParams: {
 					q: searchQuery.value,
 					perPage: perPage.value,

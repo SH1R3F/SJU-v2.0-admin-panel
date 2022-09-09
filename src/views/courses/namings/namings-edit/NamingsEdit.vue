@@ -2,11 +2,11 @@
 	<component :is="namingData === undefined ? 'div' : 'b-card'">
 		<!-- Alert: No item found -->
 		<b-alert variant="danger" :show="namingData === undefined">
-			<h4 class="alert-heading">{{ $t("Error fetching subscriber data") }}</h4>
+			<h4 class="alert-heading">{{ $t("Error fetching naming data") }}</h4>
 			<div class="alert-body">
-				{{ $t("No subscriber found with this subscriber id") }}. {{ $t("Go to") }}
-				<b-link class="alert-link" :to="{ name: 'active-subscribers' }"> {{ $t("Subscribers List") }} </b-link>
-				{{ $t("for other subscribers") }}.
+				{{ $t("No naming found with this naming id") }}. {{ $t("Go to") }}
+				<b-link class="alert-link" :to="{ name: 'courses-namings' }"> {{ $t("Namings List") }} </b-link>
+				{{ $t("for other namings") }}.
 			</div>
 		</b-alert>
 
