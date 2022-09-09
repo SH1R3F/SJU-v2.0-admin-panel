@@ -60,7 +60,6 @@ router.beforeEach((to, _, next) => {
 	} else {
 		document.title = i18n.t(process.env.VUE_APP_SITE_NAME);
 	}
-
 	return next();
 });
 

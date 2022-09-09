@@ -1,6 +1,5 @@
 import { ref, watch, computed } from "@vue/composition-api";
 import store from "@/store";
-import { title } from "@core/utils/filter";
 import i18n from "@/libs/i18n";
 
 // Notification
@@ -12,7 +11,7 @@ export default function useSubscribersList() {
 	// Use toast
 	const toast = useToast();
 
-	const refUserListTable = ref(null);
+	const refSubscriberListTable = ref(null);
 
 	// Table Handlers
 	const tableColumns = [
@@ -24,31 +23,30 @@ export default function useSubscribersList() {
 		{ key: "actions", label: i18n.t("Actions") },
 	];
 	const perPage = ref(10);
-	const totalUsers = ref(0);
+	const totalSubscribers = ref(0);
 	const currentPage = ref(1);
 	const perPageOptions = [10, 25, 50, 100];
 	const searchQuery = ref("");
 	const sortBy = ref("id");
 	const isSortDirDesc = ref(true);
-	const nationalIdFilter = ref(null);
 	const nameFilter = ref(null);
 	const mobileFilter = ref(null);
 	const emailFilter = ref(null);
 
 	const dataMeta = computed(() => {
-		const localItemsCount = refUserListTable.value ? refUserListTable.value.localItems.length : 0;
+		const localItemsCount = refSubscriberListTable.value ? refSubscriberListTable.value.localItems.length : 0;
 		return {
 			from: perPage.value * (currentPage.value - 1) + (localItemsCount ? 1 : 0),
 			to: perPage.value * (currentPage.value - 1) + localItemsCount,
-			of: totalUsers.value,
+			of: totalSubscribers.value,
 		};
 	});
 
 	const refetchData = () => {
-		refUserListTable.value.refresh();
+		refSubscriberListTable.value.refresh();
 	};
 
-	watch([currentPage, perPage, searchQuery, nationalIdFilter, nameFilter, mobileFilter, emailFilter], () => {
+	watch([currentPage, perPage, searchQuery, nameFilter, mobileFilter, emailFilter], () => {
 		refetchData();
 	});
 
@@ -68,9 +66,9 @@ export default function useSubscribersList() {
 				email: emailFilter.value,
 			})
 			.then((response) => {
-				const { users, total } = response.data;
-				callback(users);
-				totalUsers.value = total;
+				const { subscribers, total } = response.data;
+				callback(subscribers);
+				totalSubscribers.value = total;
 			})
 			.catch(() => {
 				toast({
@@ -88,24 +86,6 @@ export default function useSubscribersList() {
 	// *--------- UI ---------------------------------------*
 	// *===============================================---*
 
-	const resolveUserRoleVariant = (role) => {
-		if (role === "subscriber") return "primary";
-		if (role === "author") return "warning";
-		if (role === "maintainer") return "success";
-		if (role === "editor") return "info";
-		if (role === "admin") return "danger";
-		return "primary";
-	};
-
-	const resolveUserRoleIcon = (role) => {
-		if (role === "subscriber") return "UserIcon";
-		if (role === "author") return "SettingsIcon";
-		if (role === "maintainer") return "DatabaseIcon";
-		if (role === "editor") return "Edit2Icon";
-		if (role === "admin") return "ServerIcon";
-		return "UserIcon";
-	};
-
 	const resolveUserStatusVariant = (status) => {
 		if (status === "pending") return "warning";
 		if (status === "active") return "success";
@@ -118,21 +98,15 @@ export default function useSubscribersList() {
 		tableColumns,
 		perPage,
 		currentPage,
-		totalUsers,
+		totalSubscribers,
 		dataMeta,
 		perPageOptions,
 		searchQuery,
 		sortBy,
 		isSortDirDesc,
-		refUserListTable,
-
-		resolveUserRoleVariant,
-		resolveUserRoleIcon,
-		resolveUserStatusVariant,
-		refetchData,
+		refSubscriberListTable,
 
 		// Extra Filters
-		nationalIdFilter,
 		nameFilter,
 		mobileFilter,
 		emailFilter,

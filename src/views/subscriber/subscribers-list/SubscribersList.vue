@@ -3,7 +3,7 @@
 		<subscribers-list-add-new :is-add-new-subscriber-sidebar-active.sync="isAddNewSubscriberSidebarActive" @refetch-data="refetchData" />
 
 		<!-- Filters -->
-		<subscribers-list-filters :national-id-filter.sync="nationalIdFilter" :name-filter.sync="nameFilter" :mobile-filter.sync="mobileFilter" :email-filter.sync="emailFilter" />
+		<subscribers-list-filters :name-filter.sync="nameFilter" :mobile-filter.sync="mobileFilter" :email-filter.sync="emailFilter" />
 
 		<!-- Table Container Card -->
 		<b-card no-body class="mb-0">
@@ -33,7 +33,7 @@
 			</div>
 			<!-- Header of table -->
 
-			<b-table ref="refUserListTable" class="position-relative" :fields="tableColumns" :items="fetchSubscribers" responsive primary-key="id" :sort-by.sync="sortBy" show-empty :empty-text="$t('No matching records found')" :sort-desc.sync="isSortDirDesc">
+			<b-table ref="refSubscriberListTable" class="position-relative" :fields="tableColumns" :items="fetchSubscribers" responsive primary-key="id" :sort-by.sync="sortBy" show-empty :empty-text="$t('No matching records found')" :sort-desc.sync="isSortDirDesc">
 				<!-- Column: # -->
 				<template #cell(#)="data"> {{ (currentPage - 1) * perPage + (data.index + 1) }} </template>
 
@@ -41,7 +41,7 @@
 				<template #cell(subscriber)="data">
 					<b-media vertical-align="center" class="align-items-center">
 						<template #aside>
-							<b-avatar size="32" :src="data.item.avatar" :text="avatarText(data.item.fullName.split(' ')[0])" :variant="data.item.avatar ? '' : 'light-success'" :to="{ name: 'apps-users-view', params: { id: data.item.id } }" />
+							<b-avatar size="32" :src="data.item.avatar" :text="avatarText(data.item.fullName.split(' ')[0])" :variant="data.item.avatar ? '' : 'light-success'" :to="{ name: 'show-subscriber', params: { id: data.item.id } }" />
 						</template>
 						<b-link :to="{ name: 'show-subscriber', params: { id: data.item.id } }" class="font-weight-bold d-block text-nowrap">
 							{{ data.item.fullName }}
@@ -88,7 +88,7 @@
 					</b-col>
 					<!-- Pagination -->
 					<b-col cols="12" sm="6" class="d-flex align-items-center justify-content-center justify-content-sm-end">
-						<b-pagination v-model="currentPage" :total-rows="totalUsers" :per-page="perPage" first-number last-number class="mb-0 mt-1 mt-sm-0" prev-class="prev-item" next-class="next-item">
+						<b-pagination v-model="currentPage" :total-rows="totalSubscribers" :per-page="perPage" first-number last-number class="mb-0 mt-1 mt-sm-0" prev-class="prev-item" next-class="next-item">
 							<template #prev-text>
 								<feather-icon icon="ChevronLeftIcon" size="18" />
 							</template>
@@ -160,17 +160,16 @@
 				fetchSubscribers,
 				perPage,
 				currentPage,
-				totalUsers,
+				totalSubscribers,
 				dataMeta,
 				perPageOptions,
 				searchQuery,
 				sortBy,
 				isSortDirDesc,
-				refUserListTable,
+				refSubscriberListTable,
 				refetchData,
 
 				// Extra Filters
-				nationalIdFilter,
 				nameFilter,
 				mobileFilter,
 				emailFilter,
@@ -181,7 +180,7 @@
 				store
 					.dispatch("app-subscriber/deleteSubscriber", { id: toBeDeletedId.value })
 					.then((response) => {
-						// Success message and update users
+						// Success message and update subscribers
 						this.$bvToast.toast(response.data.message, {
 							variant: "success",
 							solid: true,
@@ -207,13 +206,13 @@
 				tableColumns,
 				perPage,
 				currentPage,
-				totalUsers,
+				totalSubscribers,
 				dataMeta,
 				perPageOptions,
 				searchQuery,
 				sortBy,
 				isSortDirDesc,
-				refUserListTable,
+				refSubscriberListTable,
 				refetchData,
 
 				// Filter
@@ -221,7 +220,6 @@
 
 				$status,
 				// Extra Filters
-				nationalIdFilter,
 				nameFilter,
 				mobileFilter,
 				emailFilter,

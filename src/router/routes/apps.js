@@ -293,4 +293,48 @@ export default [
 			],
 		},
 	},
+
+	// *===============================================---*
+	// *--------------------- Courses --------------------*
+	// *===============================================---*
+	{
+		path: "/courses/namings",
+		name: "courses-namings",
+		component: () => import("@/views/courses/namings/namings-list/NamingsList.vue"),
+		meta: {
+			pageTitle: "List namings",
+			breadcrumb: [
+				{
+					text: "Courses",
+				},
+				{
+					text: "Options",
+				},
+				{
+					text: "Namings",
+					active: true,
+				},
+			],
+		},
+	},
+	{
+		path: "/courses/:naming/edit/:id",
+		name: "edit-naming",
+		component: () => import("@/views/courses/namings/namings-edit/NamingsEdit.vue"),
+		meta: {
+			pageTitle: "Edit naming",
+			breadcrumb: [
+				{
+					text: "Courses",
+				},
+				{
+					text: "Options",
+				},
+				{
+					text: "Edit naming",
+					active: true,
+				},
+			],
+		},
+	},
 ];

@@ -16,7 +16,7 @@ function loadLocaleMessages() {
 }
 
 // Current locale
-export const locale = "ar";
+export const locale = localStorage.getItem("locale") ?? "ar";
 
 export default new VueI18n({
 	locale: locale,

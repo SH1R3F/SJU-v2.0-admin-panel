@@ -7,19 +7,15 @@
 		</b-card-header>
 		<b-card-body>
 			<b-row>
-				<b-col cols="12" md="3" class="mb-md-0 mb-2">
-					<label>{{ $t("National id") }}</label>
-					<b-form-input id="national-id" :value="nationalIdFilter" class="w-100" @input="(val) => $emit('update:nationalIdFilter', val)" />
-				</b-col>
-				<b-col cols="12" md="3" class="mb-md-0 mb-2">
+				<b-col cols="12" md="4" class="mb-md-0 mb-2">
 					<label>{{ $t("Name") }}</label>
 					<b-form-input id="name" :value="nameFilter" class="w-100" @input="(val) => $emit('update:nameFilter', val)" />
 				</b-col>
-				<b-col cols="12" md="3" class="mb-md-0 mb-2">
+				<b-col cols="12" md="4" class="mb-md-0 mb-2">
 					<label>{{ $t("Mobile") }}</label>
 					<b-form-input id="mobile" :value="mobileFilter" class="w-100" @input="(val) => $emit('update:mobileFilter', val)" />
 				</b-col>
-				<b-col cols="12" md="3" class="mb-md-0 mb-2">
+				<b-col cols="12" md="4" class="mb-md-0 mb-2">
 					<label>{{ $t("Email") }}</label>
 					<b-form-input id="email" :value="emailFilter" class="w-100" @input="(val) => $emit('update:emailFilter', val)" />
 				</b-col>
@@ -43,10 +39,6 @@
 			BFormInput,
 		},
 		props: {
-			nationalIdFilter: {
-				type: [String, null],
-				default: null,
-			},
 			nameFilter: {
 				type: [String, null],
 				default: null,

@@ -1,19 +1,10 @@
 <template>
 	<b-nav-item-dropdown id="dropdown-grouped" variant="link" class="dropdown-language" right>
 		<template #button-content>
-			<b-img
-				:src="currentLocale.img"
-				height="14px"
-				width="22px"
-				:alt="currentLocale.locale"
-			/>
+			<b-img :src="currentLocale.img" height="14px" width="22px" :alt="currentLocale.locale" />
 			<span class="ml-50 text-body">{{ currentLocale.name }}</span>
 		</template>
-		<b-dropdown-item
-			v-for="localeObj in locales"
-			:key="localeObj.locale"
-			@click="$i18n.locale = localeObj.locale"
-		>
+		<b-dropdown-item v-for="localeObj in locales" :key="localeObj.locale" @click="changeLocale(localeObj.locale)">
 			<b-img :src="localeObj.img" height="14px" width="22px" :alt="localeObj.locale" />
 			<span class="ml-50">{{ localeObj.name }}</span>
 		</b-dropdown-item>
@@ -21,6 +12,7 @@
 </template>
 
 <script>
+	import i18n from "@/libs/i18n";
 	import { BNavItemDropdown, BDropdownItem, BImg } from "bootstrap-vue";
 
 	export default {
@@ -51,8 +43,14 @@
 			];
 			/* eslint-disable global-require */
 
+			const changeLocale = (locale) => {
+				localStorage.setItem("locale", locale);
+				i18n.locale = locale;
+			};
+
 			return {
 				locales,
+				changeLocale,
 			};
 		},
 	};

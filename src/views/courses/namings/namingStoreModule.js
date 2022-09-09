@@ -6,51 +6,51 @@ export default {
 	getters: {},
 	mutations: {},
 	actions: {
-		fetchSubscribers(ctx, queryParams) {
+		fetchNamings(ctx, { naming, queryParams }) {
+			console.log(naming);
 			return new Promise((resolve, reject) => {
 				axios
-					.get(`/subscribers`, { params: queryParams })
+					.get(`/courses/namings/${naming}`, { params: queryParams })
 					.then((response) => resolve(response))
 					.catch((error) => reject(error));
 			});
 		},
-		fetchSubscriber(ctx, { id }) {
+		fetchNaming(ctx, { naming, id }) {
 			return new Promise((resolve, reject) => {
 				axios
-					.get(`/subscribers/show/${id}`)
+					.get(`/courses/namings/${naming}/show/${id}`)
 					.then((response) => resolve(response.data))
 					.catch((error) => reject(error));
 			});
 		},
-		updateSubscriber(ctx, { id, form }) {
+		updateNaming(ctx, { naming, id, form }) {
 			return new Promise((resolve, reject) => {
 				axios
-					.post(`/subscribers/update/${id}`, form)
+					.post(`/courses/namings/${naming}/update/${id}`, form)
 					.then((response) => resolve(response.data))
 					.catch((error) => reject(error));
 			});
 		},
-		// Fetch courses that user has enrolled in // Will be updated when courses functionality are added
-		fetchCourses(ctx, { id }) {
+		addNaming(ctx, { naming, namingData }) {
 			return new Promise((resolve, reject) => {
 				axios
-					.get(`/subscribers/show/${id}/courses`)
+					.post(`/courses/namings/${naming}/store`, namingData)
 					.then((response) => resolve(response))
 					.catch((error) => reject(error));
 			});
 		},
-		addSubscriber(ctx, subscriberData) {
+		deleteNaming(ctx, { id, naming }) {
 			return new Promise((resolve, reject) => {
 				axios
-					.post("/subscribers/store", subscriberData)
+					.post(`/courses/namings/${naming}/delete/${id}`)
 					.then((response) => resolve(response))
 					.catch((error) => reject(error));
 			});
 		},
-		deleteSubscriber(ctx, { id }) {
+		toggleStatus(ctx, { id, naming }) {
 			return new Promise((resolve, reject) => {
 				axios
-					.post(`/subscribers/delete/${id}`)
+					.post(`/courses/namings/${naming}/toggle/${id}`)
 					.then((response) => resolve(response))
 					.catch((error) => reject(error));
 			});

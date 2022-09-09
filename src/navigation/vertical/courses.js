@@ -2,14 +2,15 @@ export default [
 	{
 		title: "Courses",
 		route: "apps-email",
-		icon: "ClipboardIcon",
+		icon: "BookOpenIcon",
 		children: [
 			{
 				title: "Options",
 				children: [
 					{
-						title: "Tags",
-						route: "apps-invoice-list",
+						icon: "TagIcon",
+						title: "Namings",
+						route: "courses-namings",
 					},
 				],
 			},

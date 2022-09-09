@@ -155,22 +155,7 @@
 				{ label: "Inactive", value: "inactive" },
 			];
 
-			const {
-				tableColumns,
-				fetchCourses,
-				perPage,
-				currentPage,
-				totalCourses,
-				dataMeta,
-				perPageOptions,
-				searchQuery,
-				sortBy,
-				isSortDirDesc,
-				refCoursesListTable,
-				refetchData,
-
-				resolveUserStatusVariant,
-			} = useCoursesList();
+			const { tableColumns, fetchCourses, perPage, currentPage, totalCourses, dataMeta, perPageOptions, searchQuery, sortBy, isSortDirDesc, refCoursesListTable, refetchData } = useCoursesList();
 
 			return {
 				// Sidebar
@@ -191,8 +176,6 @@
 
 				// Filter
 				avatarText,
-
-				resolveUserStatusVariant,
 
 				roleOptions,
 				planOptions,

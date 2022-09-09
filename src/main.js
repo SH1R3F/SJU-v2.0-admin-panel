@@ -29,6 +29,7 @@ localize(locale);
 
 // Axios base url
 axios.defaults.baseURL = process.env.VUE_APP_API_BASEURL;
+axios.defaults.headers.common["Accept-Language"] = i18n.locale;
 
 // BSV Plugin Registration
 Vue.use(ToastPlugin);
@@ -52,6 +53,10 @@ require("@core/scss/core.scss");
 require("@/assets/scss/style.scss");
 
 Vue.config.productionTip = process.env.VUE_APP_ENV === "production";
+
+// Global mixin to localize db values
+import { LocaizingDBvalues } from "@core/mixins/ui/localization";
+Vue.mixin(LocaizingDBvalues);
 
 new Vue({
 	router,
