@@ -6,50 +6,43 @@ export default {
 	getters: {},
 	mutations: {},
 	actions: {
-		fetchNamings(ctx, { naming, queryParams }) {
+		fetchQuestionnaires(ctx, { queryParams }) {
 			return new Promise((resolve, reject) => {
 				axios
-					.get(`/courses/namings/${naming}`, { params: queryParams })
+					.get(`/courses/questionnaires/`, { params: queryParams })
 					.then((response) => resolve(response))
 					.catch((error) => reject(error));
 			});
 		},
-		fetchNaming(ctx, { naming, id }) {
+		fetchQuestionnaire(ctx, { id }) {
 			return new Promise((resolve, reject) => {
 				axios
-					.get(`/courses/namings/${naming}/${id}`)
+					.get(`/courses/questionnaires/${id}`)
 					.then((response) => resolve(response.data))
 					.catch((error) => reject(error));
 			});
 		},
-		updateNaming(ctx, { naming, id, form }) {
+		updateQuestionnaire(ctx, { id, form }) {
 			return new Promise((resolve, reject) => {
 				axios
-					.put(`/courses/namings/${naming}/${id}`, form)
+					.put(`/courses/questionnaires/${id}`, form)
 					.then((response) => resolve(response.data))
 					.catch((error) => reject(error));
 			});
 		},
-		addNaming(ctx, { naming, namingData }) {
+		addQuestionnaire(ctx, questionnaireData) {
+			console.log(questionnaireData);
 			return new Promise((resolve, reject) => {
 				axios
-					.post(`/courses/namings/${naming}`, namingData)
+					.post(`/courses/questionnaires`, questionnaireData)
 					.then((response) => resolve(response))
 					.catch((error) => reject(error));
 			});
 		},
-		deleteNaming(ctx, { id, naming }) {
+		deleteQuestionnaire(ctx, { id }) {
 			return new Promise((resolve, reject) => {
 				axios
-					.delete(`/courses/namings/${naming}/${id}`)
-					.then((response) => resolve(response))
-					.catch((error) => reject(error));
-			});
-		},
-		toggleStatus(ctx, { id, naming }) {
-			return new Promise((resolve, reject) => {
-				axios
-					.post(`/courses/namings/${naming}/toggle/${id}`)
+					.delete(`/courses/questionnaires/${id}`)
 					.then((response) => resolve(response))
 					.catch((error) => reject(error));
 			});

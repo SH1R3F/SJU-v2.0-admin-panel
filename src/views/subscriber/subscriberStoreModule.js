@@ -17,7 +17,7 @@ export default {
 		fetchSubscriber(ctx, { id }) {
 			return new Promise((resolve, reject) => {
 				axios
-					.get(`/subscribers/show/${id}`)
+					.get(`/subscribers/${id}`)
 					.then((response) => resolve(response.data))
 					.catch((error) => reject(error));
 			});
@@ -25,7 +25,7 @@ export default {
 		updateSubscriber(ctx, { id, form }) {
 			return new Promise((resolve, reject) => {
 				axios
-					.post(`/subscribers/update/${id}`, form)
+					.put(`/subscribers/${id}`, form)
 					.then((response) => resolve(response.data))
 					.catch((error) => reject(error));
 			});
@@ -42,7 +42,7 @@ export default {
 		addSubscriber(ctx, subscriberData) {
 			return new Promise((resolve, reject) => {
 				axios
-					.post("/subscribers/store", subscriberData)
+					.post("/subscribers", subscriberData)
 					.then((response) => resolve(response))
 					.catch((error) => reject(error));
 			});
@@ -50,7 +50,7 @@ export default {
 		deleteSubscriber(ctx, { id }) {
 			return new Promise((resolve, reject) => {
 				axios
-					.post(`/subscribers/delete/${id}`)
+					.delete(`/subscribers/${id}`)
 					.then((response) => resolve(response))
 					.catch((error) => reject(error));
 			});

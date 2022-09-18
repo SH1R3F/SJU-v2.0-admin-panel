@@ -30,7 +30,7 @@
 				<!-- Field: File -->
 				<b-row>
 					<b-col cols="12">
-						<validation-provider #default="validationContext" vid="templatefile" :name="$t('File')" rules="required">
+						<validation-provider #default="validationContext" vid="templatefile" :name="$t('File')">
 							<b-form-group :label="$t('File')" label-for="templatefile">
 								<b-form-file id="templatefile" v-model="fileToBeUploaded" :state="getValidationState(validationContext)" :placeholder="$t('Choose a file or drop it here...')" :drop-placeholder="$t('Drop file here...')" />
 								<b-form-invalid-feedback>
@@ -137,6 +137,7 @@
 				// Convert to FormData to upload the file
 				const converted = new FormData();
 				Object.keys(formData.value).forEach((key) => converted.append(key, formData.value[key]));
+				converted.append("_method", "PUT");
 
 				store
 					.dispatch("course-template/updateTemplate", { id: router.currentRoute.params.id, form: converted })

@@ -385,7 +385,7 @@ export default [
 	{
 		path: "/courses/questionnaires",
 		name: "courses-questionnaires",
-		component: () => import("@/views/courses/templates/templates-list/TemplatesList.vue"),
+		component: () => import("@/views/courses/questionnaires/questionnaires-list/QuestionnairesList.vue"),
 		meta: {
 			pageTitle: "List questionnaires",
 			breadcrumb: [
@@ -394,6 +394,27 @@ export default [
 				},
 				{
 					text: "Questionnaires",
+					active: true,
+				},
+			],
+		},
+	},
+
+	{
+		path: "/courses/questionnaires/edit/:id",
+		name: "edit-questionnaire",
+		component: () => import("@/views/courses/questionnaires/questionnaires-edit/QuestionnairesEdit.vue"),
+		meta: {
+			pageTitle: "Edit questionnaire",
+			breadcrumb: [
+				{
+					text: "Courses",
+				},
+				{
+					text: "Questionnaires",
+				},
+				{
+					text: "Edit questionnaire",
 					active: true,
 				},
 			],

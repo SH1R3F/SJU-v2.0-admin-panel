@@ -141,6 +141,7 @@
 			// Form config for submit & rest
 			const oldData = props.namingData;
 			const formData = ref(JSON.parse(JSON.stringify(oldData)));
+
 			const resetnamingData = () => {
 				formData.value = JSON.parse(JSON.stringify(oldData));
 			};
