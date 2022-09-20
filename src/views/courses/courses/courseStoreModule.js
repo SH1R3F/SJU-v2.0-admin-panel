@@ -6,42 +6,50 @@ export default {
 	getters: {},
 	mutations: {},
 	actions: {
-		fetchQuestionnaires(ctx, { queryParams }) {
+		fetchCourses(ctx, { queryParams }) {
 			return new Promise((resolve, reject) => {
 				axios
-					.get(`/courses/questionnaires/`, { params: queryParams })
+					.get(`/courses/`, { params: queryParams })
 					.then((response) => resolve(response))
 					.catch((error) => reject(error));
 			});
 		},
-		fetchQuestionnaire(ctx, { id }) {
+		fetchCourse(ctx, { id }) {
 			return new Promise((resolve, reject) => {
 				axios
-					.get(`/courses/questionnaires/${id}`)
+					.get(`/courses/${id}`)
 					.then((response) => resolve(response.data))
 					.catch((error) => reject(error));
 			});
 		},
-		updateQuestionnaire(ctx, { id, form }) {
+		updateCourse(ctx, { id, form }) {
 			return new Promise((resolve, reject) => {
 				axios
-					.put(`/courses/questionnaires/${id}`, form)
+					.put(`/courses/${id}`, form)
 					.then((response) => resolve(response.data))
 					.catch((error) => reject(error));
 			});
 		},
-		addQuestionnaire(ctx, questionnaireData) {
+		addCourse(ctx, courseData) {
 			return new Promise((resolve, reject) => {
 				axios
-					.post(`/courses/questionnaires`, questionnaireData)
+					.post(`/courses`, courseData)
 					.then((response) => resolve(response))
 					.catch((error) => reject(error));
 			});
 		},
-		deleteQuestionnaire(ctx, { id }) {
+		deleteCourse(ctx, { id }) {
 			return new Promise((resolve, reject) => {
 				axios
-					.delete(`/courses/questionnaires/${id}`)
+					.delete(`/courses/${id}`)
+					.then((response) => resolve(response))
+					.catch((error) => reject(error));
+			});
+		},
+		fetchCourseEnrollers(ctx, { id, params: queryParams }) {
+			return new Promise((resolve, reject) => {
+				axios
+					.get(`/courses/${id}/enrollers`, { params: queryParams })
 					.then((response) => resolve(response))
 					.catch((error) => reject(error));
 			});

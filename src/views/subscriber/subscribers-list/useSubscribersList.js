@@ -14,14 +14,7 @@ export default function useSubscribersList() {
 	const refSubscriberListTable = ref(null);
 
 	// Table Handlers
-	const tableColumns = [
-		{ key: "#", sortable: true },
-		{ key: "subscriber", sortable: true, label: i18n.t("Subscriber") },
-		{ key: "email", sortable: true, label: i18n.t("Email") },
-		{ key: "courses", sortable: true, label: i18n.t("Courses") },
-		{ key: "status", sortable: true, label: i18n.t("Status") },
-		{ key: "actions", label: i18n.t("Actions") },
-	];
+	const tableColumns = [{ key: "#" }, { key: "subscriber", sortable: true, label: i18n.t("Subscriber") }, { key: "email", sortable: true, label: i18n.t("Email") }, { key: "courses", sortable: true, label: i18n.t("Courses") }, { key: "status", sortable: true, label: i18n.t("Status") }, { key: "actions", label: i18n.t("Actions") }];
 	const perPage = ref(10);
 	const totalSubscribers = ref(0);
 	const currentPage = ref(1);
@@ -105,6 +98,7 @@ export default function useSubscribersList() {
 		sortBy,
 		isSortDirDesc,
 		refSubscriberListTable,
+		refetchData,
 
 		// Extra Filters
 		nameFilter,

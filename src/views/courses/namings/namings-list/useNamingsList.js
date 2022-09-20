@@ -6,20 +6,14 @@ import i18n from "@/libs/i18n";
 import { useToast } from "vue-toastification/composition";
 import ToastificationContent from "@core/components/toastification/ToastificationContent.vue";
 
-export default function useSubscribersList(naming) {
+export default function useNamingsList(naming) {
 	// Use toast
 	const toast = useToast();
 
 	const refNamingListTable = ref(null);
 
 	// Table Handlers
-	const tableColumns = [
-		{ key: "#", sortable: true },
-		{ key: "name", sortable: true, label: i18n.t("Name") },
-		{ key: "description", sortable: true, label: i18n.t("Description") },
-		{ key: "status", sortable: true, label: i18n.t("Status") },
-		{ key: "actions", label: i18n.t("Actions") },
-	];
+	const tableColumns = [{ key: "#" }, { key: "name", sortable: true, label: i18n.t("Name") }, { key: "description", sortable: true, label: i18n.t("Description") }, { key: "status", sortable: true, label: i18n.t("Status") }, { key: "actions", label: i18n.t("Actions") }];
 	const perPage = ref(10);
 	const totalNamings = ref(0);
 	const currentPage = ref(1);

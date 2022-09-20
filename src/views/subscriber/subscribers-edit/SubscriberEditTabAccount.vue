@@ -3,7 +3,7 @@
 		<!-- Media -->
 		<b-media class="mb-2">
 			<template #aside>
-				<b-avatar ref="previewEl" :src="formData.avatar" :text="avatarText(subscriberData.fname_ar)" :variant="formData.avatar ? '' : `light-success`" size="90px" rounded />
+				<b-avatar ref="previewEl" :src="formData.avatar" :text="avatarText(dblocalize(subscriberData, 'fname'))" :variant="formData.avatar ? '' : `light-success`" size="90px" rounded />
 			</template>
 			<h4 class="mb-1">
 				{{ subscriberData.fullName }}

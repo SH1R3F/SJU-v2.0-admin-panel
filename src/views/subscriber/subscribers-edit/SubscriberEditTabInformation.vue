@@ -114,7 +114,7 @@
 					<b-col cols="12" lg="3">
 						<b-form-group :label="$t('Birth date') + ' (' + $t('Meladi') + ')'">
 							<validation-provider #default="validationContext" vid="birthday_meladi" :name="$t('Birth date') + ' (' + $t('Meladi') + ')'" rules="required">
-								<date-picker v-model="formData.birthday_meladi" locale="ar-sa" :state="getValidationState(validationContext)"></date-picker>
+								<date-picker v-model="formData.birthday_meladi" :locale="$i18n.locale == 'ar' ? 'ar-sa' : ''" :state="getValidationState(validationContext)"></date-picker>
 								<b-form-invalid-feedback>
 									{{ validationContext.errors[0] }}
 								</b-form-invalid-feedback>
@@ -124,7 +124,7 @@
 					<b-col cols="12" lg="3">
 						<b-form-group :label="$t('Birth date') + ' (' + $t('Hijri') + ')'">
 							<validation-provider #default="validationContext" vid="birthday_hijri" :name="$t('Birth date') + ' (' + $t('Hijri') + ')'" rules="required">
-								<date-picker v-model="formData.birthday_hijri" locale="ar-sa" calendar="hijri" :state="getValidationState(validationContext)"></date-picker>
+								<date-picker v-model="formData.birthday_hijri" :locale="$i18n.locale == 'ar' ? 'ar-sa' : ''" calendar="hijri" :state="getValidationState(validationContext)"></date-picker>
 								<b-form-invalid-feedback>
 									{{ validationContext.errors[0] }}
 								</b-form-invalid-feedback>

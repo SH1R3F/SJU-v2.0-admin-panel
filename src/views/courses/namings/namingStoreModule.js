@@ -14,6 +14,14 @@ export default {
 					.catch((error) => reject(error));
 			});
 		},
+		fetchAllNamings() {
+			return new Promise((resolve, reject) => {
+				axios
+					.get(`/courses/namings/all`)
+					.then((response) => resolve(response))
+					.catch((error) => reject(error));
+			});
+		},
 		fetchNaming(ctx, { naming, id }) {
 			return new Promise((resolve, reject) => {
 				axios

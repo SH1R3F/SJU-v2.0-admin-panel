@@ -16,7 +16,7 @@ export default [
 			},
 			{
 				title: "All courses",
-				route: { name: "apps-invoice-preview", params: { id: 4987 } },
+				route: { name: "app-courses" },
 			},
 			{
 				title: "Templates",

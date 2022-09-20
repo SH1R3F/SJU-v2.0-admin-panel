@@ -1,6 +1,7 @@
 <template>
 	<div class="mb-2">
-		<questionnaires-list-add-new :is-add-new-questionnaire-sidebar-active.sync="isAddNewQuestionnaireSidebarActive" @refetch-data="refetchData" />
+		<!-- Filters -->
+		<courses-list-filters :sn-filter.sync="snFilter" :name-filter.sync="nameFilter" :region-filter.sync="regionFilter" :day-filter.sync="dayFilter" :month-filter.sync="monthFilter" :year-filter.sync="yearFilter" />
 
 		<!-- Table Container Card -->
 		<b-card class="mb-0">
@@ -21,7 +22,7 @@
 							<b-form-input v-model="searchQuery" class="d-inline-block mr-1" :placeholder="$t('Search')" />
 
 							<!-- Add new -->
-							<b-button variant="primary" @click="isAddNewQuestionnaireSidebarActive = true">
+							<b-button variant="primary" :to="{ name: 'create-course' }">
 								<span class="text-nowrap">{{ $t("Add") }}</span>
 							</b-button>
 						</div>
@@ -30,7 +31,7 @@
 			</div>
 			<!-- Header of table -->
 
-			<b-table ref="refQuestionnaireListTable" class="position-relative" :fields="tableColumns" :items="fetchQuestionnaires" responsive primary-key="id" :sort-by.sync="sortBy" show-empty :empty-text="$t('No matching records found')" :sort-desc.sync="isSortDirDesc">
+			<b-table ref="refCourseListTable" class="position-relative" :fields="tableColumns" :items="fetchCourses" responsive primary-key="id" :sort-by.sync="sortBy" show-empty :empty-text="$t('No matching records found')" :sort-desc.sync="isSortDirDesc">
 				<!-- Column: # -->
 				<template #cell(#)="data"> {{ (currentPage - 1) * perPage + (data.index + 1) }} </template>
 
@@ -38,9 +39,9 @@
 				<template #cell(name_ar)="data">
 					<b-media vertical-align="center" class="align-items-center">
 						<template #aside>
-							<b-avatar size="32" :text="avatarText(data.item.name_ar)" variant="light-success" :to="{ name: 'edit-questionnaire', params: { id: data.item.id } }" />
+							<b-avatar size="32" :text="avatarText(data.item.name_ar)" variant="light-success" :to="{ name: 'edit-course', params: { id: data.item.id } }" />
 						</template>
-						<b-link :to="{ name: 'edit-questionnaire', params: { id: data.item.id } }" class="font-weight-bold d-block text-nowrap">
+						<b-link :to="{ name: 'edit-course', params: { id: data.item.id } }" class="font-weight-bold d-block text-nowrap">
 							{{ data.item.name_ar }}
 						</b-link>
 					</b-media>
@@ -48,18 +49,31 @@
 
 				<!-- Column: Layout -->
 				<template #cell(status)="data">
-					{{ $status[data.item.status]["text"] }}
+					{{ $courseStatus[data.item.status]["text"] }}
 				</template>
 
 				<!-- Column: Actions -->
 				<template #cell(actions)="data">
-					<b-button :title="$t('Edit')" :to="{ name: 'edit-questionnaire', params: { id: data.item.id } }" v-ripple.400="'rgba(255, 255, 255, 0.15)'" variant="info" class="btn-icon ml-1" size="sm">
-						<feather-icon icon="EditIcon" />
-					</b-button>
+					<b-dropdown variant="link" no-caret :right="$store.state.appConfig.isRTL">
+						<template #button-content>
+							<feather-icon icon="MoreVerticalIcon" size="16" class="align-middle text-body" />
+						</template>
 
-					<b-button :title="$t('Delete')" v-b-modal.modal-danger @click="toBeDeletedId = data.item.id" v-ripple.400="'rgba(255, 255, 255, 0.15)'" variant="danger" class="btn-icon mx-1" size="sm">
-						<feather-icon icon="TrashIcon" />
-					</b-button>
+						<b-dropdown-item :to="{ name: 'show-course', params: { id: data.item.id } }">
+							<feather-icon icon="EditIcon" />
+							<span class="align-middle ml-50">{{ $t("Details") }}</span>
+						</b-dropdown-item>
+
+						<b-dropdown-item :to="{ name: 'edit-course', params: { id: data.item.id } }">
+							<feather-icon icon="EditIcon" />
+							<span class="align-middle ml-50">{{ $t("Edit") }}</span>
+						</b-dropdown-item>
+
+						<b-dropdown-item v-b-modal.modal-danger @click="toBeDeletedId = data.item.id">
+							<feather-icon icon="TrashIcon" />
+							<span class="align-middle ml-50">{{ $t("Delete") }}</span>
+						</b-dropdown-item>
+					</b-dropdown>
 				</template>
 			</b-table>
 
@@ -71,7 +85,7 @@
 					</b-col>
 					<!-- Pagination -->
 					<b-col cols="12" sm="6" class="d-flex align-items-center justify-content-center justify-content-sm-end">
-						<b-pagination v-model="currentPage" :total-rows="totalQuestionnaires" :per-page="perPage" first-number last-number class="mb-0 mt-1 mt-sm-0" prev-class="prev-item" next-class="next-item">
+						<b-pagination v-model="currentPage" :total-rows="totalCourses" :per-page="perPage" first-number last-number class="mb-0 mt-1 mt-sm-0" prev-class="prev-item" next-class="next-item">
 							<template #prev-text>
 								<feather-icon icon="ChevronLeftIcon" size="18" />
 							</template>
@@ -84,9 +98,9 @@
 			</div>
 			<!-- Table footer -->
 		</b-card>
-		<!-- Modal for questionnaires deletion -->
-		<b-modal id="modal-danger" ok-only ok-variant="danger" :ok-title="$t('Accept')" @ok="deleteQuestionnaire" modal-class="modal-danger" centered :title="$t('Delete questionnaire?')">
-			<b-card-text>{{ $t("Are you sure you want to delete this questionnaire? You won't be able to undo this step and all questionnaire data will be delete with no way to retreive.") }}</b-card-text>
+		<!-- Modal for courses deletion -->
+		<b-modal id="modal-danger" ok-only ok-variant="danger" :ok-title="$t('Accept')" @ok="deleteCourse" modal-class="modal-danger" centered :title="$t('Delete course?')">
+			<b-card-text>{{ $t("Are you sure you want to delete this course? You won't be able to undo this step and all course data will be delete with no way to retreive.") }}</b-card-text>
 		</b-modal>
 	</div>
 </template>
@@ -97,16 +111,15 @@
 	import store from "@/store";
 	import { ref, onUnmounted } from "@vue/composition-api";
 	import { avatarText } from "@core/utils/filter";
-	import QuestionnairesListAddNew from "./QuestionnairesListAddNew.vue";
-	import useQuestionnairesList from "./useQuestionnairesList";
-	import questionnaireStoreModule from "../questionnaireStoreModule";
-	import { $status } from "@siteConfig";
+	import useCoursesList from "./useCoursesList";
+	import courseStoreModule from "../courseStoreModule";
+	import { $courseStatus } from "@siteConfig";
 	import Ripple from "vue-ripple-directive";
+	import CoursesListFilters from "./CoursesListFilters.vue";
 
 	export default {
 		components: {
-			QuestionnairesListAddNew,
-
+			CoursesListFilters,
 			BCard,
 			BRow,
 			BCol,
@@ -128,24 +141,41 @@
 			Ripple,
 		},
 		setup() {
-			const COURSE_QUESTIONNAIRE_STORE_MODULE_NAME = "course-questionnaire";
-
+			const APP_COURSE_STORE_MODULE_NAME = "app-course";
 			// Register module
-			if (!store.hasModule(COURSE_QUESTIONNAIRE_STORE_MODULE_NAME)) store.registerModule(COURSE_QUESTIONNAIRE_STORE_MODULE_NAME, questionnaireStoreModule);
-
+			if (!store.hasModule(APP_COURSE_STORE_MODULE_NAME)) store.registerModule(APP_COURSE_STORE_MODULE_NAME, courseStoreModule);
 			// UnRegister on leave
 			onUnmounted(() => {
-				if (store.hasModule(COURSE_QUESTIONNAIRE_STORE_MODULE_NAME)) store.unregisterModule(COURSE_QUESTIONNAIRE_STORE_MODULE_NAME);
+				if (store.hasModule(APP_COURSE_STORE_MODULE_NAME)) store.unregisterModule(APP_COURSE_STORE_MODULE_NAME);
 			});
 
-			const isAddNewQuestionnaireSidebarActive = ref(false);
+			const {
+				tableColumns,
+				fetchCourses,
+				perPage,
+				currentPage,
+				totalCourses,
+				dataMeta,
+				perPageOptions,
+				searchQuery,
+				sortBy,
+				isSortDirDesc,
+				refCourseListTable,
+				refetchData,
 
-			const { tableColumns, fetchQuestionnaires, perPage, currentPage, totalQuestionnaires, dataMeta, perPageOptions, searchQuery, sortBy, isSortDirDesc, refQuestionnaireListTable, refetchData } = useQuestionnairesList();
+				// Extra Filters
+				snFilter,
+				nameFilter,
+				regionFilter,
+				dayFilter,
+				monthFilter,
+				yearFilter,
+			} = useCoursesList();
 
 			const toBeDeletedId = ref(null);
-			const deleteQuestionnaire = function () {
+			const deleteCourse = function () {
 				store
-					.dispatch("course-questionnaire/deleteQuestionnaire", { id: toBeDeletedId.value })
+					.dispatch("app-course/deleteCourse", { id: toBeDeletedId.value })
 					.then((response) => {
 						// Success message and update users
 						this.$bvToast.toast(response.data.message, {
@@ -165,7 +195,7 @@
 
 			const toggleStatus = function (id) {
 				store
-					.dispatch("course-questionnaire/toggleStatus", { id })
+					.dispatch("app-course/toggleStatus", { id })
 					.then((response) => {
 						// Success message and update users
 						this.$bvToast.toast(response.data.message, {
@@ -185,28 +215,35 @@
 
 			return {
 				// Sidebar
-				isAddNewQuestionnaireSidebarActive,
 
-				fetchQuestionnaires,
-				deleteQuestionnaire,
+				fetchCourses,
+				deleteCourse,
 				toggleStatus,
 				toBeDeletedId,
 				tableColumns,
 				perPage,
 				currentPage,
-				totalQuestionnaires,
+				totalCourses,
 				dataMeta,
 				perPageOptions,
 				searchQuery,
 				sortBy,
 				isSortDirDesc,
-				refQuestionnaireListTable,
+				refCourseListTable,
 				refetchData,
 
 				// Filter
 				avatarText,
 
-				$status,
+				// Extra Filters
+				snFilter,
+				nameFilter,
+				regionFilter,
+				dayFilter,
+				monthFilter,
+				yearFilter,
+
+				$courseStatus,
 			};
 		},
 	};

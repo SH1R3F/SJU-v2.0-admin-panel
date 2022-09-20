@@ -6,19 +6,14 @@ import i18n from "@/libs/i18n";
 import { useToast } from "vue-toastification/composition";
 import ToastificationContent from "@core/components/toastification/ToastificationContent.vue";
 
-export default function useSubscribersList() {
+export default function useQuestionnairesList() {
 	// Use toast
 	const toast = useToast();
 
 	const refQuestionnaireListTable = ref(null);
 
 	// Table Handlers
-	const tableColumns = [
-		{ key: "#", sortable: true },
-		{ key: "name_ar", sortable: true, label: i18n.t("Name") },
-		{ key: "status", sortable: true, label: i18n.t("Status") },
-		{ key: "actions", label: i18n.t("Actions") },
-	];
+	const tableColumns = [{ key: "#" }, { key: "name_ar", sortable: true, label: i18n.t("Name") }, { key: "status", sortable: true, label: i18n.t("Status") }, { key: "actions", label: i18n.t("Actions") }];
 	const perPage = ref(10);
 	const totalQuestionnaires = ref(0);
 	const currentPage = ref(1);

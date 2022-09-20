@@ -1569,25 +1569,51 @@ export const $mobileCodes = [
 ];
 
 export const $status = [
-	{ text: i18n.t("Inactive"), value: "0" },
-	{ text: i18n.t("Active"), value: "1" },
+	{ text: i18n.t("Inactive"), value: 0 },
+	{ text: i18n.t("Active"), value: 1 },
+];
+
+export const $courseStatus = [
+	{ text: i18n.t("Hidden"), value: 0 },
+	{ text: i18n.t("Active"), value: 1 },
+	{ text: i18n.t("Registration finished"), value: 2 },
+	{ text: i18n.t("Postponed"), value: 3 },
+	{ text: i18n.t("Full"), value: 4 },
+	{ text: i18n.t("Private"), value: 5 },
 ];
 
 export const $genders = [
-	{ text: i18n.t("Male"), value: "0" },
-	{ text: i18n.t("Female"), value: "1" },
+	{ text: i18n.t("Male"), value: 0 },
+	{ text: i18n.t("Female"), value: 1 },
 ];
 
 export const $languages = [
-	{ label: i18n.t("Arabic"), value: "0" },
-	{ label: i18n.t("English"), value: "1" },
+	{ label: i18n.t("Arabic"), value: 0 },
+	{ label: i18n.t("English"), value: 1 },
 ];
 
 export const $layouts = [
-	{ label: i18n.t("A4 landscape"), value: "0" },
-	{ label: i18n.t("A4 portrait"), value: "1" },
-	{ label: i18n.t("Letter landscape"), value: "2" },
-	{ label: i18n.t("Letter portrait"), value: "3" },
-	{ label: i18n.t("A3 landscape"), value: "4" },
-	{ label: i18n.t("A3 portrait"), value: "5" },
+	{ label: i18n.t("A4 landscape"), value: 0 },
+	{ label: i18n.t("A4 portrait"), value: 1 },
+	{ label: i18n.t("Letter landscape"), value: 2 },
+	{ label: i18n.t("Letter portrait"), value: 3 },
+	{ label: i18n.t("A3 landscape"), value: 4 },
+	{ label: i18n.t("A3 portrait"), value: 5 },
+];
+
+export const $days = [
+	{ label: i18n.t("Saturday"), value: 1 },
+	{ label: i18n.t("Sunday"), value: 2 },
+	{ label: i18n.t("Monday"), value: 3 },
+	{ label: i18n.t("Tuesday"), value: 4 },
+	{ label: i18n.t("Wednesday"), value: 5 },
+	{ label: i18n.t("Thursday"), value: 6 },
+	{ label: i18n.t("Friday"), value: 7 },
+];
+
+export const $packages = [
+	// Alsp called prices
+	{ label: i18n.t("Free"), value: 0 },
+	{ label: i18n.t("All paid"), value: 1 },
+	{ label: i18n.t("Paid certificate"), value: 2 },
 ];

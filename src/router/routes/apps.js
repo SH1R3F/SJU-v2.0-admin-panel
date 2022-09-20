@@ -298,6 +298,65 @@ export default [
 	// *--------------------- Courses --------------------*
 	// *===============================================---*
 	{
+		path: "/courses",
+		name: "app-courses",
+		component: () => import("@/views/courses/courses/courses-list/CoursesList.vue"),
+		meta: {
+			pageTitle: "List courses",
+			breadcrumb: [
+				{
+					text: "Courses",
+					active: true,
+				},
+			],
+		},
+	},
+	{
+		path: "/courses/edit/:id",
+		name: "edit-course",
+		component: () => import("@/views/courses/courses/courses-edit/CoursesEdit.vue"),
+		meta: {
+			pageTitle: "Edit course",
+			breadcrumb: [
+				{
+					text: "Courses",
+					active: true,
+				},
+			],
+		},
+	},
+	{
+		path: "/courses/create",
+		name: "create-course",
+		component: () => import("@/views/courses/courses/courses-list/CoursesListAddNew.vue"),
+		meta: {
+			pageTitle: "Edit course",
+			breadcrumb: [
+				{
+					text: "Courses",
+					active: true,
+				},
+			],
+		},
+	},
+	{
+		path: "/courses/:id",
+		name: "show-course",
+		component: () => import("@/views/courses/courses/courses-view/CoursesView.vue"),
+		meta: {
+			pageTitle: "View course",
+			breadcrumb: [
+				{
+					text: "Courses",
+				},
+				{
+					text: "View course",
+					active: true,
+				},
+			],
+		},
+	},
+	{
 		path: "/courses/namings",
 		name: "courses-namings",
 		component: () => import("@/views/courses/namings/namings-list/NamingsList.vue"),

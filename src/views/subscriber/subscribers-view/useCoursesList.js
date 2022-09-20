@@ -14,12 +14,7 @@ export default function useCoursesList() {
 	const refUserListTable = ref(null);
 
 	// Table Handlers
-	const tableColumns = [
-		{ key: "#", sortable: true },
-		{ key: "name", sortable: true, label: i18n.t("Course name") },
-		{ key: "status", sortable: true, label: i18n.t("Status") },
-		{ key: "actions", label: i18n.t("Actions") },
-	];
+	const tableColumns = [{ key: "#" }, { key: "name", sortable: true, label: i18n.t("Course name") }, { key: "status", sortable: true, label: i18n.t("Status") }, { key: "actions", label: i18n.t("Actions") }];
 	const perPage = ref(10);
 	const totalCourses = ref(0);
 	const currentPage = ref(1);
