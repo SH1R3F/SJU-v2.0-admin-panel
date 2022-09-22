@@ -15,7 +15,7 @@ export default [
 			},
 			{
 				title: "All members",
-				route: { name: "apps-invoice-preview", params: { id: 4987 } },
+				route: { name: "all-members", params: { id: 4987 } },
 			},
 			{
 				title: "Branch acceptance",

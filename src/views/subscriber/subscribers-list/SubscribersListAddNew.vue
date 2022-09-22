@@ -72,7 +72,7 @@
 					<!-- Password -->
 					<validation-provider #default="validationContext" name="password" rules="required">
 						<b-form-group :label="$t('Password')" label-for="password">
-							<b-form-input id="password" v-model="subscriberData.password" :state="getValidationState(validationContext)" trim />
+							<b-form-input id="password" type="password" v-model="subscriberData.password" :state="getValidationState(validationContext)" trim />
 							<b-form-invalid-feedback>
 								{{ validationContext.errors[0] }}
 							</b-form-invalid-feedback>

@@ -223,6 +223,92 @@ export default [
 	},
 
 	// *===============================================---*
+	// *------------------- Members ------------------*
+	// *===============================================---*
+	{
+		path: "/members",
+		name: "all-members",
+		component: () => import("@/views/member/members-list/MembersList.vue"),
+		meta: {
+			pageTitle: "List members",
+			breadcrumb: [
+				{
+					text: "Members",
+				},
+				{
+					text: "List members",
+					active: true,
+				},
+			],
+		},
+	},
+	{
+		path: "/members/inactive",
+		name: "inactive-members",
+		component: () => import("@/views/member/members-list/MembersList.vue"),
+		meta: {
+			pageTitle: "List members",
+			breadcrumb: [
+				{
+					text: "Members",
+				},
+				{
+					text: "List members",
+					active: true,
+				},
+			],
+		},
+	},
+	{
+		path: "/members/create",
+		name: "create-member",
+		component: () => import("@/views/member/members-list/MembersListAddNew.vue"),
+		meta: {
+			pageTitle: "Create member",
+			breadcrumb: [
+				{
+					text: "Members",
+					active: true,
+				},
+			],
+		},
+	},
+	{
+		path: "/members/:id",
+		name: "show-member",
+		component: () => import("@/views/member/members-view/MembersView.vue"),
+		meta: {
+			pageTitle: "Show member",
+			breadcrumb: [
+				{
+					text: "Members",
+				},
+				{
+					text: "Show member",
+					active: true,
+				},
+			],
+		},
+	},
+	{
+		path: "/members/edit/:id",
+		name: "edit-member",
+		component: () => import("@/views/member/members-edit/MembersEdit.vue"),
+		meta: {
+			pageTitle: "Edit member",
+			breadcrumb: [
+				{
+					text: "Members",
+				},
+				{
+					text: "Edit member",
+					active: true,
+				},
+			],
+		},
+	},
+
+	// *===============================================---*
 	// *------------------- Subscribers ------------------*
 	// *===============================================---*
 	{
@@ -330,7 +416,7 @@ export default [
 		name: "create-course",
 		component: () => import("@/views/courses/courses/courses-list/CoursesListAddNew.vue"),
 		meta: {
-			pageTitle: "Edit course",
+			pageTitle: "Create course",
 			breadcrumb: [
 				{
 					text: "Courses",
