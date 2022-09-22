@@ -56,16 +56,16 @@ export default [
 	},
 	{
 		title: "Volunteers",
-		route: "apps-email",
+		route: "active-volunteers",
 		icon: "UserCheckIcon",
 		children: [
 			{
 				title: "Activated",
-				route: { name: "apps-invoice-preview", params: { id: 4987 } },
+				route: { name: "active-volunteers", params: { id: 4987 } },
 			},
 			{
 				title: "Awaiting activation",
-				route: { name: "apps-invoice-preview", params: { id: 4987 } },
+				route: { name: "inactive-volunteers", params: { id: 4987 } },
 			},
 		],
 	},

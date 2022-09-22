@@ -432,6 +432,78 @@ export default [
 	},
 
 	// *===============================================---*
+	// *------------------- Volunteers ------------------*
+	// *===============================================---*
+	{
+		path: "/volunteers/active",
+		name: "active-volunteers",
+		component: () => import("@/views/volunteer/volunteers-list/VolunteersList.vue"),
+		meta: {
+			pageTitle: "List volunteers",
+			breadcrumb: [
+				{
+					text: "Volunteers",
+				},
+				{
+					text: "List volunteers",
+					active: true,
+				},
+			],
+		},
+	},
+	{
+		path: "/volunteers/inactive",
+		name: "inactive-volunteers",
+		component: () => import("@/views/volunteer/volunteers-list/VolunteersList.vue"),
+		meta: {
+			pageTitle: "List volunteers",
+			breadcrumb: [
+				{
+					text: "Volunteers",
+				},
+				{
+					text: "List volunteers",
+					active: true,
+				},
+			],
+		},
+	},
+	{
+		path: "/volunteers/:id",
+		name: "show-volunteer",
+		component: () => import("@/views/volunteer/volunteers-view/VolunteersView.vue"),
+		meta: {
+			pageTitle: "Show volunteer",
+			breadcrumb: [
+				{
+					text: "Volunteers",
+				},
+				{
+					text: "Show volunteer",
+					active: true,
+				},
+			],
+		},
+	},
+	{
+		path: "/volunteers/edit/:id",
+		name: "edit-volunteer",
+		component: () => import("@/views/volunteer/volunteers-edit/VolunteersEdit.vue"),
+		meta: {
+			pageTitle: "Edit volunteer",
+			breadcrumb: [
+				{
+					text: "Volunteers",
+				},
+				{
+					text: "Edit volunteer",
+					active: true,
+				},
+			],
+		},
+	},
+
+	// *===============================================---*
 	// *--------------------- Courses --------------------*
 	// *===============================================---*
 	{
