@@ -4,40 +4,39 @@ export default [
 		route: "apps-email",
 		icon: "UsersIcon",
 		children: [
-			{
-				title: "Options",
-				children: [
-					{
-						title: "Cities",
-						route: "apps-invoice-list",
-					},
-				],
-			},
+			// {
+			// 	title: "Options",
+			// 	children: [
+			// 		{
+			// 			title: "Cities",
+			// 			route: "apps-invoice-list",
+			// 		},
+			// 	],
+			// },
 			{
 				title: "All members",
-				route: { name: "all-members", params: { id: 4987 } },
+				route: { name: "all-members" },
 			},
 			{
 				title: "Branch acceptance",
-				route: { name: "apps-invoice-edit", params: { id: 4987 } },
 				children: [
 					{
 						title: "Awaiting",
-						route: "apps-invoice-list",
+						route: "branch-waiting-members",
 					},
 					{
 						title: "Accepted",
-						route: "apps-invoice-list",
+						route: "branch-accepted-members",
 					},
 				],
 			},
 			{
 				title: "Awaiting",
-				route: { name: "apps-invoice-preview", params: { id: 4987 } },
+				route: { name: "waiting-members" },
 			},
 			{
-				title: "Refused",
-				route: { name: "apps-invoice-preview", params: { id: 4987 } },
+				title: "Refused members",
+				route: { name: "refused-members" },
 			},
 		],
 	},

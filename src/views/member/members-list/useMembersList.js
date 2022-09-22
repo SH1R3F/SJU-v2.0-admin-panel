@@ -60,6 +60,29 @@ export default function useMembersList() {
 	});
 
 	const fetchMembers = (ctx, callback) => {
+		let status;
+		switch (router.currentRoute.name) {
+			case "all-members":
+				status = "all";
+				break;
+
+			case "branch-waiting-members":
+				status = 0;
+				break;
+
+			case "branch-accepted-members":
+				status = 1;
+				break;
+
+			case "waiting-members":
+				status = 1;
+				break;
+
+			case "refused-members":
+				status = 2;
+				break;
+		}
+
 		store
 			.dispatch("app-member/fetchMembers", {
 				q: searchQuery.value,
@@ -67,7 +90,7 @@ export default function useMembersList() {
 				page: currentPage.value,
 				sortBy: sortBy.value,
 				sortDesc: isSortDirDesc.value,
-				// status: router.currentRoute.name === "active-members" ? 1 : 0,
+				status,
 
 				// Filtering
 				name: nameFilter.value,

@@ -243,17 +243,68 @@ export default [
 		},
 	},
 	{
-		path: "/members/inactive",
-		name: "inactive-members",
+		path: "/members/branch/waiting",
+		name: "branch-waiting-members",
 		component: () => import("@/views/member/members-list/MembersList.vue"),
 		meta: {
-			pageTitle: "List members",
+			pageTitle: "Members waiting branch approval",
 			breadcrumb: [
 				{
 					text: "Members",
 				},
 				{
 					text: "List members",
+					active: true,
+				},
+			],
+		},
+	},
+	{
+		path: "/members/branch/accepted",
+		name: "branch-accepted-members",
+		component: () => import("@/views/member/members-list/MembersList.vue"),
+		meta: {
+			pageTitle: "Branch approved members",
+			breadcrumb: [
+				{
+					text: "Members",
+				},
+				{
+					text: "Branch approved members",
+					active: true,
+				},
+			],
+		},
+	},
+	{
+		path: "/members/waiting",
+		name: "waiting-members",
+		component: () => import("@/views/member/members-list/MembersList.vue"),
+		meta: {
+			pageTitle: "Members waiting admin approval",
+			breadcrumb: [
+				{
+					text: "Members",
+				},
+				{
+					text: "Members waiting admin approval",
+					active: true,
+				},
+			],
+		},
+	},
+	{
+		path: "/members/refused",
+		name: "refused-members",
+		component: () => import("@/views/member/members-list/MembersList.vue"),
+		meta: {
+			pageTitle: "Refused members",
+			breadcrumb: [
+				{
+					text: "Members",
+				},
+				{
+					text: "Refused members",
 					active: true,
 				},
 			],

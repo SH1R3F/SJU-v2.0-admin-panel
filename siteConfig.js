@@ -1,4 +1,5 @@
 import i18n from "@/libs/i18n";
+import { ssrCompile, ssrCompileToFunctions } from "vue-template-compiler";
 
 export const $countries = [
 	{ label: i18n.t("Saudi Arabia"), value: 0 },
@@ -947,10 +948,13 @@ export const $membershipTypes = [
 ];
 // Members
 export const $membershipStatus = [
-	{ label: i18n.t("Waiting approval"), value: 0 },
-	{ label: i18n.t("Waiting to pay"), value: 1 },
-	{ label: i18n.t("Active"), value: 2 },
+	{ label: i18n.t("Waiting branch approval"), value: 0 },
+	{ label: i18n.t("Waiting admin approval"), value: 1 },
+	{ label: i18n.t("Refused"), value: 2 },
+	{ label: i18n.t("Waiting to pay"), value: 3 },
+	{ label: i18n.t("Active"), value: 4 },
 ];
+
 export const $invoiceStatus = [
 	{ label: i18n.t("Unpaid"), value: 0 },
 	{ label: i18n.t("Paid"), value: 1 },
