@@ -14,7 +14,7 @@
 			<!-- First Row -->
 			<volunteer-view-volunteer-info-card :volunteer-data="volunteerData" />
 
-			<volunteer-view-volunteer-timeline-card :volunteer-data="volunteerData" />
+			<!-- <volunteer-view-volunteer-timeline-card :volunteer-data="volunteerData" /> -->
 
 			<volunteer-enrolled-courses />
 		</template>
@@ -22,14 +22,14 @@
 </template>
 
 <script>
-	import store from "@/store";
-	import router from "@/router";
-	import { ref, onUnmounted } from "@vue/composition-api";
-	import { BRow, BCol, BAlert, BLink } from "bootstrap-vue";
-	import VolunteerEnrolledCourses from "./VolunteerEnrolledCourses.vue";
-	import volunteerStoreModule from "../volunteerStoreModule";
-	import VolunteerViewVolunteerInfoCard from "./VolunteerViewVolunteerInfoCard.vue";
-	import VolunteerViewVolunteerTimelineCard from "./VolunteerViewVolunteerTimelineCard.vue";
+	import store from "@/store"
+	import router from "@/router"
+	import { ref, onUnmounted } from "@vue/composition-api"
+	import { BRow, BCol, BAlert, BLink } from "bootstrap-vue"
+	import VolunteerEnrolledCourses from "./VolunteerEnrolledCourses.vue"
+	import volunteerStoreModule from "../volunteerStoreModule"
+	import VolunteerViewVolunteerInfoCard from "./VolunteerViewVolunteerInfoCard.vue"
+	import VolunteerViewVolunteerTimelineCard from "./VolunteerViewVolunteerTimelineCard.vue"
 
 	export default {
 		components: {
@@ -45,32 +45,32 @@
 			VolunteerEnrolledCourses,
 		},
 		setup() {
-			const volunteerData = ref(null);
+			const volunteerData = ref(null)
 
-			const VOLUNTEER_APP_STORE_MODULE_NAME = "app-volunteer";
+			const VOLUNTEER_APP_STORE_MODULE_NAME = "app-volunteer"
 			// Register module
-			if (!store.hasModule(VOLUNTEER_APP_STORE_MODULE_NAME)) store.registerModule(VOLUNTEER_APP_STORE_MODULE_NAME, volunteerStoreModule);
+			if (!store.hasModule(VOLUNTEER_APP_STORE_MODULE_NAME)) store.registerModule(VOLUNTEER_APP_STORE_MODULE_NAME, volunteerStoreModule)
 			// UnRegister on leave
 			onUnmounted(() => {
-				if (store.hasModule(VOLUNTEER_APP_STORE_MODULE_NAME)) store.unregisterModule(VOLUNTEER_APP_STORE_MODULE_NAME);
-			});
+				if (store.hasModule(VOLUNTEER_APP_STORE_MODULE_NAME)) store.unregisterModule(VOLUNTEER_APP_STORE_MODULE_NAME)
+			})
 
 			store
 				.dispatch("app-volunteer/fetchVolunteer", { id: router.currentRoute.params.id })
 				.then((response) => {
-					volunteerData.value = response.data;
+					volunteerData.value = response.data
 				})
 				.catch((error) => {
 					if (error.response.status === 404) {
-						volunteerData.value = undefined;
+						volunteerData.value = undefined
 					}
-				});
+				})
 
 			return {
 				volunteerData,
-			};
+			}
 		},
-	};
+	}
 </script>
 
 <style></style>

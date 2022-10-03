@@ -12,7 +12,7 @@
 								<span class="font-weight-bold">{{ $t("Total attendance") }}</span>
 							</th>
 							<td class="pb-50 text-capitalize">
-								94
+								{{ courseData.users }}
 								{{ $t("Attendants") }}
 							</td>
 						</tr>
@@ -23,7 +23,7 @@
 								<span class="font-weight-bold">{{ $t("Passed number") }}</span>
 							</th>
 							<td class="pb-50 text-capitalize">
-								58
+								{{ courseData.passed }}
 								{{ $t("Passed") }}
 							</td>
 						</tr>
@@ -33,7 +33,7 @@
 								<feather-icon icon="FlagIcon" class="mr-75" />
 								<span class="font-weight-bold">{{ $t("Unpassed number") }}</span>
 							</th>
-							<td class="pb-50">36 {{ $t("Unpassed") }}</td>
+							<td class="pb-50">{{ courseData.unpassed }} {{ $t("Unpassed") }}</td>
 						</tr>
 
 						<tr>
@@ -53,13 +53,13 @@
 </template>
 
 <script>
-	import { BCard, BButton, BAvatar, BRow, BCol, BCardText } from "bootstrap-vue";
-	import { avatarText } from "@core/utils/filter";
-	import { $courseStatus } from "@siteConfig";
-	import store from "@/store";
-	import { onUnmounted } from "vue-demi";
-	import courseStoreModule from "../courseStoreModule";
-	import router from "@/router";
+	import { BCard, BButton, BAvatar, BRow, BCol, BCardText } from "bootstrap-vue"
+	import { avatarText } from "@core/utils/filter"
+	import { $courseStatus } from "@siteConfig"
+	import store from "@/store"
+	import { onUnmounted } from "vue-demi"
+	import courseStoreModule from "../courseStoreModule"
+	import router from "@/router"
 
 	export default {
 		components: {
@@ -78,11 +78,11 @@
 		},
 		setup() {
 			// MODULE CONFIGURATION
-			const APP_COURSE_STORE_MODULE_NAME = "app-course";
-			if (!store.hasModule(APP_COURSE_STORE_MODULE_NAME)) store.registerModule(APP_COURSE_STORE_MODULE_NAME, courseStoreModule);
+			const APP_COURSE_STORE_MODULE_NAME = "app-course"
+			if (!store.hasModule(APP_COURSE_STORE_MODULE_NAME)) store.registerModule(APP_COURSE_STORE_MODULE_NAME, courseStoreModule)
 			onUnmounted(() => {
-				if (store.hasModule(APP_COURSE_STORE_MODULE_NAME)) store.unregisterModule(APP_COURSE_STORE_MODULE_NAME);
-			});
+				if (store.hasModule(APP_COURSE_STORE_MODULE_NAME)) store.unregisterModule(APP_COURSE_STORE_MODULE_NAME)
+			})
 
 			const deleteCourse = function () {
 				store
@@ -93,27 +93,27 @@
 							variant: "success",
 							solid: true,
 							autoHideDelay: 100,
-						});
+						})
 						setTimeout(() => {
-							router.push({ name: "active-courses" });
-						}, 1500);
+							router.push({ name: "active-courses" })
+						}, 1500)
 					})
 					.catch((error) => {
 						this.$bvToast.toast(error.message, {
 							variant: "danger",
 							solid: true,
-						});
-						return;
-					});
-			};
+						})
+						return
+					})
+			}
 
 			return {
 				avatarText,
 				$courseStatus,
 				deleteCourse,
-			};
+			}
 		},
-	};
+	}
 </script>
 
 <style></style>

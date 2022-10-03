@@ -384,25 +384,25 @@
 </template>
 
 <script>
-	import { BButton, BRow, BCol, BFormGroup, BFormTimepicker, BFormTextarea, BFormInput, BFormFile, BForm, BFormInvalidFeedback } from "bootstrap-vue";
-	import vSelect from "vue-select";
-	import { onUnmounted, ref } from "@vue/composition-api";
-	import courseStoreModule from "../courseStoreModule";
-	import useCoursesList from "../courses-list/useCoursesList";
-	import namingStoreModule from "../../namings/namingStoreModule";
-	import router from "@/router";
-	import store from "@/store";
-	import { ValidationProvider, ValidationObserver } from "vee-validate";
-	import { required } from "@validations";
-	import formValidation from "@/@core/comp-functions/forms/form-validation";
-	import { $days, $courseStatus, $packages } from "@siteConfig";
-	import { quillEditor } from "vue-quill-editor";
-	import "quill/dist/quill.core.css";
+	import { BButton, BRow, BCol, BFormGroup, BFormTimepicker, BFormTextarea, BFormInput, BFormFile, BForm, BFormInvalidFeedback } from "bootstrap-vue"
+	import vSelect from "vue-select"
+	import { onUnmounted, ref } from "@vue/composition-api"
+	import courseStoreModule from "../courseStoreModule"
+	import useCoursesList from "../courses-list/useCoursesList"
+	import namingStoreModule from "../../namings/namingStoreModule"
+	import router from "@/router"
+	import store from "@/store"
+	import { ValidationProvider, ValidationObserver } from "vee-validate"
+	import { required } from "@validations"
+	import formValidation from "@/@core/comp-functions/forms/form-validation"
+	import { $days, $courseStatus, $packages } from "@siteConfig"
+	import { quillEditor } from "vue-quill-editor"
+	import "quill/dist/quill.core.css"
 	// eslint-disable-next-line
-	import "quill/dist/quill.snow.css";
+	import "quill/dist/quill.snow.css"
 	// eslint-disable-next-line
-	import "quill/dist/quill.bubble.css";
-	import i18n from "@/libs/i18n";
+	import "quill/dist/quill.bubble.css"
+	import i18n from "@/libs/i18n"
 
 	export default {
 		components: {
@@ -431,22 +431,22 @@
 
 		setup(props) {
 			// MODULE CONFIGURATION
-			const APP_COURSE_STORE_MODULE_NAME = "app-course";
-			if (!store.hasModule(APP_COURSE_STORE_MODULE_NAME)) store.registerModule(APP_COURSE_STORE_MODULE_NAME, courseStoreModule);
+			const APP_COURSE_STORE_MODULE_NAME = "app-course"
+			if (!store.hasModule(APP_COURSE_STORE_MODULE_NAME)) store.registerModule(APP_COURSE_STORE_MODULE_NAME, courseStoreModule)
 			onUnmounted(() => {
-				if (store.hasModule(APP_COURSE_STORE_MODULE_NAME)) store.unregisterModule(APP_COURSE_STORE_MODULE_NAME);
-			});
+				if (store.hasModule(APP_COURSE_STORE_MODULE_NAME)) store.unregisterModule(APP_COURSE_STORE_MODULE_NAME)
+			})
 			// MODULE CONFIGURATION
-			const COURSE_NAMING_STORE_MODULE_NAME = "course-naming";
-			if (!store.hasModule(COURSE_NAMING_STORE_MODULE_NAME)) store.registerModule(COURSE_NAMING_STORE_MODULE_NAME, namingStoreModule);
+			const COURSE_NAMING_STORE_MODULE_NAME = "course-naming"
+			if (!store.hasModule(COURSE_NAMING_STORE_MODULE_NAME)) store.registerModule(COURSE_NAMING_STORE_MODULE_NAME, namingStoreModule)
 			onUnmounted(() => {
-				if (store.hasModule(COURSE_NAMING_STORE_MODULE_NAME)) store.unregisterModule(COURSE_NAMING_STORE_MODULE_NAME);
-			});
+				if (store.hasModule(COURSE_NAMING_STORE_MODULE_NAME)) store.unregisterModule(COURSE_NAMING_STORE_MODULE_NAME)
+			})
 
-			const fileToBeUploaded = ref(null);
+			const fileToBeUploaded = ref(null)
 
 			// Form config for submit & rest
-			let oldData = props.courseData;
+			let oldData = props.courseData
 
 			// const days = [];
 			// oldData.days.forEach((day, k) => {
@@ -454,10 +454,10 @@
 			// });
 			// oldData.days = days;
 
-			const formData = ref(JSON.parse(JSON.stringify(oldData)));
+			const formData = ref(JSON.parse(JSON.stringify(oldData)))
 			const resetcourseData = () => {
-				formData.value = JSON.parse(JSON.stringify(oldData));
-			};
+				formData.value = JSON.parse(JSON.stringify(oldData))
+			}
 
 			// Submitting
 			const onSubmit = function () {
@@ -467,25 +467,25 @@
 						this.$bvToast.toast(response.message, {
 							variant: "success",
 							solid: true,
-						});
+						})
 					})
 					.catch((error) => {
 						if (error.response.status === 400) {
 							// Set errors
-							refFormObserver.value.setErrors(error.response.data);
+							refFormObserver.value.setErrors(error.response.data)
 						}
-					});
-			};
+					})
+			}
 
-			const { fetchNamings } = useCoursesList();
-			let namings = ref({});
+			const { fetchNamings } = useCoursesList()
+			let namings = ref({})
 			fetchNamings(null, (p) => {
-				namings.value = p;
-			});
+				namings.value = p
+			})
 
 			// Form validation configuration
-			const { refFormObserver, getValidationState, resetForm } = formValidation(resetcourseData);
-			const locale = i18n.locale == "ar" ? "ar-EG" : "en-US";
+			const { refFormObserver, getValidationState, resetForm } = formValidation(resetcourseData)
+			const locale = i18n.locale == "ar" ? "ar-EG" : "en-US"
 
 			return {
 				fileToBeUploaded,
@@ -517,11 +517,19 @@
 						labelResetButton: "إلغاء",
 					},
 				},
-			};
+			}
 		},
-	};
+	}
 </script>
 
 <style lang="scss">
 	@import "@core/scss/vue/libs/vue-select.scss";
+	.ql-editor {
+		min-height: 200px;
+	}
+	#timepicker-buttons-from__dialog_,
+	#timepicker-buttons-to__dialog_ {
+		z-index: 9999 !important;
+		left: auto;
+	}
 </style>

@@ -17,12 +17,12 @@
 </template>
 
 <script>
-	import { BTab, BTabs, BCard, BAlert, BLink } from "bootstrap-vue";
-	import { ref, onUnmounted } from "@vue/composition-api";
-	import router from "@/router";
-	import store from "@/store";
-	import courseStoreModule from "../courseStoreModule";
-	import CourseEditForm from "./CourseEditForm.vue";
+	import { BTab, BTabs, BCard, BAlert, BLink } from "bootstrap-vue"
+	import { ref, onUnmounted } from "@vue/composition-api"
+	import router from "@/router"
+	import store from "@/store"
+	import courseStoreModule from "../courseStoreModule"
+	import CourseEditForm from "./CourseEditForm.vue"
 
 	export default {
 		components: {
@@ -35,32 +35,30 @@
 			CourseEditForm,
 		},
 		setup() {
-			const courseData = ref(null);
+			const courseData = ref(null)
 
-			const APP_COURSE_STORE_MODULE_NAME = "app-course";
+			const APP_COURSE_STORE_MODULE_NAME = "app-course"
 			// Register module
-			if (!store.hasModule(APP_COURSE_STORE_MODULE_NAME)) store.registerModule(APP_COURSE_STORE_MODULE_NAME, courseStoreModule);
+			if (!store.hasModule(APP_COURSE_STORE_MODULE_NAME)) store.registerModule(APP_COURSE_STORE_MODULE_NAME, courseStoreModule)
 			// UnRegister on leave
 			onUnmounted(() => {
-				if (store.hasModule(APP_COURSE_STORE_MODULE_NAME)) store.unregisterModule(APP_COURSE_STORE_MODULE_NAME);
-			});
+				if (store.hasModule(APP_COURSE_STORE_MODULE_NAME)) store.unregisterModule(APP_COURSE_STORE_MODULE_NAME)
+			})
 
 			store
 				.dispatch("app-course/fetchCourse", { id: router.currentRoute.params.id })
 				.then((response) => {
-					courseData.value = response.data;
+					courseData.value = response.data
 				})
 				.catch((error) => {
 					if (error.response.status === 404) {
-						courseData.value = undefined;
+						courseData.value = undefined
 					}
-				});
+				})
 
 			return {
 				courseData,
-			};
+			}
 		},
-	};
+	}
 </script>
-
-<style></style>

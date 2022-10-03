@@ -694,7 +694,7 @@ export default [
 		},
 	},
 	{
-		path: "/courses/:id",
+		path: "/courses/:id(\\d+)",
 		name: "show-course",
 		component: () => import("@/views/courses/courses/courses-view/CoursesView.vue"),
 		meta: {
@@ -847,4 +847,4 @@ export default [
 			],
 		},
 	},
-];
+]

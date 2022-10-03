@@ -27,50 +27,41 @@
 			</div>
 			<!-- Header of table -->
 
-			<b-table ref="refCourseEnrollersListTable" class="position-relative" :fields="tableColumns" :items="fetchCourseEnrollers" responsive primary-key="id" :sort-by.sync="sortBy" show-empty empty-text="No matching records found" :sort-desc.sync="isSortDirDesc">
+			<b-table ref="refCourseEnrollersListTable" class="position-relative" :fields="tableColumns" :items="fetchCourseEnrollers" responsive :sort-by.sync="sortBy" show-empty empty-text="No matching records found" :sort-desc.sync="isSortDirDesc">
 				<!-- Column: # -->
 				<template #cell(#)="data"> {{ (currentPage - 1) * perPage + (data.index + 1) }} </template>
 
 				<!-- Column: User -->
-				<template #cell(subscriber)="data">
+				<template #cell(user)="data">
 					<b-media vertical-align="center" class="align-items-center">
 						<template #aside>
-							<b-avatar size="32" :src="data.item.avatar" :text="avatarText(data.item.fullName.split(' ')[0])" :variant="`light-success`" :to="{ name: 'apps-users-view', params: { id: data.item.id } }" />
+							<b-avatar size="32" :src="data.item.avatar" :text="avatarText(data.item.fullName.split(' ')[0])" :variant="`light-success`" />
 						</template>
-						<b-link :to="{ name: 'show-subscriber', params: { id: data.item.id } }" class="font-weight-bold d-block text-nowrap">
+						<b-link :to="{ name: data.item.type === 'member' ? 'show-member' : data.item.type === 'subscriber' ? 'show-subscriber' : 'show-volunteer', params: { id: data.item.id } }" class="font-weight-bold d-block text-nowrap">
 							{{ data.item.fullName }}
 						</b-link>
 					</b-media>
 				</template>
 
-				<!-- Column: Status -->
-				<template #cell(status)="data">
-					<b-badge pill :variant="`light-${resolveUserStatusVariant(data.item.status)}`" class="text-capitalize">
-						{{ data.item.status }}
+				<!-- Column: Type -->
+				<template #cell(type)="data"> {{ $t(data.item.type) }} </template>
+
+				<!-- Column: attendance -->
+				<template #cell(passed)="data">
+					<b-badge pill :variant="data.item.passed ? 'light-primary' : 'light-danger'" class="text-capitalize">
+						{{ $courseAttendance[data.item.passed].label }}
 					</b-badge>
 				</template>
 
 				<!-- Column: Actions -->
 				<template #cell(actions)="data">
-					<b-dropdown variant="link" no-caret :right="$store.state.appConfig.isRTL">
-						<template #button-content>
-							<feather-icon icon="MoreVerticalIcon" size="16" class="align-middle text-body" />
-						</template>
-						<b-dropdown-item :to="{ name: 'show-subscriber', params: { id: data.item.id } }">
-							<feather-icon icon="FileTextIcon" />
-							<span class="align-middle ml-50">Details</span>
-						</b-dropdown-item>
+					<b-button :title="data.item.passed ? $t('Unpass') : $t('Pass')" @click="togglePass(data.item.id, data.item.type)" v-ripple.400="'rgba(255, 255, 255, 0.15)'" :variant="data.item.passed ? 'danger' : 'success'" class="btn-icon" size="sm">
+						<feather-icon :icon="data.item.passed ? 'XIcon' : 'CheckIcon'" />
+					</b-button>
 
-						<b-dropdown-item :to="{ name: 'apps-users-edit', params: { id: data.item.id } }">
-							<feather-icon icon="EditIcon" />
-							<span class="align-middle ml-50">Edit</span>
-						</b-dropdown-item>
-
-						<b-dropdown-item>
-							<feather-icon icon="TrashIcon" />
-							<span class="align-middle ml-50">Delete</span>
-						</b-dropdown-item>
-					</b-dropdown>
+					<b-button :title="$t('Delete')" @click="deleteEnroller(data.item.id, data.item.type)" v-ripple.400="'rgba(255, 255, 255, 0.15)'" variant="danger" class="btn-icon mx-1" size="sm">
+						<feather-icon icon="TrashIcon" />
+					</b-button>
 				</template>
 			</b-table>
 
@@ -99,17 +90,21 @@
 </template>
 
 <script>
-	import { BCard, BRow, BCol, BFormInput, BButton, BTable, BMedia, BAvatar, BLink, BBadge, BDropdown, BDropdownItem, BPagination } from "bootstrap-vue";
-	import vSelect from "vue-select";
-	import store from "@/store";
-	import { ref, onUnmounted } from "@vue/composition-api";
-	import { avatarText } from "@core/utils/filter";
-	import useCourseEnrollersList from "./useCourseEnrollersList";
-	import courseStoreModule from "../courseStoreModule";
+	import { BCard, BRow, BCol, BFormInput, BButton, BTable, BMedia, BAvatar, BLink, BBadge, BDropdown, BDropdownItem, BPagination } from "bootstrap-vue"
+	import vSelect from "vue-select"
+	import store from "@/store"
+	import { ref, onUnmounted } from "@vue/composition-api"
+	import { avatarText } from "@core/utils/filter"
+	import useCourseEnrollersList from "./useCourseEnrollersList"
+	import courseStoreModule from "../courseStoreModule"
+	import { $courseAttendance } from "@siteConfig"
+	import Ripple from "vue-ripple-directive"
+	import i18n from "@/libs/i18n"
 
 	export default {
 		components: {
 			BCard,
+			Ripple,
 			BRow,
 			BCol,
 			BFormInput,
@@ -124,16 +119,60 @@
 			BPagination,
 			vSelect,
 		},
+		directives: {
+			Ripple,
+		},
 		setup() {
-			const APP_COURSE_STORE_MODULE_NAME = "app-course";
+			const APP_COURSE_STORE_MODULE_NAME = "app-course"
 			// Register module
-			if (!store.hasModule(APP_COURSE_STORE_MODULE_NAME)) store.registerModule(APP_COURSE_STORE_MODULE_NAME, courseStoreModule);
+			if (!store.hasModule(APP_COURSE_STORE_MODULE_NAME)) store.registerModule(APP_COURSE_STORE_MODULE_NAME, courseStoreModule)
 			// UnRegister on leave
 			onUnmounted(() => {
-				if (store.hasModule(APP_COURSE_STORE_MODULE_NAME)) store.unregisterModule(APP_COURSE_STORE_MODULE_NAME);
-			});
+				if (store.hasModule(APP_COURSE_STORE_MODULE_NAME)) store.unregisterModule(APP_COURSE_STORE_MODULE_NAME)
+			})
 
-			const { tableColumns, fetchCourseEnrollers, perPage, currentPage, totalEnrollers, dataMeta, perPageOptions, searchQuery, sortBy, isSortDirDesc, refCourseEnrollersListTable, refetchData } = useCourseEnrollersList();
+			const { tableColumns, fetchCourseEnrollers, perPage, currentPage, totalEnrollers, dataMeta, perPageOptions, searchQuery, sortBy, isSortDirDesc, refCourseEnrollersListTable, refetchData } = useCourseEnrollersList()
+
+			const togglePass = function (id, type) {
+				store
+					.dispatch("app-course/togglePass", {
+						id,
+						type,
+					})
+					.then((response) => {
+						refetchData()
+						this.$bvToast.toast(response.data.message, {
+							variant: "success",
+							solid: true,
+						})
+					})
+					.catch(() => {
+						this.$bvToast.toast(i18n.t("Error passing enroller"), {
+							variant: "danger",
+							solid: true,
+						})
+					})
+			}
+			const deleteEnroller = function (id, type) {
+				store
+					.dispatch("app-course/deleteEnroller", {
+						id,
+						type,
+					})
+					.then((response) => {
+						refetchData()
+						this.$bvToast.toast(response.data.message, {
+							variant: "success",
+							solid: true,
+						})
+					})
+					.catch(() => {
+						this.$bvToast.toast(i18n.t("Error deleting enroller"), {
+							variant: "danger",
+							solid: true,
+						})
+					})
+			}
 
 			return {
 				fetchCourseEnrollers,
@@ -151,9 +190,12 @@
 
 				// Filter
 				avatarText,
-			};
+				$courseAttendance,
+				togglePass,
+				deleteEnroller,
+			}
 		},
-	};
+	}
 </script>
 
 <style lang="scss" scoped>

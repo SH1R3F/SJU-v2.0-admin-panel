@@ -27,46 +27,30 @@
 				<!-- Column: # -->
 				<template #cell(#)="data"> {{ (currentPage - 1) * perPage + (data.index + 1) }} </template>
 
-				<!-- Column: User -->
-				<template #cell(subscriber)="data">
+				<!-- Column: Course -->
+				<template #cell(name)="data">
 					<b-media vertical-align="center" class="align-items-center">
 						<template #aside>
-							<b-avatar size="32" :src="data.item.avatar" :text="avatarText(data.item.fullName.split(' ')[0])" :variant="`light-success`" :to="{ name: 'apps-users-view', params: { id: data.item.id } }" />
+							<b-avatar size="32" :src="data.item.avatar" :text="avatarText(dblocalize(data.item, 'name').split(' ')[0])" :variant="`light-success`" :to="{ name: 'show-course', params: { id: data.item.id } }" />
 						</template>
-						<b-link :to="{ name: 'show-subscriber', params: { id: data.item.id } }" class="font-weight-bold d-block text-nowrap">
-							{{ data.item.fullName }}
+						<b-link :to="{ name: 'show-course', params: { id: data.item.id } }" class="font-weight-bold d-block text-nowrap">
+							{{ dblocalize(data.item, "name") }}
 						</b-link>
 					</b-media>
 				</template>
 
-				<!-- Column: Status -->
-				<template #cell(status)="data">
-					<b-badge pill :variant="`light-${resolveUserStatusVariant(data.item.status)}`" class="text-capitalize">
-						{{ data.item.status }}
+				<!-- Column: Attendance -->
+				<template #cell(attendance)="data">
+					<b-badge pill :variant="data.item.pivot.attendance ? 'light-primary' : 'light-danger'" class="text-capitalize">
+						{{ $courseAttendance[data.item.pivot.attendance].label }}
 					</b-badge>
 				</template>
 
 				<!-- Column: Actions -->
 				<template #cell(actions)="data">
-					<b-dropdown variant="link" no-caret :right="$store.state.appConfig.isRTL">
-						<template #button-content>
-							<feather-icon icon="MoreVerticalIcon" size="16" class="align-middle text-body" />
-						</template>
-						<b-dropdown-item :to="{ name: 'show-subscriber', params: { id: data.item.id } }">
-							<feather-icon icon="FileTextIcon" />
-							<span class="align-middle ml-50">Details</span>
-						</b-dropdown-item>
-
-						<b-dropdown-item :to="{ name: 'apps-users-edit', params: { id: data.item.id } }">
-							<feather-icon icon="EditIcon" />
-							<span class="align-middle ml-50">Edit</span>
-						</b-dropdown-item>
-
-						<b-dropdown-item>
-							<feather-icon icon="TrashIcon" />
-							<span class="align-middle ml-50">Delete</span>
-						</b-dropdown-item>
-					</b-dropdown>
+					<b-button :title="$t('Certificate')" v-ripple.400="'rgba(255, 255, 255, 0.15)'" variant="primary" class="btn-icon" size="sm">
+						<feather-icon icon="DownloadIcon" />
+					</b-button>
 				</template>
 			</b-table>
 
@@ -95,13 +79,15 @@
 </template>
 
 <script>
-	import { BCard, BRow, BCol, BFormInput, BButton, BTable, BMedia, BAvatar, BLink, BBadge, BDropdown, BDropdownItem, BPagination } from "bootstrap-vue";
-	import vSelect from "vue-select";
-	import store from "@/store";
-	import { ref, onUnmounted } from "@vue/composition-api";
-	import { avatarText } from "@core/utils/filter";
-	import useCoursesList from "./useCoursesList";
-	import subscriberStoreModule from "../subscriberStoreModule";
+	import { BCard, BRow, BCol, BFormInput, BButton, BTable, BMedia, BAvatar, BLink, BBadge, BDropdown, BDropdownItem, BPagination } from "bootstrap-vue"
+	import vSelect from "vue-select"
+	import store from "@/store"
+	import { ref, onUnmounted } from "@vue/composition-api"
+	import { avatarText } from "@core/utils/filter"
+	import useCoursesList from "./useCoursesList"
+	import subscriberStoreModule from "../subscriberStoreModule"
+	import { $courseAttendance } from "@siteConfig"
+	import Ripple from "vue-ripple-directive"
 
 	export default {
 		components: {
@@ -118,59 +104,24 @@
 			BDropdown,
 			BDropdownItem,
 			BPagination,
-
+			Ripple,
 			vSelect,
 		},
+		directives: {
+			Ripple,
+		},
 		setup() {
-			const SUBSCRIBER_APP_STORE_MODULE_NAME = "app-subscriber";
-
+			const SUBSCRIBER_APP_STORE_MODULE_NAME = "app-subscriber"
 			// Register module
-			if (!store.hasModule(SUBSCRIBER_APP_STORE_MODULE_NAME)) store.registerModule(SUBSCRIBER_APP_STORE_MODULE_NAME, subscriberStoreModule);
-
+			if (!store.hasModule(SUBSCRIBER_APP_STORE_MODULE_NAME)) store.registerModule(SUBSCRIBER_APP_STORE_MODULE_NAME, subscriberStoreModule)
 			// UnRegister on leave
 			onUnmounted(() => {
-				if (store.hasModule(SUBSCRIBER_APP_STORE_MODULE_NAME)) store.unregisterModule(SUBSCRIBER_APP_STORE_MODULE_NAME);
-			});
+				if (store.hasModule(SUBSCRIBER_APP_STORE_MODULE_NAME)) store.unregisterModule(SUBSCRIBER_APP_STORE_MODULE_NAME)
+			})
 
-			const isAddNewUserSidebarActive = ref(false);
+			const isAddNewUserSidebarActive = ref(false)
 
-			const roleOptions = [
-				{ label: "Admin", value: "admin" },
-				{ label: "Author", value: "author" },
-				{ label: "Editor", value: "editor" },
-				{ label: "Maintainer", value: "maintainer" },
-				{ label: "Subscriber", value: "subscriber" },
-			];
-
-			const planOptions = [
-				{ label: "Basic", value: "basic" },
-				{ label: "Company", value: "company" },
-				{ label: "Enterprise", value: "enterprise" },
-				{ label: "Team", value: "team" },
-			];
-
-			const statusOptions = [
-				{ label: "Pending", value: "pending" },
-				{ label: "Active", value: "active" },
-				{ label: "Inactive", value: "inactive" },
-			];
-
-			const {
-				tableColumns,
-				fetchCourses,
-				perPage,
-				currentPage,
-				totalCourses,
-				dataMeta,
-				perPageOptions,
-				searchQuery,
-				sortBy,
-				isSortDirDesc,
-				refCoursesListTable,
-				refetchData,
-
-				resolveUserStatusVariant,
-			} = useCoursesList();
+			const { tableColumns, fetchCourses, perPage, currentPage, totalCourses, dataMeta, perPageOptions, searchQuery, sortBy, isSortDirDesc, refCoursesListTable, refetchData } = useCoursesList()
 
 			return {
 				// Sidebar
@@ -191,15 +142,10 @@
 
 				// Filter
 				avatarText,
-
-				resolveUserStatusVariant,
-
-				roleOptions,
-				planOptions,
-				statusOptions,
-			};
+				$courseAttendance,
+			}
 		},
-	};
+	}
 </script>
 
 <style lang="scss" scoped>

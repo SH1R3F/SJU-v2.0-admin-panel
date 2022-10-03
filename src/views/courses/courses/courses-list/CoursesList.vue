@@ -41,7 +41,7 @@
 						<template #aside>
 							<b-avatar size="32" :text="avatarText(data.item.name_ar)" variant="light-success" :to="{ name: 'edit-course', params: { id: data.item.id } }" />
 						</template>
-						<b-link :to="{ name: 'edit-course', params: { id: data.item.id } }" class="font-weight-bold d-block text-nowrap">
+						<b-link :to="{ name: 'show-course', params: { id: data.item.id } }" class="font-weight-bold d-block text-nowrap">
 							{{ data.item.name_ar }}
 						</b-link>
 					</b-media>
@@ -106,16 +106,16 @@
 </template>
 
 <script>
-	import { BCard, BRow, BCol, BFormInput, BButton, BTable, BMedia, BAvatar, BLink, BBadge, BDropdown, BDropdownItem, BPagination, BCardText } from "bootstrap-vue";
-	import vSelect from "vue-select";
-	import store from "@/store";
-	import { ref, onUnmounted } from "@vue/composition-api";
-	import { avatarText } from "@core/utils/filter";
-	import useCoursesList from "./useCoursesList";
-	import courseStoreModule from "../courseStoreModule";
-	import { $courseStatus } from "@siteConfig";
-	import Ripple from "vue-ripple-directive";
-	import CoursesListFilters from "./CoursesListFilters.vue";
+	import { BCard, BRow, BCol, BFormInput, BButton, BTable, BMedia, BAvatar, BLink, BBadge, BDropdown, BDropdownItem, BPagination, BCardText } from "bootstrap-vue"
+	import vSelect from "vue-select"
+	import store from "@/store"
+	import { ref, onUnmounted } from "@vue/composition-api"
+	import { avatarText } from "@core/utils/filter"
+	import useCoursesList from "./useCoursesList"
+	import courseStoreModule from "../courseStoreModule"
+	import { $courseStatus } from "@siteConfig"
+	import Ripple from "vue-ripple-directive"
+	import CoursesListFilters from "./CoursesListFilters.vue"
 
 	export default {
 		components: {
@@ -141,13 +141,13 @@
 			Ripple,
 		},
 		setup() {
-			const APP_COURSE_STORE_MODULE_NAME = "app-course";
+			const APP_COURSE_STORE_MODULE_NAME = "app-course"
 			// Register module
-			if (!store.hasModule(APP_COURSE_STORE_MODULE_NAME)) store.registerModule(APP_COURSE_STORE_MODULE_NAME, courseStoreModule);
+			if (!store.hasModule(APP_COURSE_STORE_MODULE_NAME)) store.registerModule(APP_COURSE_STORE_MODULE_NAME, courseStoreModule)
 			// UnRegister on leave
 			onUnmounted(() => {
-				if (store.hasModule(APP_COURSE_STORE_MODULE_NAME)) store.unregisterModule(APP_COURSE_STORE_MODULE_NAME);
-			});
+				if (store.hasModule(APP_COURSE_STORE_MODULE_NAME)) store.unregisterModule(APP_COURSE_STORE_MODULE_NAME)
+			})
 
 			const {
 				tableColumns,
@@ -170,9 +170,9 @@
 				dayFilter,
 				monthFilter,
 				yearFilter,
-			} = useCoursesList();
+			} = useCoursesList()
 
-			const toBeDeletedId = ref(null);
+			const toBeDeletedId = ref(null)
 			const deleteCourse = function () {
 				store
 					.dispatch("app-course/deleteCourse", { id: toBeDeletedId.value })
@@ -181,17 +181,17 @@
 						this.$bvToast.toast(response.data.message, {
 							variant: "success",
 							solid: true,
-						});
-						refetchData();
+						})
+						refetchData()
 					})
 					.catch((error) => {
 						this.$bvToast.toast(error.message, {
 							variant: "danger",
 							solid: true,
-						});
-						return;
-					});
-			};
+						})
+						return
+					})
+			}
 
 			const toggleStatus = function (id) {
 				store
@@ -201,17 +201,17 @@
 						this.$bvToast.toast(response.data.message, {
 							variant: "success",
 							solid: true,
-						});
-						refetchData();
+						})
+						refetchData()
 					})
 					.catch((error) => {
 						this.$bvToast.toast(error.message, {
 							variant: "danger",
 							solid: true,
-						});
-						return;
-					});
-			};
+						})
+						return
+					})
+			}
 
 			return {
 				// Sidebar
@@ -244,9 +244,9 @@
 				yearFilter,
 
 				$courseStatus,
-			};
+			}
 		},
-	};
+	}
 </script>
 
 <style lang="scss" scoped>

@@ -14,7 +14,7 @@
 			<!-- First Row -->
 			<subscriber-view-subscriber-info-card :subscriber-data="subscriberData" />
 
-			<subscriber-view-subscriber-timeline-card :subscriber-data="subscriberData" />
+			<!-- <subscriber-view-subscriber-timeline-card :subscriber-data="subscriberData" /> -->
 
 			<subscriber-enrolled-courses />
 		</template>
@@ -22,14 +22,14 @@
 </template>
 
 <script>
-	import store from "@/store";
-	import router from "@/router";
-	import { ref, onUnmounted } from "@vue/composition-api";
-	import { BRow, BCol, BAlert, BLink } from "bootstrap-vue";
-	import SubscriberEnrolledCourses from "./SubscriberEnrolledCourses.vue";
-	import subscriberStoreModule from "../subscriberStoreModule";
-	import SubscriberViewSubscriberInfoCard from "./SubscriberViewSubscriberInfoCard.vue";
-	import SubscriberViewSubscriberTimelineCard from "./SubscriberViewSubscriberTimelineCard.vue";
+	import store from "@/store"
+	import router from "@/router"
+	import { ref, onUnmounted } from "@vue/composition-api"
+	import { BRow, BCol, BAlert, BLink } from "bootstrap-vue"
+	import SubscriberEnrolledCourses from "./SubscriberEnrolledCourses.vue"
+	import subscriberStoreModule from "../subscriberStoreModule"
+	import SubscriberViewSubscriberInfoCard from "./SubscriberViewSubscriberInfoCard.vue"
+	import SubscriberViewSubscriberTimelineCard from "./SubscriberViewSubscriberTimelineCard.vue"
 
 	export default {
 		components: {
@@ -45,34 +45,34 @@
 			SubscriberEnrolledCourses,
 		},
 		setup() {
-			const subscriberData = ref(null);
+			const subscriberData = ref(null)
 
-			const SUBSCRIBER_APP_STORE_MODULE_NAME = "app-subscriber";
+			const SUBSCRIBER_APP_STORE_MODULE_NAME = "app-subscriber"
 
 			// Register module
-			if (!store.hasModule(SUBSCRIBER_APP_STORE_MODULE_NAME)) store.registerModule(SUBSCRIBER_APP_STORE_MODULE_NAME, subscriberStoreModule);
+			if (!store.hasModule(SUBSCRIBER_APP_STORE_MODULE_NAME)) store.registerModule(SUBSCRIBER_APP_STORE_MODULE_NAME, subscriberStoreModule)
 
 			// UnRegister on leave
 			onUnmounted(() => {
-				if (store.hasModule(SUBSCRIBER_APP_STORE_MODULE_NAME)) store.unregisterModule(SUBSCRIBER_APP_STORE_MODULE_NAME);
-			});
+				if (store.hasModule(SUBSCRIBER_APP_STORE_MODULE_NAME)) store.unregisterModule(SUBSCRIBER_APP_STORE_MODULE_NAME)
+			})
 
 			store
 				.dispatch("app-subscriber/fetchSubscriber", { id: router.currentRoute.params.id })
 				.then((response) => {
-					subscriberData.value = response.data;
+					subscriberData.value = response.data
 				})
 				.catch((error) => {
 					if (error.response.status === 404) {
-						subscriberData.value = undefined;
+						subscriberData.value = undefined
 					}
-				});
+				})
 
 			return {
 				subscriberData,
-			};
+			}
 		},
-	};
+	}
 </script>
 
 <style></style>

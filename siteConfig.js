@@ -1,5 +1,5 @@
-import i18n from "@/libs/i18n";
-import { ssrCompile, ssrCompileToFunctions } from "vue-template-compiler";
+import i18n from "@/libs/i18n"
+import { ssrCompile, ssrCompileToFunctions } from "vue-template-compiler"
 
 export const $countries = [
 	{ label: i18n.t("Saudi Arabia"), value: 0 },
@@ -45,7 +45,7 @@ export const $countries = [
 	{ label: i18n.t("Sudan"), value: 40 },
 	{ label: i18n.t("Tunisia"), value: 41 },
 	{ label: i18n.t("United Arab Emirates"), value: 42 },
-];
+]
 
 export const $cities = {
 	"Saudi Arabia": [
@@ -652,7 +652,7 @@ export const $cities = {
 		{ label: i18n.t("Ras alKhaimah"), value: 8 },
 		{ label: i18n.t("Sharjah"), value: 9 },
 	],
-};
+}
 
 export const $mobileCodes = [
 	{ label: "+93", value: "93" },
@@ -883,12 +883,12 @@ export const $mobileCodes = [
 	{ label: "+967", value: "967" },
 	{ label: "+260", value: "260" },
 	{ label: "+263", value: "263" },
-];
+]
 
 export const $status = [
 	{ text: i18n.t("Inactive"), value: 0 },
 	{ text: i18n.t("Active"), value: 1 },
-];
+]
 
 export const $courseStatus = [
 	{ text: i18n.t("Hidden"), value: 0 },
@@ -897,22 +897,22 @@ export const $courseStatus = [
 	{ text: i18n.t("Postponed"), value: 3 },
 	{ text: i18n.t("Full"), value: 4 },
 	{ text: i18n.t("Private"), value: 5 },
-];
+]
 
 export const $updateRequestsOptions = [
 	{ text: i18n.t("Needs update"), value: 0 },
 	{ text: i18n.t("Updated"), value: 1 },
-];
+]
 
 export const $genders = [
 	{ text: i18n.t("Male"), value: 0 },
 	{ text: i18n.t("Female"), value: 1 },
-];
+]
 
 export const $languages = [
 	{ label: i18n.t("Arabic"), value: 0 },
 	{ label: i18n.t("English"), value: 1 },
-];
+]
 
 export const $layouts = [
 	{ label: i18n.t("A4 landscape"), value: 0 },
@@ -921,7 +921,7 @@ export const $layouts = [
 	{ label: i18n.t("Letter portrait"), value: 3 },
 	{ label: i18n.t("A3 landscape"), value: 4 },
 	{ label: i18n.t("A3 portrait"), value: 5 },
-];
+]
 
 export const $days = [
 	{ label: i18n.t("Saturday"), value: 1 },
@@ -931,21 +931,21 @@ export const $days = [
 	{ label: i18n.t("Wednesday"), value: 5 },
 	{ label: i18n.t("Thursday"), value: 6 },
 	{ label: i18n.t("Friday"), value: 7 },
-];
+]
 
 export const $packages = [
 	// Also called prices
 	{ label: i18n.t("Free"), value: 0 },
 	{ label: i18n.t("All paid"), value: 1 },
 	{ label: i18n.t("Paid certificate"), value: 2 },
-];
+]
 
 // Members
 export const $membershipTypes = [
 	{ label: i18n.t("Full time"), value: 0 },
 	{ label: i18n.t("Part time"), value: 1 },
 	{ label: i18n.t("Affiliated"), value: 2 },
-];
+]
 // Members
 export const $membershipStatus = [
 	{ label: i18n.t("Waiting branch approval"), value: 0 },
@@ -953,24 +953,29 @@ export const $membershipStatus = [
 	{ label: i18n.t("Refused"), value: 2 },
 	{ label: i18n.t("Waiting to pay"), value: 3 },
 	{ label: i18n.t("Active"), value: 4 },
-];
+]
 
 export const $invoiceStatus = [
 	{ label: i18n.t("Unpaid"), value: 0 },
 	{ label: i18n.t("Paid"), value: 1 },
-];
+]
 export const $newspaperTypes = [
 	{ label: i18n.t("Printed newspaper"), value: 0 },
 	{ label: i18n.t("E-newspaper"), value: 1 },
-];
+]
 export const $levels = [
 	{ label: i18n.t("Fair"), value: 0 },
 	{ label: i18n.t("Good"), value: 1 },
 	{ label: i18n.t("Very good"), value: 2 },
 	{ label: i18n.t("Excelent"), value: 3 },
-];
+]
 
 export const $serviceProviders = [
 	{ label: "hisms.ws", value: 0 },
 	{ label: "mobily.ws", value: 1 },
-];
+]
+
+export const $courseAttendance = [
+	{ label: i18n.t("Unpassed"), value: 0 },
+	{ label: i18n.t("Passed"), value: 1 },
+]
