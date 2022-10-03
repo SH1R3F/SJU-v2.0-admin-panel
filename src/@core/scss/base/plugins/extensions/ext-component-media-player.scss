@@ -2,20 +2,20 @@
 //  File Name: ext-component-media-player.scss
 //  Description: Media Player SCSS.
 //  ----------------------------------------------------------------------------------------------
-//  Item Name: Vuexy  - Vuejs, HTML & Laravel Admin Dashboard Template
+//  Item Name: SJU  - Vuejs, HTML & Laravel Admin Dashboard Template
 //  Author: PIXINVENT
 //  Author URL: http://www.themeforest.net/user/pixinvent
 // ================================================================================================
 
 // to remove outline on focus
 .audio-player {
-  &:focus {
-    outline: 0;
-  }
+	&:focus {
+		outline: 0;
+	}
 }
 .plyr__controls {
-  justify-content: flex-start;
+	justify-content: flex-start;
 }
 .plyr__progress {
-  flex-grow: 1;
+	flex-grow: 1;
 }

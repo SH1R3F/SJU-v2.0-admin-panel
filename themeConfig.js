@@ -1,4 +1,7 @@
 // Theme Colors
+
+import i18n from "@/libs/i18n";
+
 // Initially this will be blank. Later on when app is initialized we will assign bootstrap colors to this from CSS variables.
 export const $themeColors = {};
 
@@ -9,7 +12,7 @@ export const $themeBreakpoints = {};
 // APP CONFIG
 export const $themeConfig = {
 	app: {
-		appName: "Vuexy", // Will update name in navigation menu (Branding)
+		appName: i18n.t("Dashboard"), // Will update name in navigation menu (Branding)
 		// eslint-disable-next-line global-require
 		appLogoImage: require("@/assets/images/logo/site-logo.png"), // Will update logo in navigation menu (Branding)
 	},

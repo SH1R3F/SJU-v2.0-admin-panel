@@ -1,16 +1,17 @@
 export default [
 	{
 		title: "Upload center",
-		route: "apps-email",
 		icon: "UploadCloudIcon",
 		children: [
 			{
 				title: "Options",
-				route: "apps-email",
+				resource: "uploadcenter",
+				action: "manage",
 			},
 			{
 				title: "Upload center",
-				route: { name: "apps-invoice-preview", params: { id: 4987 } },
+				resource: "uploadcenter",
+				action: "manage",
 			},
 		],
 	},

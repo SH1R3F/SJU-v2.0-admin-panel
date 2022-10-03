@@ -969,3 +969,8 @@ export const $levels = [
 	{ label: i18n.t("Very good"), value: 2 },
 	{ label: i18n.t("Excelent"), value: 3 },
 ];
+
+export const $serviceProviders = [
+	{ label: "hisms.ws", value: 0 },
+	{ label: "mobily.ws", value: 1 },
+];

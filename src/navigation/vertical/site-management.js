@@ -1,7 +1,6 @@
 export default [
 	{
 		title: "Site management",
-		route: "apps-email",
 		icon: "ToolIcon",
 		children: [
 			{
@@ -9,33 +8,40 @@ export default [
 				children: [
 					{
 						title: "Options",
-						route: "apps-invoice-list",
+						resource: "settings",
+						action: "manage",
 					},
 					{
 						title: "Tags",
-						route: "apps-invoice-list",
+						resource: "settings",
+						action: "manage",
 					},
 					{
 						title: "News categories",
-						route: "apps-invoice-list",
+						resource: "settings",
+						action: "manage",
 					},
 				],
 			},
 			{
 				title: "Menus",
-				route: { name: "apps-invoice-preview", params: { id: 4987 } },
+				resource: "menu",
+				action: "read",
 			},
 			{
 				title: "Pages",
-				route: { name: "apps-invoice-edit", params: { id: 4987 } },
+				resource: "page",
+				action: "read",
 			},
 			{
 				title: "News",
-				route: { name: "apps-invoice-preview", params: { id: 4987 } },
+				resource: "new",
+				action: "read",
 			},
 			{
 				title: "Ads",
-				route: { name: "apps-invoice-preview", params: { id: 4987 } },
+				resource: "ad",
+				action: "read",
 			},
 		],
 	},

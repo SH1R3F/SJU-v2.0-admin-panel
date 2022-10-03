@@ -1,20 +1,22 @@
 export default [
 	{
 		title: "Technical support",
-		route: "apps-email",
 		icon: "HeadphonesIcon",
 		children: [
 			{
 				title: "Members",
-				route: "apps-email",
+				resource: "membersupport",
+				action: "manage",
 			},
 			{
 				title: "Subscribers",
-				route: { name: "apps-invoice-preview", params: { id: 4987 } },
+				resource: "subscribersupport",
+				action: "manage",
 			},
 			{
 				title: "Volunteers",
-				route: { name: "apps-invoice-preview", params: { id: 4987 } },
+				resource: "volunteersupport",
+				action: "manage",
 			},
 		],
 	},

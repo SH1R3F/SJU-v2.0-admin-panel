@@ -1,7 +1,6 @@
 export default [
 	{
 		title: "Members",
-		route: "apps-email",
 		icon: "UsersIcon",
 		children: [
 			// {
@@ -15,7 +14,9 @@ export default [
 			// },
 			{
 				title: "All members",
-				route: { name: "all-members" },
+				route: "all-members",
+				resource: "member",
+				action: "read",
 			},
 			{
 				title: "Branch acceptance",
@@ -23,20 +24,28 @@ export default [
 					{
 						title: "Awaiting",
 						route: "branch-waiting-members",
+						resource: "member",
+						action: "read",
 					},
 					{
 						title: "Accepted",
 						route: "branch-accepted-members",
+						resource: "member",
+						action: "read",
 					},
 				],
 			},
 			{
 				title: "Awaiting",
-				route: { name: "waiting-members" },
+				route: "waiting-members",
+				resource: "member",
+				action: "read",
 			},
 			{
 				title: "Refused members",
-				route: { name: "refused-members" },
+				route: "refused-members",
+				resource: "member",
+				action: "read",
 			},
 		],
 	},
@@ -46,26 +55,33 @@ export default [
 		children: [
 			{
 				title: "Active subscribers",
-				route: { name: "active-subscribers" },
+				route: "active-subscribers",
+				resource: "subscriber",
+				action: "read",
 			},
 			{
 				title: "Awaiting activation",
-				route: { name: "inactive-subscribers" },
+				route: "inactive-subscribers",
+				resource: "subscriber",
+				action: "read",
 			},
 		],
 	},
 	{
 		title: "Volunteers",
-		route: "active-volunteers",
 		icon: "UserCheckIcon",
 		children: [
 			{
 				title: "Activated",
-				route: { name: "active-volunteers", params: { id: 4987 } },
+				route: "active-volunteers",
+				resource: "volunteer",
+				action: "read",
 			},
 			{
 				title: "Awaiting activation",
-				route: { name: "inactive-volunteers", params: { id: 4987 } },
+				route: "inactive-volunteers",
+				resource: "volunteer",
+				action: "read",
 			},
 		],
 	},

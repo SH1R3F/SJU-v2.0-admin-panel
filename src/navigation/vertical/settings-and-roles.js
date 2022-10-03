@@ -1,20 +1,25 @@
 export default [
 	{
 		title: "Settings",
-		route: "apps-email",
 		icon: "SettingsIcon",
 		children: [
 			{
 				title: "Site Options",
-				route: "apps-invoice-list",
+				route: "site-options",
+				resource: "options",
+				action: "manage",
 			},
 			{
 				title: "Roles & Permissions",
-				route: { name: "apps-invoice-preview", params: { id: 4987 } },
+				route: "app-roles",
+				resource: "roles",
+				action: "manage",
 			},
 			{
 				title: "Moderators",
-				route: { name: "apps-invoice-edit", params: { id: 4987 } },
+				route: "app-moderators",
+				resource: "moderator",
+				action: "read",
 			},
 		],
 	},

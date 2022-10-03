@@ -61,8 +61,8 @@
 
 					<!-- Email -->
 					<validation-provider #default="validationContext" name="email" rules="required|email">
-						<b-form-group :label="$t('Email')" label-for="email">
-							<b-form-input id="email" v-model="volunteerData.email" :state="getValidationState(validationContext)" trim />
+						<b-form-group :label="$t('Email')" label-for="vemail">
+							<b-form-input id="vemail" v-model="volunteerData.email" :state="getValidationState(validationContext)" trim />
 							<b-form-invalid-feedback>
 								{{ validationContext.errors[0] }}
 							</b-form-invalid-feedback>
@@ -80,7 +80,7 @@
 					</validation-provider>
 
 					<!-- Mobile -->
-					<b-form-group :label="$t('Mobile')" label-for="mobile">
+					<b-form-group :label="$t('Mobile')" label-for="vmobile">
 						<b-input-group>
 							<b-input-group-prepend>
 								<validation-provider #default="validationContext" vid="mobile_key" :name="$t('Mobile key')" rules="required">
@@ -92,7 +92,7 @@
 							</b-input-group-prepend>
 
 							<validation-provider #default="validationContext" vid="mobile" :name="$t('Mobile')" rules="required" style="flex: 1">
-								<b-form-input :placeholder="$t('Mobile')" id="mobile" v-model="volunteerData.mobile" :state="getValidationState(validationContext)" trim />
+								<b-form-input :placeholder="$t('Mobile')" id="vmobile" v-model="volunteerData.mobile" :state="getValidationState(validationContext)" trim />
 								<b-form-invalid-feedback>
 									{{ validationContext.errors[0] }}
 								</b-form-invalid-feedback>

@@ -437,7 +437,6 @@
 						router.push({ name: "all-members" });
 					})
 					.catch((error) => {
-						console.log(error);
 						if (error.response.status === 400) {
 							// Set errors
 							refFormObserver.value.setErrors(error.response.data);

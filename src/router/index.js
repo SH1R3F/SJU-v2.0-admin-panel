@@ -8,6 +8,7 @@ import apps from "./routes/apps";
 import dashboard from "./routes/dashboard";
 import uiElements from "./routes/ui-elements/index";
 import pages from "./routes/pages";
+import auth from "./routes/auth";
 import chartsMaps from "./routes/charts-maps";
 import formsTable from "./routes/forms-tables";
 import others from "./routes/others";
@@ -26,9 +27,10 @@ const router = new VueRouter({
 		...apps,
 		...dashboard,
 		...pages,
-		...chartsMaps,
-		...formsTable,
-		...uiElements,
+		...auth,
+		// ...chartsMaps,
+		// ...formsTable,
+		// ...uiElements,
 		...others,
 		{
 			path: "*",
@@ -45,7 +47,7 @@ router.beforeEach((to, _, next) => {
 		if (!isLoggedIn) return next({ name: "auth-login" });
 
 		// If logged in => not authorized
-		return next({ name: "misc-not-authorized" });
+		return next({ name: "not-authorized" });
 	}
 
 	// Redirect if logged in

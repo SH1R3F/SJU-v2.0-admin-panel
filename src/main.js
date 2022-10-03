@@ -11,7 +11,6 @@ import App from "./App.vue";
 import "./global-components";
 
 // 3rd party plugins
-import axios from "@axios";
 import "@/libs/acl";
 import "@/libs/portal-vue";
 import "@/libs/clipboard";
@@ -26,10 +25,6 @@ import "@/@fake-db/db";
 // Localizing validation
 import { localize } from "vee-validate";
 localize(locale);
-
-// Axios base url
-axios.defaults.baseURL = process.env.VUE_APP_API_BASEURL;
-axios.defaults.headers.common["Accept-Language"] = i18n.locale;
 
 // BSV Plugin Registration
 Vue.use(ToastPlugin);
@@ -53,6 +48,7 @@ require("@core/scss/core.scss");
 require("@/assets/scss/style.scss");
 
 Vue.config.productionTip = process.env.VUE_APP_ENV === "production";
+Vue.prototype.$siteName = i18n.t(process.env.VUE_APP_SITE_NAME);
 
 // Global mixin to localize db values
 import { LocaizingDBvalues } from "@core/mixins/ui/localization";
