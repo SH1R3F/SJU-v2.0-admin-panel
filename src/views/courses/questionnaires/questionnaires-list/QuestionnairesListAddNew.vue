@@ -1,5 +1,5 @@
 <template>
-	<b-sidebar id="add-new-questionnaire-sidebar" :visible="isAddNewQuestionnaireSidebarActive" bg-variant="white" sidebar-class="sidebar-lg" shadow backdrop no-header right @hidden="resetForm" @change="(val) => $emit('update:is-add-new-user-sidebar-active', val)">
+	<b-sidebar id="add-new-questionnaire-sidebar" :visible="isAddNewQuestionnaireSidebarActive" bg-variant="white" sidebar-class="sidebar-lg" shadow backdrop no-header right @hidden="resetForm" @change="(val) => $emit('update:is-add-new-questionnaire-sidebar-active', val)">
 		<template #default="{ hide }">
 			<!-- Header -->
 			<div class="d-flex justify-content-between align-items-center content-sidebar-header px-2 py-1">
@@ -44,17 +44,17 @@
 </template>
 
 <script>
-	import { BSidebar, BFormFile, BForm, BFormGroup, BFormInput, BInputGroup, BInputGroupPrepend, BFormInvalidFeedback, BFormRadioGroup, BButton } from "bootstrap-vue";
-	import { ValidationProvider, ValidationObserver } from "vee-validate";
-	import { onUnmounted, ref } from "@vue/composition-api";
-	import { required } from "@validations";
-	import formValidation from "@core/comp-functions/forms/form-validation";
-	import Ripple from "vue-ripple-directive";
-	import vSelect from "vue-select";
-	import store from "@/store";
-	import { $languages, $layouts } from "@siteConfig";
-	import questionnaireStoreModule from "../questionnaireStoreModule";
-	import { useInputImageRenderer } from "@core/comp-functions/forms/form-utils";
+	import { BSidebar, BFormFile, BForm, BFormGroup, BFormInput, BInputGroup, BInputGroupPrepend, BFormInvalidFeedback, BFormRadioGroup, BButton } from "bootstrap-vue"
+	import { ValidationProvider, ValidationObserver } from "vee-validate"
+	import { onUnmounted, ref } from "@vue/composition-api"
+	import { required } from "@validations"
+	import formValidation from "@core/comp-functions/forms/form-validation"
+	import Ripple from "vue-ripple-directive"
+	import vSelect from "vue-select"
+	import store from "@/store"
+	import { $languages, $layouts } from "@siteConfig"
+	import questionnaireStoreModule from "../questionnaireStoreModule"
+	import { useInputImageRenderer } from "@core/comp-functions/forms/form-utils"
 
 	export default {
 		components: {
@@ -89,43 +89,43 @@
 		data() {
 			return {
 				required,
-			};
+			}
 		},
 		setup(props, { emit }) {
 			// Module configurations
-			const COURSE_QUESTIONNAIRE_STORE_MODULE_NAME = "course-questionnaire";
-			if (!store.hasModule(COURSE_QUESTIONNAIRE_STORE_MODULE_NAME)) store.registerModule(COURSE_QUESTIONNAIRE_STORE_MODULE_NAME, questionnaireStoreModule);
+			const COURSE_QUESTIONNAIRE_STORE_MODULE_NAME = "course-questionnaire"
+			if (!store.hasModule(COURSE_QUESTIONNAIRE_STORE_MODULE_NAME)) store.registerModule(COURSE_QUESTIONNAIRE_STORE_MODULE_NAME, questionnaireStoreModule)
 			onUnmounted(() => {
-				if (store.hasModule(COURSE_QUESTIONNAIRE_STORE_MODULE_NAME)) store.unregisterModule(COURSE_QUESTIONNAIRE_STORE_MODULE_NAME);
-			});
+				if (store.hasModule(COURSE_QUESTIONNAIRE_STORE_MODULE_NAME)) store.unregisterModule(COURSE_QUESTIONNAIRE_STORE_MODULE_NAME)
+			})
 
-			const fileToBeUploaded = ref(null);
+			const fileToBeUploaded = ref(null)
 			const blankquestionnaireData = {
 				name_ar: "",
 				name_en: "",
-			};
+			}
 
-			const questionnaireData = ref(JSON.parse(JSON.stringify(blankquestionnaireData)));
+			const questionnaireData = ref(JSON.parse(JSON.stringify(blankquestionnaireData)))
 			const resetquestionnaireData = () => {
-				questionnaireData.value = JSON.parse(JSON.stringify(blankquestionnaireData));
-			};
+				questionnaireData.value = JSON.parse(JSON.stringify(blankquestionnaireData))
+			}
 
 			const onSubmit = () => {
 				store
 					.dispatch("course-questionnaire/addQuestionnaire", questionnaireData.value)
 					.then(() => {
-						emit("refetch-data");
-						emit("update:is-add-new-questionnaire-sidebar-active", false);
+						emit("refetch-data")
+						emit("update:is-add-new-questionnaire-sidebar-active", false)
 					})
 					.catch((error) => {
 						if (error.response.status === 400) {
 							// Set errors
-							refFormObserver.value.setErrors(error.response.data);
+							refFormObserver.value.setErrors(error.response.data)
 						}
-					});
-			};
+					})
+			}
 
-			const { refFormObserver, getValidationState, resetForm } = formValidation(resetquestionnaireData);
+			const { refFormObserver, getValidationState, resetForm } = formValidation(resetquestionnaireData)
 
 			return {
 				questionnaireData,
@@ -136,9 +136,9 @@
 				$languages,
 				$layouts,
 				fileToBeUploaded,
-			};
+			}
 		},
-	};
+	}
 </script>
 
 <style lang="scss">

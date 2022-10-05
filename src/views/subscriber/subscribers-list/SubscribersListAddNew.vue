@@ -1,5 +1,5 @@
 <template>
-	<b-sidebar id="add-new-subscriber-sidebar" :visible="isAddNewSubscriberSidebarActive" bg-variant="white" sidebar-class="sidebar-lg" shadow backdrop no-header right @hidden="resetForm" @change="(val) => $emit('update:is-add-new-user-sidebar-active', val)">
+	<b-sidebar id="add-new-subscriber-sidebar" :visible="isAddNewSubscriberSidebarActive" bg-variant="white" sidebar-class="sidebar-lg" shadow backdrop no-header right @hidden="resetForm" @change="(val) => $emit('update:is-add-new-subscriber-sidebar-active', val)">
 		<template #default="{ hide }">
 			<!-- Header -->
 			<div class="d-flex justify-content-between align-items-center content-sidebar-header px-2 py-1">
@@ -142,17 +142,17 @@
 </template>
 
 <script>
-	import { BSidebar, BForm, BFormGroup, BFormInput, BInputGroup, BInputGroupPrepend, BFormInvalidFeedback, BFormRadioGroup, BButton } from "bootstrap-vue";
-	import { ValidationProvider, ValidationObserver } from "vee-validate";
-	import { onUnmounted, ref } from "@vue/composition-api";
-	import { required, alphaNum, email } from "@validations";
-	import formValidation from "@core/comp-functions/forms/form-validation";
-	import Ripple from "vue-ripple-directive";
-	import vSelect from "vue-select";
-	import countries from "@/@fake-db/data/other/countries";
-	import store from "@/store";
-	import { $genders, $mobileCodes, $countries, $cities } from "@siteConfig";
-	import subscriberStoreModule from "../subscriberStoreModule";
+	import { BSidebar, BForm, BFormGroup, BFormInput, BInputGroup, BInputGroupPrepend, BFormInvalidFeedback, BFormRadioGroup, BButton } from "bootstrap-vue"
+	import { ValidationProvider, ValidationObserver } from "vee-validate"
+	import { onUnmounted, ref } from "@vue/composition-api"
+	import { required, alphaNum, email } from "@validations"
+	import formValidation from "@core/comp-functions/forms/form-validation"
+	import Ripple from "vue-ripple-directive"
+	import vSelect from "vue-select"
+	import countries from "@/@fake-db/data/other/countries"
+	import store from "@/store"
+	import { $genders, $mobileCodes, $countries, $cities } from "@siteConfig"
+	import subscriberStoreModule from "../subscriberStoreModule"
 
 	export default {
 		components: {
@@ -189,15 +189,15 @@
 				alphaNum,
 				email,
 				countries,
-			};
+			}
 		},
 		setup(props, { emit }) {
 			// Module configurations
-			const SUBSCRIBER_APP_STORE_MODULE_NAME = "app-subscriber";
-			if (!store.hasModule(SUBSCRIBER_APP_STORE_MODULE_NAME)) store.registerModule(SUBSCRIBER_APP_STORE_MODULE_NAME, subscriberStoreModule);
+			const SUBSCRIBER_APP_STORE_MODULE_NAME = "app-subscriber"
+			if (!store.hasModule(SUBSCRIBER_APP_STORE_MODULE_NAME)) store.registerModule(SUBSCRIBER_APP_STORE_MODULE_NAME, subscriberStoreModule)
 			onUnmounted(() => {
-				if (store.hasModule(SUBSCRIBER_APP_STORE_MODULE_NAME)) store.unregisterModule(SUBSCRIBER_APP_STORE_MODULE_NAME);
-			});
+				if (store.hasModule(SUBSCRIBER_APP_STORE_MODULE_NAME)) store.unregisterModule(SUBSCRIBER_APP_STORE_MODULE_NAME)
+			})
 
 			const blankSubscriberData = {
 				fname_ar: "",
@@ -212,29 +212,29 @@
 				country: "",
 				city: "",
 				nationality: "",
-			};
+			}
 
-			const subscriberData = ref(JSON.parse(JSON.stringify(blankSubscriberData)));
+			const subscriberData = ref(JSON.parse(JSON.stringify(blankSubscriberData)))
 			const resetsubscriberData = () => {
-				subscriberData.value = JSON.parse(JSON.stringify(blankSubscriberData));
-			};
+				subscriberData.value = JSON.parse(JSON.stringify(blankSubscriberData))
+			}
 
 			const onSubmit = () => {
 				store
 					.dispatch("app-subscriber/addSubscriber", subscriberData.value)
 					.then(() => {
-						emit("refetch-data");
-						emit("update:is-add-new-subscriber-sidebar-active", false);
+						emit("refetch-data")
+						emit("update:is-add-new-subscriber-sidebar-active", false)
 					})
 					.catch((error) => {
 						if (error.response.status === 400) {
 							// Set errors
-							refFormObserver.value.setErrors(error.response.data);
+							refFormObserver.value.setErrors(error.response.data)
 						}
-					});
-			};
+					})
+			}
 
-			const { refFormObserver, getValidationState, resetForm } = formValidation(resetsubscriberData);
+			const { refFormObserver, getValidationState, resetForm } = formValidation(resetsubscriberData)
 
 			return {
 				subscriberData,
@@ -246,9 +246,9 @@
 				$mobileCodes,
 				$countries,
 				$cities,
-			};
+			}
 		},
-	};
+	}
 </script>
 
 <style lang="scss">

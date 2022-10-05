@@ -54,7 +54,7 @@
 				<!-- Message Input -->
 				<b-form class="chat-app-form" @submit.prevent="sendMessage">
 					<b-input-group class="input-group-merge form-send-message mr-1">
-						<b-form-input v-model="chatInputMessage" :placeholder="$t('Enter your message...')" />
+						<b-form-input v-model="chatInputMessage" :placeholder="$t('Enter your message...')" accept="image/*" />
 					</b-input-group>
 					<span class="mr-1 cursor-pointer rounded" :class="{ 'bg-light-primary': chatInputAttachment }" style="padding: 3px">
 						<input ref="refInputEl" type="file" class="d-none" @input="inputImageRenderer" />

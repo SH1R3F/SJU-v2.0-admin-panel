@@ -1,5 +1,5 @@
 <template>
-	<b-sidebar id="add-new-naming-sidebar" :visible="isAddNewNamingSidebarActive" bg-variant="white" sidebar-class="sidebar-lg" shadow backdrop no-header right @hidden="resetForm" @change="(val) => $emit('update:is-add-new-user-sidebar-active', val)">
+	<b-sidebar id="add-new-naming-sidebar" :visible="isAddNewNamingSidebarActive" bg-variant="white" sidebar-class="sidebar-lg" shadow backdrop no-header right @hidden="resetForm" @change="(val) => $emit('update:is-add-new-naming-sidebar-active', val)">
 		<template #default="{ hide }">
 			<!-- Header -->
 			<div class="d-flex justify-content-between align-items-center content-sidebar-header px-2 py-1">
@@ -74,18 +74,18 @@
 </template>
 
 <script>
-	import { BSidebar, BFormFile, BForm, BFormGroup, BFormInput, BInputGroup, BInputGroupPrepend, BFormInvalidFeedback, BFormRadioGroup, BButton } from "bootstrap-vue";
-	import { ValidationProvider, ValidationObserver } from "vee-validate";
-	import { onUnmounted, ref } from "@vue/composition-api";
-	import { required, min } from "@validations";
-	import formValidation from "@core/comp-functions/forms/form-validation";
-	import Ripple from "vue-ripple-directive";
-	import vSelect from "vue-select";
-	import countries from "@/@fake-db/data/other/countries";
-	import store from "@/store";
-	import { $genders, $mobileCodes, $countries, $cities } from "@siteConfig";
-	import namingStoreModule from "../namingStoreModule";
-	import { useInputImageRenderer } from "@core/comp-functions/forms/form-utils";
+	import { BSidebar, BFormFile, BForm, BFormGroup, BFormInput, BInputGroup, BInputGroupPrepend, BFormInvalidFeedback, BFormRadioGroup, BButton } from "bootstrap-vue"
+	import { ValidationProvider, ValidationObserver } from "vee-validate"
+	import { onUnmounted, ref } from "@vue/composition-api"
+	import { required, min } from "@validations"
+	import formValidation from "@core/comp-functions/forms/form-validation"
+	import Ripple from "vue-ripple-directive"
+	import vSelect from "vue-select"
+	import countries from "@/@fake-db/data/other/countries"
+	import store from "@/store"
+	import { $genders, $mobileCodes, $countries, $cities } from "@siteConfig"
+	import namingStoreModule from "../namingStoreModule"
+	import { useInputImageRenderer } from "@core/comp-functions/forms/form-utils"
 
 	export default {
 		components: {
@@ -126,52 +126,51 @@
 				required,
 				min,
 				countries,
-			};
+			}
 		},
 		setup(props, { emit }) {
 			// Module configurations
-			const COURSE_NAMING_STORE_MODULE_NAME = "course-naming";
-			if (!store.hasModule(COURSE_NAMING_STORE_MODULE_NAME)) store.registerModule(COURSE_NAMING_STORE_MODULE_NAME, namingStoreModule);
+			const COURSE_NAMING_STORE_MODULE_NAME = "course-naming"
+			if (!store.hasModule(COURSE_NAMING_STORE_MODULE_NAME)) store.registerModule(COURSE_NAMING_STORE_MODULE_NAME, namingStoreModule)
 			onUnmounted(() => {
-				if (store.hasModule(COURSE_NAMING_STORE_MODULE_NAME)) store.unregisterModule(COURSE_NAMING_STORE_MODULE_NAME);
-			});
+				if (store.hasModule(COURSE_NAMING_STORE_MODULE_NAME)) store.unregisterModule(COURSE_NAMING_STORE_MODULE_NAME)
+			})
 
-			const refInputEl = ref(null);
+			const refInputEl = ref(null)
 			const blankNamingData = {
 				name_ar: "",
 				name_en: "",
 				description_ar: "",
 				description_en: "",
 				image: null,
-			};
+			}
 
-			const namingData = ref(JSON.parse(JSON.stringify(blankNamingData)));
+			const namingData = ref(JSON.parse(JSON.stringify(blankNamingData)))
 			const resetnamingData = () => {
-				namingData.value = JSON.parse(JSON.stringify(blankNamingData));
-			};
+				namingData.value = JSON.parse(JSON.stringify(blankNamingData))
+			}
 
 			const { inputImageRenderer } = useInputImageRenderer(refInputEl, (base64) => {
 				// eslint-disable-next-line no-param-reassign
-				// props.subscriberData.avatar = base64;
-				namingData.value.image = base64;
-			});
+				namingData.value.image = base64
+			})
 
 			const onSubmit = () => {
 				store
 					.dispatch("course-naming/addNaming", { naming: props.naming, namingData: namingData.value })
 					.then(() => {
-						emit("refetch-data");
-						emit("update:is-add-new-naming-sidebar-active", false);
+						emit("refetch-data")
+						emit("update:is-add-new-naming-sidebar-active", false)
 					})
 					.catch((error) => {
 						if (error.response.status === 400) {
 							// Set errors
-							refFormObserver.value.setErrors(error.response.data);
+							refFormObserver.value.setErrors(error.response.data)
 						}
-					});
-			};
+					})
+			}
 
-			const { refFormObserver, getValidationState, resetForm } = formValidation(resetnamingData);
+			const { refFormObserver, getValidationState, resetForm } = formValidation(resetnamingData)
 
 			return {
 				namingData,
@@ -185,9 +184,9 @@
 				$cities,
 				inputImageRenderer,
 				refInputEl,
-			};
+			}
 		},
-	};
+	}
 </script>
 
 <style lang="scss">

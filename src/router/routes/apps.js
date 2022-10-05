@@ -878,4 +878,12 @@ export default [
 			contentClass: "chat-application",
 		},
 	},
+	// *===============================================---*
+	// *--------------------- Studio ---------------------*
+	// *===============================================---*
+	{
+		path: "/studio",
+		name: "studio",
+		component: () => import("@/views/studio/StudioList.vue"),
+	},
 ]
