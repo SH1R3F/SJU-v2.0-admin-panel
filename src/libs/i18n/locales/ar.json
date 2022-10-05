@@ -144,7 +144,16 @@
 
 	"Upload center": "مركز التحميل",
 
+	"/================== Technical Support": "==================/",
 	"Technical support": "الدعم الفنـي",
+	"Choose a ticket to open chat": "إختر تذكرة لفتح المحادثة",
+	"Tickets": "التذاكر",
+	"Problem": "المشكلة",
+	"Enter your message...": "أكتب رسالتك...",
+	"Send": "إرسال",
+	"Close ticket": "غلق التذكرة",
+	"Reopen ticket": "إعادة فتح التذكرة",
+	"Delete ticket": "حذف التذكرة",
 
 	"Studio": "الاستوديو",
 	"Photos gallery": "مكتبة الصور",

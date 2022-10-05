@@ -803,7 +803,7 @@ export default [
 	},
 
 	// *===============================================---*
-	// *-------------- Courses Questionnaires -----------------*
+	// *-------------- Courses Questionnaires ------------*
 	// *===============================================---*
 	{
 		path: "/courses/questionnaires",
@@ -845,6 +845,37 @@ export default [
 					active: true,
 				},
 			],
+		},
+	},
+
+	// *===============================================---*
+	// *--------------- Technical Support ----------------*
+	// *===============================================---*
+	{
+		path: "/support/members",
+		name: "support-members",
+		component: () => import("@/views/technical_support/Chat.vue"),
+		meta: {
+			contentRenderer: "sidebar-left",
+			contentClass: "chat-application",
+		},
+	},
+	{
+		path: "/support/subscribers",
+		name: "support-subscribers",
+		component: () => import("@/views/technical_support/Chat.vue"),
+		meta: {
+			contentRenderer: "sidebar-left",
+			contentClass: "chat-application",
+		},
+	},
+	{
+		path: "/support/volunteers",
+		name: "support-volunteers",
+		component: () => import("@/views/technical_support/Chat.vue"),
+		meta: {
+			contentRenderer: "sidebar-left",
+			contentClass: "chat-application",
 		},
 	},
 ]
