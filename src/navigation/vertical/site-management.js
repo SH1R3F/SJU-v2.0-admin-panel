@@ -35,8 +35,9 @@ export default [
 				action: "read",
 			},
 			{
-				title: "News",
-				resource: "new",
+				title: "Blog posts",
+				route: "blog-posts",
+				resource: "post",
 				action: "read",
 			},
 			// {

@@ -885,6 +885,9 @@ export default [
 		path: "/studio",
 		name: "studio",
 		component: () => import("@/views/studio/StudioList.vue"),
+		meta: {
+			pageTitle: "Studio",
+		},
 	},
 	// *===============================================---*
 	// *---------------- Site management -----------------*
@@ -894,15 +897,103 @@ export default [
 		path: "/management/pages",
 		name: "site-pages",
 		component: () => import("@/views/site_pages/PagesList.vue"),
+		meta: {
+			pageTitle: "List pages",
+			breadcrumb: [
+				{
+					text: "Pages",
+				},
+				{
+					text: "List pages",
+					active: true,
+				},
+			],
+		},
 	},
 	{
 		path: "/management/pages/create",
 		name: "create-page",
 		component: () => import("@/views/site_pages/PagesForm.vue"),
+		meta: {
+			pageTitle: "Create page",
+			breadcrumb: [
+				{
+					text: "Pages",
+				},
+				{
+					text: "Create page",
+					active: true,
+				},
+			],
+		},
 	},
 	{
 		path: "/management/pages/edit/:id",
 		name: "edit-page",
 		component: () => import("@/views/site_pages/PagesForm.vue"),
+		meta: {
+			pageTitle: "Edit page",
+			breadcrumb: [
+				{
+					text: "Pages",
+				},
+				{
+					text: "Edit page",
+					active: true,
+				},
+			],
+		},
+	},
+	// Blog Posts
+	{
+		path: "/management/posts",
+		name: "blog-posts",
+		component: () => import("@/views/blog_posts/PostsList.vue"),
+		meta: {
+			pageTitle: "List posts",
+			breadcrumb: [
+				{
+					text: "Posts",
+				},
+				{
+					text: "List posts",
+					active: true,
+				},
+			],
+		},
+	},
+	{
+		path: "/management/posts/create",
+		name: "create-post",
+		component: () => import("@/views/blog_posts/PostsForm.vue"),
+		meta: {
+			pageTitle: "Create post",
+			breadcrumb: [
+				{
+					text: "Posts",
+				},
+				{
+					text: "Create post",
+					active: true,
+				},
+			],
+		},
+	},
+	{
+		path: "/management/posts/edit/:id",
+		name: "edit-post",
+		component: () => import("@/views/blog_posts/PostsForm.vue"),
+		meta: {
+			pageTitle: "Edit post",
+			breadcrumb: [
+				{
+					text: "Posts",
+				},
+				{
+					text: "Edit post",
+					active: true,
+				},
+			],
+		},
 	},
 ]
