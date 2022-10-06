@@ -1,7 +1,5 @@
 <template>
 	<div class="mb-2">
-		<templates-list-add-new :is-add-new-template-sidebar-active.sync="isAddNewTemplateSidebarActive" @refetch-data="refetchData" />
-
 		<!-- Table Container Card -->
 		<b-card class="mb-0">
 			<!-- Header of table -->
@@ -21,7 +19,7 @@
 							<b-form-input v-model="searchQuery" class="d-inline-block mr-1" :placeholder="$t('Search')" />
 
 							<!-- Add new -->
-							<b-button variant="primary" @click="isAddNewTemplateSidebarActive = true">
+							<b-button variant="primary" :to="{ name: 'create-page' }">
 								<span class="text-nowrap">{{ $t("Add") }}</span>
 							</b-button>
 						</div>
@@ -30,39 +28,27 @@
 			</div>
 			<!-- Header of table -->
 
-			<b-table ref="refTemplateListTable" class="position-relative" :fields="tableColumns" :items="fetchTemplates" responsive primary-key="id" :sort-by.sync="sortBy" show-empty :empty-text="$t('No matching records found')" :sort-desc.sync="isSortDirDesc">
+			<b-table ref="refPageListTable" class="position-relative" :fields="tableColumns" :items="fetchPages" responsive primary-key="id" :sort-by.sync="sortBy" show-empty :empty-text="$t('No matching records found')" :sort-desc.sync="isSortDirDesc">
 				<!-- Column: # -->
 				<template #cell(#)="data"> {{ (currentPage - 1) * perPage + (data.index + 1) }} </template>
 
-				<!-- Column: Name -->
-				<template #cell(name)="data">
-					<b-media vertical-align="center" class="align-items-center">
-						<template #aside>
-							<b-avatar size="32" :text="avatarText(data.item.name)" variant="light-success" :to="{ name: 'edit-template', params: { id: data.item.id } }" />
-						</template>
-						<b-link :to="{ name: 'edit-template', params: { id: data.item.id } }" class="font-weight-bold d-block text-nowrap">
-							{{ data.item.name }}
-						</b-link>
-					</b-media>
+				<!-- Column: Title -->
+				<template #cell(title)="data">
+					{{ dblocalize(data.item, "title") }}
 				</template>
 
-				<!-- Column: Language -->
-				<template #cell(language)="data">
-					{{ $languages[data.item.language]["label"] }}
-				</template>
-
-				<!-- Column: Layout -->
-				<template #cell(layout)="data">
-					{{ $layouts[data.item.layout]["label"] }}
+				<!-- Column: Content -->
+				<template #cell(slug)="data">
+					{{ data.item.slug }}
 				</template>
 
 				<!-- Column: Actions -->
 				<template #cell(actions)="data">
-					<b-button :title="$t('Edit')" :to="{ name: 'edit-template', params: { id: data.item.id } }" v-ripple.400="'rgba(255, 255, 255, 0.15)'" variant="info" class="btn-icon ml-1" size="sm">
+					<b-button :title="$t('Edit')" :to="{ name: 'edit-page', params: { id: data.item.id } }" v-ripple.400="'rgba(255, 255, 255, 0.15)'" variant="info" class="btn-icon ml-1" size="sm">
 						<feather-icon icon="EditIcon" />
 					</b-button>
 
-					<b-button :title="$t('Delete')" v-b-modal.modal-danger @click="toBeDeletedId = data.item.id" v-ripple.400="'rgba(255, 255, 255, 0.15)'" variant="danger" class="btn-icon mx-1" size="sm">
+					<b-button :title="$t('Delete')" v-b-modal.modal-danger @click="toBeDeletedId = data.item.id" v-ripple.400="'rgba(255, 255, 255, 0.15)'" variant="danger" class="btn-icon ml-1" size="sm">
 						<feather-icon icon="TrashIcon" />
 					</b-button>
 				</template>
@@ -76,7 +62,7 @@
 					</b-col>
 					<!-- Pagination -->
 					<b-col cols="12" sm="6" class="d-flex align-items-center justify-content-center justify-content-sm-end">
-						<b-pagination v-model="currentPage" :total-rows="totalTemplates" :per-page="perPage" first-number last-number class="mb-0 mt-1 mt-sm-0" prev-class="prev-item" next-class="next-item">
+						<b-pagination v-model="currentPage" :total-rows="totalPages" :per-page="perPage" first-number last-number class="mb-0 mt-1 mt-sm-0" prev-class="prev-item" next-class="next-item">
 							<template #prev-text>
 								<feather-icon icon="ChevronLeftIcon" size="18" />
 							</template>
@@ -89,29 +75,24 @@
 			</div>
 			<!-- Table footer -->
 		</b-card>
-		<!-- Modal for templates deletion -->
-		<b-modal id="modal-danger" ok-only ok-variant="danger" :ok-title="$t('Accept')" @ok="deleteTemplate" modal-class="modal-danger" centered :title="$t('Delete template?')">
-			<b-card-text>{{ $t("Are you sure you want to delete this template? You won't be able to undo this step and all template data will be delete with no way to retreive.") }}</b-card-text>
+		<!-- Modal for pages deletion -->
+		<b-modal id="modal-danger" ok-only ok-variant="danger" :ok-title="$t('Accept')" @ok="deletePage" modal-class="modal-danger" centered :title="$t('Delete page?')">
+			<b-card-text>{{ $t("Are you sure you want to delete this page? You won't be able to undo this step and all page data will be delete with no way to retreive.") }}</b-card-text>
 		</b-modal>
 	</div>
 </template>
 
 <script>
 	import { BCard, BRow, BCol, BFormInput, BButton, BTable, BMedia, BAvatar, BLink, BBadge, BDropdown, BDropdownItem, BPagination, BCardText } from "bootstrap-vue"
-	import vSelect from "vue-select"
 	import store from "@/store"
 	import { ref, onUnmounted } from "@vue/composition-api"
-	import { avatarText } from "@core/utils/filter"
-	import TemplatesListAddNew from "./TemplatesListAddNew.vue"
-	import useTemplatesList from "./useTemplatesList"
-	import templateStoreModule from "../templateStoreModule"
-	import { $languages, $layouts } from "@siteConfig"
+	import usePagesList from "./usePagesList"
+	import pageStoreModule from "./pageStoreModule"
 	import Ripple from "vue-ripple-directive"
+	import vSelect from "vue-select"
 
 	export default {
 		components: {
-			TemplatesListAddNew,
-
 			BCard,
 			BRow,
 			BCol,
@@ -125,32 +106,28 @@
 			BDropdown,
 			BDropdownItem,
 			BPagination,
-			vSelect,
 			BCardText,
 			Ripple,
+			vSelect,
 		},
 		directives: {
 			Ripple,
 		},
 		setup() {
-			const COURSE_TEMPLATE_STORE_MODULE_NAME = "course-template"
-
+			const SITE_PAGES_STORE_MODULE_NAME = "site-pages"
 			// Register module
-			if (!store.hasModule(COURSE_TEMPLATE_STORE_MODULE_NAME)) store.registerModule(COURSE_TEMPLATE_STORE_MODULE_NAME, templateStoreModule)
-
+			if (!store.hasModule(SITE_PAGES_STORE_MODULE_NAME)) store.registerModule(SITE_PAGES_STORE_MODULE_NAME, pageStoreModule)
 			// UnRegister on leave
 			onUnmounted(() => {
-				if (store.hasModule(COURSE_TEMPLATE_STORE_MODULE_NAME)) store.unregisterModule(COURSE_TEMPLATE_STORE_MODULE_NAME)
+				if (store.hasModule(SITE_PAGES_STORE_MODULE_NAME)) store.unregisterModule(SITE_PAGES_STORE_MODULE_NAME)
 			})
 
-			const isAddNewTemplateSidebarActive = ref(false)
-
-			const { tableColumns, fetchTemplates, perPage, currentPage, totalTemplates, dataMeta, perPageOptions, searchQuery, sortBy, isSortDirDesc, refTemplateListTable, refetchData } = useTemplatesList()
+			const { tableColumns, fetchPages, perPage, currentPage, totalPages, dataMeta, perPageOptions, searchQuery, sortBy, isSortDirDesc, refPageListTable, refetchData } = usePagesList()
 
 			const toBeDeletedId = ref(null)
-			const deleteTemplate = function () {
+			const deletePage = function () {
 				store
-					.dispatch("course-template/deleteTemplate", { id: toBeDeletedId.value })
+					.dispatch("site-pages/deletePage", { id: toBeDeletedId.value })
 					.then((response) => {
 						// Success message and update users
 						this.$bvToast.toast(response.data.message, {
@@ -169,29 +146,20 @@
 			}
 
 			return {
-				// Sidebar
-				isAddNewTemplateSidebarActive,
-
-				fetchTemplates,
-				deleteTemplate,
+				fetchPages,
+				deletePage,
 				toBeDeletedId,
 				tableColumns,
 				perPage,
 				currentPage,
-				totalTemplates,
+				totalPages,
 				dataMeta,
 				perPageOptions,
 				searchQuery,
 				sortBy,
 				isSortDirDesc,
-				refTemplateListTable,
+				refPageListTable,
 				refetchData,
-
-				// Filter
-				avatarText,
-
-				$languages,
-				$layouts,
 			}
 		},
 	}

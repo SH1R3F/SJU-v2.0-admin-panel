@@ -32,28 +32,28 @@ tagVariant
 */
 
 // Site dashboard => Analytics
-import dashboard from "./dashboard";
+import dashboard from "./dashboard"
 
 // Site settings, Roles, and Moderators
-import settingsAndRoles from "./settings-and-roles";
+import settingsAndRoles from "./settings-and-roles"
 
 // Members, Subs, Volunteers
-import allUserTypes from "./members-subs-volunteers";
+import allUserTypes from "./members-subs-volunteers"
 
 // Courses, Templates, And Questionnaires
-import courses from "./courses";
+import courses from "./courses"
 
 // Site management: Site options, menus, pages, news, ads
-import SiteManagement from "./site-management";
+import SiteManagement from "./site-management"
 
 // Upload Center
-import UploadCenter from "./upload-center";
+import UploadCenter from "./upload-center"
 
 // Technical support
-import TechnicalSupport from "./technical-support";
+import TechnicalSupport from "./technical-support"
 
 // Studio
-import Studio from "./studio";
+import Studio from "./studio"
 
 // Array of sections
 export default [
@@ -62,7 +62,7 @@ export default [
 	...allUserTypes,
 	...courses,
 	...SiteManagement,
-	...UploadCenter,
+	// ...UploadCenter,
 	...TechnicalSupport,
 	...Studio,
-];
+]

@@ -886,4 +886,23 @@ export default [
 		name: "studio",
 		component: () => import("@/views/studio/StudioList.vue"),
 	},
+	// *===============================================---*
+	// *---------------- Site management -----------------*
+	// *===============================================---*
+	// Pages
+	{
+		path: "/management/pages",
+		name: "site-pages",
+		component: () => import("@/views/site_pages/PagesList.vue"),
+	},
+	{
+		path: "/management/pages/create",
+		name: "create-page",
+		component: () => import("@/views/site_pages/PagesForm.vue"),
+	},
+	{
+		path: "/management/pages/edit/:id",
+		name: "edit-page",
+		component: () => import("@/views/site_pages/PagesForm.vue"),
+	},
 ]

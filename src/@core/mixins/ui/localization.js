@@ -6,6 +6,8 @@ export const LocaizingDBvalues = {
 		dblocalize(obj, col) {
 			if (i18n.locale === "ar" && !obj.hasOwnProperty(`${col}_${i18n.locale}`)) {
 				return obj[`${col}`]
+			} else if (i18n.locale === "en" && !obj.hasOwnProperty(`${col}_${i18n.locale}`)) {
+				return obj[`${col}_ar`] ? obj[`${col}_ar`] : obj[`${col}`]
 			}
 			return obj[`${col}_${i18n.locale}`]
 		},

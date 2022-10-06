@@ -30,6 +30,7 @@ export default [
 			},
 			{
 				title: "Pages",
+				route: "site-pages",
 				resource: "page",
 				action: "read",
 			},
@@ -38,11 +39,11 @@ export default [
 				resource: "new",
 				action: "read",
 			},
-			{
-				title: "Ads",
-				resource: "ad",
-				action: "read",
-			},
+			// {
+			// 	title: "Ads",
+			// 	resource: "ad",
+			// 	action: "read",
+			// },
 		],
 	},
-];
+]
