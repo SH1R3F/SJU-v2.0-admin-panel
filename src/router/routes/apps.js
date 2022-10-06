@@ -996,4 +996,22 @@ export default [
 			],
 		},
 	},
+	// Menus
+	{
+		path: "/management/menus",
+		name: "site-menus",
+		component: () => import("@/views/menus/MenusList.vue"),
+		meta: {
+			pageTitle: "List menus",
+			breadcrumb: [
+				{
+					text: "Menus",
+				},
+				{
+					text: "List menus",
+					active: true,
+				},
+			],
+		},
+	},
 ]

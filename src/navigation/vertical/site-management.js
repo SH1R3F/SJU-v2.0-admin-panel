@@ -25,6 +25,7 @@ export default [
 			},
 			{
 				title: "Menus",
+				route: "site-menus",
 				resource: "menu",
 				action: "read",
 			},
