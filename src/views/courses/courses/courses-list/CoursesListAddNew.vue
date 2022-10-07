@@ -257,7 +257,12 @@
 						<b-col cols="12">
 							<validation-provider #default="validationContext" vid="photos" :name="$t('Photos')">
 								<b-form-group :label="$t('Photos')" label-for="photos">
-									<b-button size="sm" variant="info">Upload pics (To be worked on with Upload center)</b-button>
+									<b-form-file ref="refInputEl" @input="InputImagesRenderer" :placeholder="$t('Choose a file or drop it here...')" :drop-placeholder="$t('Drop file here...')" multiple accept="image/*" />
+									<b-alert variant="secondary" show v-if="formData.images.length">
+										<div class="alert-body">
+											<b-img v-for="(photo, i) in formData.images" thumbnail :src="photo" style="height: 150px; object-fit: cover; margin-inline-end: 7px" @click="removePhoto(i)" />
+										</div>
+									</b-alert>
 								</b-form-group>
 							</validation-provider>
 						</b-col>
@@ -357,28 +362,31 @@
 </template>
 
 <script>
-	import { BButton, BRow, BCol, BCard, BFormGroup, BFormInput, BFormTimepicker, BFormTextarea, BFormFile, BForm, BFormInvalidFeedback } from "bootstrap-vue";
-	import vSelect from "vue-select";
-	import { onUnmounted, ref } from "@vue/composition-api";
-	import courseStoreModule from "../courseStoreModule";
-	import router from "@/router";
-	import store from "@/store";
-	import { ValidationProvider, ValidationObserver } from "vee-validate";
-	import { required } from "@validations";
-	import formValidation from "@/@core/comp-functions/forms/form-validation";
-	import { $days, $packages } from "@siteConfig";
-	import useCoursesList from "./useCoursesList";
-	import namingStoreModule from "../../namings/namingStoreModule";
-	import { quillEditor } from "vue-quill-editor";
-	import "quill/dist/quill.core.css";
+	import { BImg, BAlert, BButton, BRow, BCol, BCard, BFormGroup, BFormInput, BFormTimepicker, BFormTextarea, BFormFile, BForm, BFormInvalidFeedback } from "bootstrap-vue"
+	import vSelect from "vue-select"
+	import { onUnmounted, ref } from "@vue/composition-api"
+	import courseStoreModule from "../courseStoreModule"
+	import router from "@/router"
+	import store from "@/store"
+	import { ValidationProvider, ValidationObserver } from "vee-validate"
+	import { required } from "@validations"
+	import formValidation from "@/@core/comp-functions/forms/form-validation"
+	import { $days, $packages } from "@siteConfig"
+	import useCoursesList from "./useCoursesList"
+	import namingStoreModule from "../../namings/namingStoreModule"
+	import { quillEditor } from "vue-quill-editor"
+	import "quill/dist/quill.core.css"
 	// eslint-disable-next-line
-	import "quill/dist/quill.snow.css";
+	import "quill/dist/quill.snow.css"
 	// eslint-disable-next-line
-	import "quill/dist/quill.bubble.css";
-	import i18n from "@/libs/i18n";
+	import "quill/dist/quill.bubble.css"
+	import i18n from "@/libs/i18n"
+	import { useInputImagesRenderer } from "@core/comp-functions/forms/form-utils"
 
 	export default {
 		components: {
+			BImg,
+			BAlert,
 			BButton,
 			BRow,
 			BCol,
@@ -397,20 +405,20 @@
 		},
 		setup() {
 			// MODULE CONFIGURATION
-			const APP_COURSE_STORE_MODULE_NAME = "app-course";
-			if (!store.hasModule(APP_COURSE_STORE_MODULE_NAME)) store.registerModule(APP_COURSE_STORE_MODULE_NAME, courseStoreModule);
+			const APP_COURSE_STORE_MODULE_NAME = "app-course"
+			if (!store.hasModule(APP_COURSE_STORE_MODULE_NAME)) store.registerModule(APP_COURSE_STORE_MODULE_NAME, courseStoreModule)
 			onUnmounted(() => {
-				if (store.hasModule(APP_COURSE_STORE_MODULE_NAME)) store.unregisterModule(APP_COURSE_STORE_MODULE_NAME);
-			});
+				if (store.hasModule(APP_COURSE_STORE_MODULE_NAME)) store.unregisterModule(APP_COURSE_STORE_MODULE_NAME)
+			})
 
 			// MODULE CONFIGURATION
-			const COURSE_NAMING_STORE_MODULE_NAME = "course-naming";
-			if (!store.hasModule(COURSE_NAMING_STORE_MODULE_NAME)) store.registerModule(COURSE_NAMING_STORE_MODULE_NAME, namingStoreModule);
+			const COURSE_NAMING_STORE_MODULE_NAME = "course-naming"
+			if (!store.hasModule(COURSE_NAMING_STORE_MODULE_NAME)) store.registerModule(COURSE_NAMING_STORE_MODULE_NAME, namingStoreModule)
 			onUnmounted(() => {
-				if (store.hasModule(COURSE_NAMING_STORE_MODULE_NAME)) store.unregisterModule(COURSE_NAMING_STORE_MODULE_NAME);
-			});
+				if (store.hasModule(COURSE_NAMING_STORE_MODULE_NAME)) store.unregisterModule(COURSE_NAMING_STORE_MODULE_NAME)
+			})
 
-			const fileToBeUploaded = ref(null);
+			const fileToBeUploaded = ref(null)
 			// Form config for submit & rest
 			const formData = ref({
 				SN: "",
@@ -433,7 +441,7 @@
 				minutes: "",
 				percentage: "",
 				price: "",
-				images: "",
+				images: [],
 				trainer: "",
 				summary: "",
 				content: "",
@@ -443,33 +451,46 @@
 				questionnaire_id: "",
 				attendance_duration: "",
 				status: "",
-			});
+			})
 
-			const { fetchNamings } = useCoursesList();
+			const { fetchNamings } = useCoursesList()
 
-			let namings = ref({});
+			let namings = ref({})
 			fetchNamings(null, (p) => {
-				namings.value = p;
-			});
+				namings.value = p
+			})
+
+			// Photos upload management
+			const refInputEl = ref(null)
+			const InputImagesRenderer = () => {
+				refInputEl.value.files.forEach((file) => {
+					useInputImagesRenderer(file, (img) => {
+						formData.value.images.push(img)
+					})
+				})
+			}
+			const removePhoto = (i) => {
+				formData.value.images.splice(i, 1)
+			}
 
 			// Submitting
 			const onSubmit = function () {
 				store
 					.dispatch("app-course/addCourse", formData.value)
 					.then((response) => {
-						router.push({ name: "app-courses" });
+						router.push({ name: "app-courses" })
 					})
 					.catch((error) => {
 						if (error.response.status === 400) {
 							// Set errors
-							refFormObserver.value.setErrors(error.response.data);
+							refFormObserver.value.setErrors(error.response.data)
 						}
-					});
-			};
+					})
+			}
 
 			// Form validation configuration
-			const { refFormObserver, getValidationState } = formValidation();
-			const locale = i18n.locale == "ar" ? "ar-EG" : "en-US";
+			const { refFormObserver, getValidationState } = formValidation()
+			const locale = i18n.locale == "ar" ? "ar-EG" : "en-US"
 
 			return {
 				fileToBeUploaded,
@@ -499,9 +520,12 @@
 						labelResetButton: "إلغاء",
 					},
 				},
-			};
+				refInputEl,
+				InputImagesRenderer,
+				removePhoto,
+			}
 		},
-	};
+	}
 </script>
 
 <style lang="scss">

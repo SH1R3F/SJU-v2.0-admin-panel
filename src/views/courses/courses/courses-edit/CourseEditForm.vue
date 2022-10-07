@@ -256,7 +256,12 @@
 					<b-col cols="12">
 						<validation-provider #default="validationContext" vid="photos" :name="$t('Photos')">
 							<b-form-group :label="$t('Photos')" label-for="photos">
-								<b-button size="sm" variant="info">Upload pics (To be worked on with Upload center)</b-button>
+								<b-form-file ref="refInputEl" @input="InputImagesRenderer" :placeholder="$t('Choose a file or drop it here...')" :drop-placeholder="$t('Drop file here...')" multiple accept="image/*" />
+								<b-alert variant="secondary" show v-if="formData.images.length">
+									<div class="alert-body">
+										<b-img v-for="(photo, i) in formData.images" thumbnail :src="photo" style="height: 150px; object-fit: cover; margin-inline-end: 7px" @click="removePhoto(i)" />
+									</div>
+								</b-alert>
 							</b-form-group>
 						</validation-provider>
 					</b-col>
@@ -384,7 +389,7 @@
 </template>
 
 <script>
-	import { BButton, BRow, BCol, BFormGroup, BFormTimepicker, BFormTextarea, BFormInput, BFormFile, BForm, BFormInvalidFeedback } from "bootstrap-vue"
+	import { BImg, BAlert, BButton, BRow, BCol, BFormGroup, BFormTimepicker, BFormTextarea, BFormInput, BFormFile, BForm, BFormInvalidFeedback } from "bootstrap-vue"
 	import vSelect from "vue-select"
 	import { onUnmounted, ref } from "@vue/composition-api"
 	import courseStoreModule from "../courseStoreModule"
@@ -403,10 +408,13 @@
 	// eslint-disable-next-line
 	import "quill/dist/quill.bubble.css"
 	import i18n from "@/libs/i18n"
+	import { useInputImagesRenderer } from "@core/comp-functions/forms/form-utils"
 
 	export default {
 		components: {
+			BImg,
 			BButton,
+			BAlert,
 			BRow,
 			BCol,
 			BFormGroup,
@@ -457,6 +465,19 @@
 			const formData = ref(JSON.parse(JSON.stringify(oldData)))
 			const resetcourseData = () => {
 				formData.value = JSON.parse(JSON.stringify(oldData))
+			}
+
+			// Photos upload management
+			const refInputEl = ref(null)
+			const InputImagesRenderer = () => {
+				refInputEl.value.files.forEach((file) => {
+					useInputImagesRenderer(file, (img) => {
+						formData.value.images.push(img)
+					})
+				})
+			}
+			const removePhoto = (i) => {
+				formData.value.images.splice(i, 1)
 			}
 
 			// Submitting
@@ -517,6 +538,9 @@
 						labelResetButton: "إلغاء",
 					},
 				},
+				refInputEl,
+				InputImagesRenderer,
+				removePhoto,
 			}
 		},
 	}
