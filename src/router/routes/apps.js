@@ -1014,4 +1014,22 @@ export default [
 			],
 		},
 	},
+	// Blog Categories
+	{
+		path: "/management/categories",
+		name: "blog-categories",
+		component: () => import("@/views/blog_categories/CategoriesList.vue"),
+		meta: {
+			pageTitle: "List categories",
+			breadcrumb: [
+				{
+					text: "Categories",
+				},
+				{
+					text: "List categories",
+					active: true,
+				},
+			],
+		},
+	},
 ]

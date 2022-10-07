@@ -6,18 +6,19 @@ export default [
 			{
 				title: "Settings",
 				children: [
-					{
-						title: "Options",
-						resource: "settings",
-						action: "manage",
-					},
-					{
-						title: "Tags",
-						resource: "settings",
-						action: "manage",
-					},
+					// {
+					// 	title: "Options",
+					// 	resource: "settings",
+					// 	action: "manage",
+					// },
+					// {
+					// 	title: "Tags",
+					// 	resource: "settings",
+					// 	action: "manage",
+					// },
 					{
 						title: "News categories",
+						route: "blog-categories",
 						resource: "settings",
 						action: "manage",
 					},
