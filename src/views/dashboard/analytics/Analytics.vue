@@ -2,57 +2,41 @@
 	<section id="dashboard-analytics">
 		<b-row class="match-height">
 			<b-col lg="6" md="12">
-				<analytics-congratulation :data="data.congratulations" />
+				<analytics-congratulation :user="user" :data="data.congratulations" />
 			</b-col>
 			<b-col lg="3" sm="6">
-				<statistic-card-with-area-chart v-if="data.subscribersGained" icon="UsersIcon" :statistic="kFormatter(data.subscribersGained.analyticsData.subscribers)" statistic-title="Subscribers Gained" :chart-data="data.subscribersGained.series" />
+				<statistic-card-with-area-chart v-if="stats.subscribers" icon="UsersIcon" :statistic="kFormatter(stats.subscribers)" :statistic-title="$t('Subscribers')" :chart-data="[{ name: $t('Subscribers'), data: [0, stats.subscribers] }]" />
 			</b-col>
 			<b-col lg="3" sm="6">
-				<statistic-card-with-area-chart v-if="data.ordersRecevied" icon="PackageIcon" color="warning" :statistic="kFormatter(data.ordersRecevied.analyticsData.orders)" statistic-title="Orders Received" :chart-data="data.ordersRecevied.series" />
+				<statistic-card-with-area-chart v-if="stats.members" icon="UsersIcon" :statistic="kFormatter(stats.members)" :statistic-title="$t('Members')" :chart-data="[{ name: $t('Members'), data: [0, stats.members] }]" />
 			</b-col>
 		</b-row>
 
 		<b-row class="match-height">
 			<b-col lg="6">
-				<analytics-avg-sessions :data="data.avgSessions" />
+				<analytics-support-tracker :title="$t('Technical support')" :data="stats.tickets" />
 			</b-col>
 			<b-col lg="6">
-				<analytics-support-tracker :data="data.supportTracker" />
-			</b-col>
-		</b-row>
-
-		<b-row class="match-height">
-			<b-col lg="4">
-				<analytics-timeline :data="data.timeline" />
-			</b-col>
-			<b-col lg="4">
-				<analytics-sales-radar-chart :data="data.salesChart" />
-			</b-col>
-			<b-col lg="4">
-				<analytics-app-design :data="data.appDesign" />
-			</b-col>
-		</b-row>
-
-		<b-row>
-			<b-col cols="12">
-				<invoice-list />
+				<analytics-course-tracker :title="$t('Courses')" :data="stats.courses" />
 			</b-col>
 		</b-row>
 	</section>
 </template>
 
 <script>
-	import { BRow, BCol } from "bootstrap-vue";
+	import { BRow, BCol } from "bootstrap-vue"
 
-	import StatisticCardWithAreaChart from "@core/components/statistics-cards/StatisticCardWithAreaChart.vue";
-	import { kFormatter } from "@core/utils/filter";
-	import InvoiceList from "@/views/apps/invoice/invoice-list/InvoiceList.vue";
-	import AnalyticsCongratulation from "./AnalyticsCongratulation.vue";
-	import AnalyticsAvgSessions from "./AnalyticsAvgSessions.vue";
-	import AnalyticsSupportTracker from "./AnalyticsSupportTracker.vue";
-	import AnalyticsTimeline from "./AnalyticsTimeline.vue";
-	import AnalyticsSalesRadarChart from "./AnalyticsSalesRadarChart.vue";
-	import AnalyticsAppDesign from "./AnalyticsAppDesign.vue";
+	import StatisticCardWithAreaChart from "@core/components/statistics-cards/StatisticCardWithAreaChart.vue"
+	import { kFormatter } from "@core/utils/filter"
+	import InvoiceList from "@/views/apps/invoice/invoice-list/InvoiceList.vue"
+	import AnalyticsCongratulation from "./AnalyticsCongratulation.vue"
+	import AnalyticsAvgSessions from "./AnalyticsAvgSessions.vue"
+	import AnalyticsSupportTracker from "./AnalyticsSupportTracker.vue"
+	import AnalyticsCourseTracker from "./AnalyticsCourseTracker.vue"
+	import AnalyticsTimeline from "./AnalyticsTimeline.vue"
+	import AnalyticsSalesRadarChart from "./AnalyticsSalesRadarChart.vue"
+	import AnalyticsAppDesign from "./AnalyticsAppDesign.vue"
+	import axios from "@axios"
 
 	export default {
 		components: {
@@ -62,6 +46,7 @@
 			AnalyticsAvgSessions,
 			StatisticCardWithAreaChart,
 			AnalyticsSupportTracker,
+			AnalyticsCourseTracker,
 			AnalyticsTimeline,
 			AnalyticsSalesRadarChart,
 			AnalyticsAppDesign,
@@ -70,16 +55,27 @@
 		data() {
 			return {
 				data: {},
-			};
+				user: {},
+				stats: {},
+			}
 		},
 		created() {
 			// data
+			this.user = JSON.parse(localStorage.getItem("userData"))
 			this.$http.get("/analytics/data").then((response) => {
-				this.data = response.data;
-			});
+				this.data = response.data
+				console.log(this.data)
+			})
+			axios
+				.get("/dashboard")
+				.then((res) => {
+					this.stats = res.data
+					console.log(this.stats)
+				})
+				.catch((err) => console.log("Err fetching stats"))
 		},
 		methods: {
 			kFormatter,
 		},
-	};
+	}
 </script>

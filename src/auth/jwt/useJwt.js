@@ -1,5 +1,5 @@
-import useJwt from "@core/auth/jwt/useJwt";
-import axios from "@axios";
+import useJwt from "@core/auth/jwt/useJwt"
+import axios from "@axios"
 
 const { jwt } = useJwt(axios, {
 	// Endpoints
@@ -14,5 +14,5 @@ const { jwt } = useJwt(axios, {
 	// // Value of this property will be used as key to store JWT token in storage
 	// storageTokenKeyName: "accessToken",
 	// storageRefreshTokenKeyName: "refreshToken",
-});
-export default jwt;
+})
+export default jwt

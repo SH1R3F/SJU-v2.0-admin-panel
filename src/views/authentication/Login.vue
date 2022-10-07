@@ -35,12 +35,12 @@
 
 							<!-- forgot password -->
 							<b-form-group>
-								<div class="d-flex justify-content-between">
+								<!-- <div class="d-flex justify-content-between">
 									<label for="login-password">{{ $t("Password") }}</label>
 									<b-link :to="{ name: 'auth-forgot-password' }">
 										<small>{{ $t("Forgot Password?") }}</small>
 									</b-link>
-								</div>
+								</div> -->
 								<validation-provider #default="{ errors }" name="Password" vid="password" rules="required">
 									<b-input-group class="input-group-merge" :class="errors.length > 0 ? 'is-invalid' : null">
 										<b-form-input id="login-password" v-model="password" :state="errors.length > 0 ? false : null" class="form-control-merge" :type="passwordFieldType" name="login-password" placeholder="Password" />
@@ -62,20 +62,20 @@
 						</b-form>
 					</validation-observer>
 
-					<b-card-text class="text-center mt-2">
+					<!-- <b-card-text class="text-center mt-2">
 						<span>{{ $t("New on our platform?") }} </span>
 						<b-link :to="{ name: 'auth-register' }">
 							<span>&nbsp;{{ $t("Create an account") }}</span>
 						</b-link>
-					</b-card-text>
+					</b-card-text> -->
 
 					<!-- divider -->
-					<div class="divider my-2">
+					<!-- <div class="divider my-2">
 						<div class="divider-text">or</div>
-					</div>
+					</div> -->
 
 					<!-- social buttons -->
-					<div class="auth-footer-btn d-flex justify-content-center">
+					<!-- <div class="auth-footer-btn d-flex justify-content-center">
 						<b-button variant="facebook" href="javascript:void(0)">
 							<feather-icon icon="FacebookIcon" />
 						</b-button>
@@ -88,7 +88,7 @@
 						<b-button variant="github" href="javascript:void(0)">
 							<feather-icon icon="GithubIcon" />
 						</b-button>
-					</div>
+					</div> -->
 				</b-col>
 			</b-col>
 			<!-- /Login-->
@@ -98,16 +98,17 @@
 
 <script>
 	/* eslint-disable global-require */
-	import { ValidationProvider, ValidationObserver } from "vee-validate";
-	import SjuLogo from "@core/layouts/components/SjuLogo.vue";
-	import { BRow, BCol, BLink, BFormGroup, BFormInput, BInputGroupAppend, BInputGroup, BFormCheckbox, BCardText, BCardTitle, BImg, BForm, BButton, BAlert, VBTooltip } from "bootstrap-vue";
-	import useJwt from "@/auth/jwt/useJwt";
-	import { required, email } from "@validations";
-	import { togglePasswordVisibility } from "@core/mixins/ui/forms";
-	import store from "@/store/index";
-	import { getHomeRouteForLoggedInUser } from "@/auth/utils";
+	import { ValidationProvider, ValidationObserver } from "vee-validate"
+	import SjuLogo from "@core/layouts/components/SjuLogo.vue"
+	import { BRow, BCol, BLink, BFormGroup, BFormInput, BInputGroupAppend, BInputGroup, BFormCheckbox, BCardText, BCardTitle, BImg, BForm, BButton, BAlert, VBTooltip } from "bootstrap-vue"
+	import useJwt from "@/auth/jwt/useJwt"
+	import { required, email } from "@validations"
+	import { togglePasswordVisibility } from "@core/mixins/ui/forms"
+	import store from "@/store/index"
+	import { getHomeRouteForLoggedInUser } from "@/auth/utils"
 
-	import ToastificationContent from "@core/components/toastification/ToastificationContent.vue";
+	import ToastificationContent from "@core/components/toastification/ToastificationContent.vue"
+	import axios from "@axios"
 
 	export default {
 		directives: {
@@ -143,83 +144,92 @@
 				// validation rules
 				required,
 				email,
-			};
+			}
 		},
 		computed: {
 			passwordToggleIcon() {
-				return this.passwordFieldType === "password" ? "EyeIcon" : "EyeOffIcon";
+				return this.passwordFieldType === "password" ? "EyeIcon" : "EyeOffIcon"
 			},
 			imgUrl() {
 				if (store.state.appConfig.layout.skin === "dark") {
 					// eslint-disable-next-line vue/no-side-effects-in-computed-properties
-					this.sideImg = require("@/assets/images/pages/login-v2-dark.svg");
-					return this.sideImg;
+					this.sideImg = require("@/assets/images/pages/login-v2-dark.svg")
+					return this.sideImg
 				}
-				return this.sideImg;
+				return this.sideImg
 			},
 		},
 		methods: {
 			login() {
 				this.$refs.loginForm.validate().then((success) => {
 					if (success) {
-						useJwt
-							.login({
-								email: this.userEmail,
-								password: this.password,
-							})
-							.then((response) => {
-								const { userData } = response.data;
-								useJwt.setToken(response.data.accessToken);
-								// useJwt.setRefreshToken(response.data.refreshToken);
+						axios
+							.get(process.env.VUE_APP_CSRF_TOKEN)
+							.then((res) => {
+								console.log(res)
+								useJwt
+									.login({
+										email: this.userEmail,
+										password: this.password,
+									})
+									.then((response) => {
+										console.log(response)
+										const { userData } = response.data
+										useJwt.setToken(response.data.accessToken)
+										// useJwt.setRefreshToken(response.data.refreshToken);
 
-								// Stores userdata
-								localStorage.setItem("userData", JSON.stringify(userData));
+										// Stores userdata
+										localStorage.setItem("userData", JSON.stringify(userData))
 
-								// This is for permissions
-								this.$ability.update(userData.ability);
+										// This is for permissions
+										this.$ability.update(userData.ability)
 
-								// ? This is just for demo purpose as well.
-								// ? Because we are showing eCommerce app's cart items count in navbar
-								// this.$store.commit(
-								// 	"app-ecommerce/UPDATE_CART_ITEMS_COUNT",
-								// 	userData.extras.eCommerceCartItemsCount
-								// );
+										// ? This is just for demo purpose as well.
+										// ? Because we are showing eCommerce app's cart items count in navbar
+										// this.$store.commit(
+										// 	"app-ecommerce/UPDATE_CART_ITEMS_COUNT",
+										// 	userData.extras.eCommerceCartItemsCount
+										// );
 
-								// ? This is just for demo purpose. Don't think CASL is role based in this case, we used role in if condition just for ease
-								this.$router
-									// .replace(getHomeRouteForLoggedInUser(userData.role))
-									.replace("/")
-									.then(() => {
+										// ? This is just for demo purpose. Don't think CASL is role based in this case, we used role in if condition just for ease
+										this.$router
+											// .replace(getHomeRouteForLoggedInUser(userData.role))
+											.replace("/")
+											.then(() => {
+												this.$toast({
+													component: ToastificationContent,
+													position: "top-right",
+													props: {
+														title: `Welcome ${userData.fullName || userData.username}`,
+														icon: "CoffeeIcon",
+														variant: "success",
+														text: `You have successfully logged in as ${userData.role}. Now you can start to explore!`,
+													},
+												})
+											})
+									})
+									.catch((error) => {
 										this.$toast({
 											component: ToastificationContent,
 											position: "top-right",
 											props: {
-												title: `Welcome ${userData.fullName || userData.username}`,
+												title: `Error`,
 												icon: "CoffeeIcon",
-												variant: "success",
-												text: `You have successfully logged in as ${userData.role}. Now you can start to explore!`,
+												variant: "error",
+												text: error.message,
 											},
-										});
-									});
+										})
+										this.$refs.loginForm.setErrors(error)
+									})
 							})
 							.catch((error) => {
-								this.$toast({
-									component: ToastificationContent,
-									position: "top-right",
-									props: {
-										title: `Error`,
-										icon: "CoffeeIcon",
-										variant: "error",
-										text: error,
-									},
-								});
-								this.$refs.loginForm.setErrors(error);
-							});
+								console.log(error)
+							})
 					}
-				});
+				})
 			},
 		},
-	};
+	}
 </script>
 
 <style lang="scss">

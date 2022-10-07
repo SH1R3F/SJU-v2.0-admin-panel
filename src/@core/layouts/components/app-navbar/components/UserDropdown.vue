@@ -12,7 +12,7 @@
 			</b-avatar>
 		</template>
 
-		<b-dropdown-item link-class="d-flex align-items-center">
+		<!-- <b-dropdown-item link-class="d-flex align-items-center">
 			<feather-icon size="16" icon="UserIcon" class="mr-50" />
 			<span>Profile</span>
 		</b-dropdown-item>
@@ -42,19 +42,19 @@
 		<b-dropdown-item link-class="d-flex align-items-center">
 			<feather-icon size="16" icon="HelpCircleIcon" class="mr-50" />
 			<span>FAQ</span>
-		</b-dropdown-item>
+		</b-dropdown-item> -->
 		<b-dropdown-item link-class="d-flex align-items-center" @click="logout">
 			<feather-icon size="16" icon="LogOutIcon" class="mr-50" />
-			<span>Logout</span>
+			<span>{{ $t("Logout") }}</span>
 		</b-dropdown-item></b-nav-item-dropdown
 	>
 </template>
 
 <script>
-	import { BNavItemDropdown, BDropdownItem, BDropdownDivider, BAvatar } from "bootstrap-vue";
-	import { initialAbility } from "@/libs/acl/config";
-	import useJwt from "@/auth/jwt/useJwt";
-	import { avatarText } from "@core/utils/filter";
+	import { BNavItemDropdown, BDropdownItem, BDropdownDivider, BAvatar } from "bootstrap-vue"
+	import { initialAbility } from "@/libs/acl/config"
+	import useJwt from "@/auth/jwt/useJwt"
+	import { avatarText } from "@core/utils/filter"
 
 	export default {
 		components: {
@@ -67,24 +67,24 @@
 			return {
 				userData: JSON.parse(localStorage.getItem("userData")),
 				avatarText,
-			};
+			}
 		},
 		methods: {
 			logout() {
 				// Remove userData from localStorage
 				// ? You just removed token from localStorage. If you like, you can also make API call to backend to blacklist used token
-				window.localStorage.removeItem(useJwt.jwtConfig.storageTokenKeyName);
+				window.localStorage.removeItem(useJwt.jwtConfig.storageTokenKeyName)
 				// localStorage.removeItem(useJwt.jwtConfig.storageRefreshTokenKeyName)
 
 				// Remove userData from localStorage
-				window.localStorage.removeItem("userData");
+				window.localStorage.removeItem("userData")
 
 				// Reset ability
-				this.$ability.update(initialAbility);
+				this.$ability.update(initialAbility)
 
 				// Redirect to login page
-				this.$router.push({ name: "auth-login" });
+				this.$router.push({ name: "auth-login" })
 			},
 		},
-	};
+	}
 </script>

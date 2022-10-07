@@ -1,5 +1,18 @@
 {
 	"Dashboard": "لوحة التحكم",
+	"Hello": "مرحباً",
+	"Welcome to Saudi journalists association": "مرحباً بك في هيئة الصحفيين السعوديين",
+	"Pass percentage": "نسبة الإجتياز",
+	"Total courses": "إجمالي الفعاليات",
+	"Total attendees": "إجمالي الحضور",
+	"Total passed": "إجمالي المجتازين",
+	"Completed Tickets": "المشكلة المحلولة",
+	"Total tickets": "إجمالي التذاكر",
+	"Open tickets": "التذاكرة المفتوحة",
+	"Closed tickets": "التذاكرة المغلقة",
+	"Explore SJU": "إستكشف موقع الهيئة",
+	"Logout": "تسجيل خروج",
+
 	"***************** Login Page **************": "",
 	"Welcome to": "مرحباً في",
 	"Please sign-in to your account": "برجاء تسجيل الدخول بحسابك",

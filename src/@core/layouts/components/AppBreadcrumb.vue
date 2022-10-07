@@ -22,7 +22,7 @@
 		</b-col>
 
 		<!-- Content Right -->
-		<b-col class="content-header-right text-md-right d-md-block d-none mb-1" md="3" cols="12">
+		<!-- <b-col class="content-header-right text-md-right d-md-block d-none mb-1" md="3" cols="12">
 			<b-dropdown variant="link" no-caret toggle-class="p-0" right>
 				<template #button-content>
 					<b-button v-ripple.400="'rgba(255, 255, 255, 0.15)'" variant="primary" class="btn-icon">
@@ -50,13 +50,13 @@
 					<span class="align-middle ml-50">Calendar</span>
 				</b-dropdown-item>
 			</b-dropdown>
-		</b-col>
+		</b-col> -->
 	</b-row>
 </template>
 
 <script>
-	import { BBreadcrumb, BBreadcrumbItem, BRow, BCol, BDropdown, BDropdownItem, BButton } from "bootstrap-vue";
-	import Ripple from "vue-ripple-directive";
+	import { BBreadcrumb, BBreadcrumbItem, BRow, BCol, BDropdown, BDropdownItem, BButton } from "bootstrap-vue"
+	import Ripple from "vue-ripple-directive"
 
 	export default {
 		directives: {
@@ -71,5 +71,5 @@
 			BDropdownItem,
 			BButton,
 		},
-	};
+	}
 </script>
