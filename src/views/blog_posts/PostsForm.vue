@@ -69,7 +69,7 @@
 									<b-form-file ref="refInputEl" @input="InputImagesRenderer" :placeholder="$t('Choose a file or drop it here...')" :drop-placeholder="$t('Drop file here...')" multiple accept="image/*" />
 									<b-alert variant="secondary" show v-if="formData.photos.length">
 										<div class="alert-body">
-											<b-img v-for="(photo, i) in formData.photos" thumbnail :src="photo" style="height: 150px; object-fit: cover; margin-inline-end: 7px" @click="removePhoto(i)" />
+											<b-img v-for="(photo, i) in formData.photos" :key="i" thumbnail :src="photo" style="height: 150px; object-fit: cover; margin-inline-end: 7px" @click="removePhoto(i)" />
 										</div>
 									</b-alert>
 								</b-form-group>
@@ -223,9 +223,7 @@
 				.then((response) => {
 					categories.value = response.data.categories
 				})
-				.catch((error) => {
-					console.log(error)
-				})
+				.catch((error) => {})
 
 			// Photos upload management
 			const refInputEl = ref(null)

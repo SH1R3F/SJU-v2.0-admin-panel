@@ -63,7 +63,6 @@
 
 		setup() {
 			const deleteItem = function (id) {
-				console.log("deleting: ", id)
 				store
 					.dispatch("app-studio/deleteItem", { id })
 					.then((response) => {

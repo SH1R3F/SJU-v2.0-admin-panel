@@ -64,15 +64,13 @@
 			this.user = JSON.parse(localStorage.getItem("userData"))
 			this.$http.get("/analytics/data").then((response) => {
 				this.data = response.data
-				console.log(this.data)
 			})
 			axios
 				.get("/dashboard")
 				.then((res) => {
 					this.stats = res.data
-					console.log(this.stats)
 				})
-				.catch((err) => console.log("Err fetching stats"))
+				.catch((err) => {})
 		},
 		methods: {
 			kFormatter,

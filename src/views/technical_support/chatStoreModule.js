@@ -8,7 +8,6 @@ export default {
 	mutations: {},
 	actions: {
 		fetchTickets() {
-			console.log()
 			return new Promise((resolve, reject) => {
 				axios
 					.get("/support", {

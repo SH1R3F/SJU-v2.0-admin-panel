@@ -12,8 +12,9 @@
 </template>
 
 <script>
-	import i18n from "@/libs/i18n";
-	import { BNavItemDropdown, BDropdownItem, BImg } from "bootstrap-vue";
+	import i18n from "@/libs/i18n"
+	import { BNavItemDropdown, BDropdownItem, BImg } from "bootstrap-vue"
+	import useAppConfig from "@core/app-config/useAppConfig"
 
 	export default {
 		components: {
@@ -24,7 +25,7 @@
 		// ! Need to move this computed property to comp function once we get to Vue 3
 		computed: {
 			currentLocale() {
-				return this.locales.find((l) => l.locale === this.$i18n.locale);
+				return this.locales.find((l) => l.locale === this.$i18n.locale)
 			},
 		},
 		setup() {
@@ -40,20 +41,23 @@
 					img: require("@/assets/images/flags/ar.png"),
 					name: "العربية",
 				},
-			];
+			]
 			/* eslint-disable global-require */
 
 			const changeLocale = (locale) => {
-				localStorage.setItem("locale", locale);
-				i18n.locale = locale;
-			};
+				localStorage.setItem("locale", locale)
+				i18n.locale = locale
+				// Change rtl to left and right
+				const { configRTL } = useAppConfig()
+				configRTL.value = locale === "ar"
+			}
 
 			return {
 				locales,
 				changeLocale,
-			};
+			}
 		},
-	};
+	}
 </script>
 
 <style></style>

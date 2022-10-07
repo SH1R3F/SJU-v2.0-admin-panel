@@ -50,13 +50,13 @@
 </template>
 
 <script>
-	import { BTab, BTabs, BCard, BButton, BAlert, BForm, BCardTitle, BTable, BFormCheckbox, BCardHeader, BLink } from "bootstrap-vue";
-	import { ref, onUnmounted } from "@vue/composition-api";
-	import router from "@/router";
-	import store from "@/store";
-	import roleStoreModule from "../roleStoreModule";
-	import RoleEditTabInfo from "./RoleEditTabInfo.vue";
-	import i18n from "@/libs/i18n";
+	import { BTab, BTabs, BCard, BButton, BAlert, BForm, BCardTitle, BTable, BFormCheckbox, BCardHeader, BLink } from "bootstrap-vue"
+	import { ref, onUnmounted } from "@vue/composition-api"
+	import router from "@/router"
+	import store from "@/store"
+	import roleStoreModule from "../roleStoreModule"
+	import RoleEditTabInfo from "./RoleEditTabInfo.vue"
+	import i18n from "@/libs/i18n"
 
 	export default {
 		components: {
@@ -74,55 +74,55 @@
 			RoleEditTabInfo,
 		},
 		setup() {
-			const ROLE_APP_STORE_MODULE_NAME = "app-role";
+			const ROLE_APP_STORE_MODULE_NAME = "app-role"
 			// Register module
-			if (!store.hasModule(ROLE_APP_STORE_MODULE_NAME)) store.registerModule(ROLE_APP_STORE_MODULE_NAME, roleStoreModule);
+			if (!store.hasModule(ROLE_APP_STORE_MODULE_NAME)) store.registerModule(ROLE_APP_STORE_MODULE_NAME, roleStoreModule)
 			// UnRegister on leave
 			onUnmounted(() => {
-				if (store.hasModule(ROLE_APP_STORE_MODULE_NAME)) store.unregisterModule(ROLE_APP_STORE_MODULE_NAME);
-			});
+				if (store.hasModule(ROLE_APP_STORE_MODULE_NAME)) store.unregisterModule(ROLE_APP_STORE_MODULE_NAME)
+			})
 
-			const roleData = ref(null);
+			const roleData = ref(null)
 			store
 				.dispatch("app-role/fetchRole", { id: router.currentRoute.params.id })
 				.then((response) => {
-					roleData.value = response;
+					roleData.value = response
 				})
 				.catch((error) => {
 					if (error.response.status === 404) {
-						roleData.value = undefined;
+						roleData.value = undefined
 					}
-				});
+				})
 
-			const permissionsData = ref([]);
-			const abilitiesData = ref([]);
+			const permissionsData = ref([])
+			const abilitiesData = ref([])
 			// Fetch permissions
 			store
 				.dispatch("app-role/fetchPermissions", { id: router.currentRoute.params.id })
 				.then((response) => {
-					const { permissions, abilities } = response.data;
-					abilitiesData.value = abilities;
-					let groupedPermissions = []; // The grouped permissions
+					const { permissions, abilities } = response.data
+					abilitiesData.value = abilities
+					let groupedPermissions = [] // The grouped permissions
 
 					permissions.forEach(({ subject, action, granted }) => {
-						let obj = groupedPermissions.find((el) => el.module === subject);
+						let obj = groupedPermissions.find((el) => el.module === subject)
 						if (obj) {
-							obj[action] = granted;
+							obj[action] = granted
 						} else {
 							let obj = {
 								module: subject,
 								[action]: granted,
-							};
-							groupedPermissions.push(obj);
+							}
+							groupedPermissions.push(obj)
 						}
-					});
-					permissionsData.value = groupedPermissions;
+					})
+					permissionsData.value = groupedPermissions
 				})
 				.catch((error) => {
 					if (error.response.status === 404) {
-						perms.value = [];
+						perms.value = []
 					}
-				});
+				})
 
 			const onSubmit = function () {
 				store
@@ -131,12 +131,10 @@
 						this.$bvToast.toast(response.data.message, {
 							variant: "success",
 							solid: true,
-						});
+						})
 					})
-					.catch((error) => {
-						console.log(error);
-					});
-			};
+					.catch((error) => {})
+			}
 
 			return {
 				roleData,
@@ -151,9 +149,9 @@
 					{ key: "delete", label: i18n.t("Delete") },
 				],
 				onSubmit,
-			};
+			}
 		},
-	};
+	}
 </script>
 
 <style></style>
