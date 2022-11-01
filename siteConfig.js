@@ -654,7 +654,28 @@ export const $cities = {
 	],
 }
 
+export const $branches = [
+	{ label: i18n.t("Mecca"), value: 0 },
+	{ label: i18n.t("Medina"), value: 1 },
+	{ label: i18n.t("Al Ahsaa"), value: 2 },
+	{ label: i18n.t("Jubail"), value: 3 },
+	{ label: i18n.t("Dammam"), value: 4 },
+	{ label: i18n.t("Hael"), value: 5 },
+	{ label: i18n.t("Hafr Al-Baten"), value: 6 },
+	{ label: i18n.t("Riyadh"), value: 7 },
+	{ label: i18n.t("Al-Qusaim"), value: 8 },
+	{ label: i18n.t("Al Bahah"), value: 9 },
+	{ label: i18n.t("Al Jawf"), value: 10 },
+	{ label: i18n.t("Northern borders"), value: 11 },
+	{ label: i18n.t("Aseer"), value: 12 },
+	{ label: i18n.t("Jazan"), value: 13 },
+	{ label: i18n.t("Najran"), value: 14 },
+	{ label: i18n.t("Tabuk"), value: 15 },
+	{ label: i18n.t("Al Taeif"), value: 16 },
+]
+
 export const $mobileCodes = [
+	{ label: "+966", value: "966" },
 	{ label: "+93", value: "93" },
 	{ label: "+358", value: "358" },
 	{ label: "+355", value: "355" },
@@ -833,7 +854,6 @@ export const $mobileCodes = [
 	{ label: "+685", value: "685" },
 	{ label: "+378", value: "378" },
 	{ label: "+239", value: "239" },
-	{ label: "+966", value: "966" },
 	{ label: "+221", value: "221" },
 	{ label: "+381", value: "381" },
 	{ label: "+248", value: "248" },

@@ -5,10 +5,10 @@
 				<!-- card image top -->
 				<b-card class="position-static" no-body>
 					<template v-if="studioType === 'photo'">
-						<b-card-img-lazy :src="item.file" top alt="card img" style="height: 280px; object-fit: cover"></b-card-img-lazy>
+						<b-card-img-lazy :src="item.file ? item.file : item.link" top alt="card img" style="height: 280px; object-fit: cover"></b-card-img-lazy>
 					</template>
 					<template v-else-if="studioType === 'video'">
-						<b-embed type="iframe" aspect="16by9" :src="item.file" allowfullscreen style="height: 280px; object-fit: cover"></b-embed>
+						<b-embed type="iframe" aspect="16by9" :src="item.file ? item.file : item.link" allowfullscreen style="height: 280px; object-fit: cover"></b-embed>
 					</template>
 					<b-card-body class="d-flex justify-content-center">
 						<b-link class="btn btn-sm btn-outline-primary mr-1" :href="item.file" target="_blank"> {{ $t("View") }} </b-link>
@@ -23,7 +23,6 @@
 					<div class="alert-body">
 						<p>
 							{{ $t(`There are no ${studioType}s at the moment.`) }}
-							{{ $t(`You can`) }}
 							<b-link @click="$emit('add-new-item')">{{ $t("add") }}</b-link>
 							{{ $t(`a new ${studioType}`) }}
 						</p>

@@ -1,5 +1,16 @@
 <template>
-	<b-sidebar id="add-new-studio-sidebar" :visible="isAddNewStudioSidebarActive" bg-variant="white" sidebar-class="sidebar-lg" shadow backdrop no-header right @hidden="resetForm" @change="(val) => $emit('update:is-add-new-studio-sidebar-active', val)">
+	<b-sidebar
+		id="add-new-studio-sidebar"
+		:visible="isAddNewStudioSidebarActive"
+		bg-variant="white"
+		sidebar-class="sidebar-lg"
+		shadow
+		backdrop
+		no-header
+		right
+		@hidden="resetForm"
+		@change="(val) => $emit('update:is-add-new-studio-sidebar-active', val)"
+	>
 		<template #default="{ hide }">
 			<!-- Header -->
 			<div class="d-flex justify-content-between align-items-center content-sidebar-header px-2 py-1">
@@ -12,9 +23,26 @@
 				<!-- Form -->
 				<b-form class="p-2" @submit.prevent="handleSubmit(onSubmit)" @reset.prevent="resetForm">
 					<!-- Studio type upload -->
-					<validation-provider #default="validationContext" :vid="studioType" :name="$t('File')" rules="required">
+					<validation-provider #default="validationContext" vid="studioFile" :name="$t('File')">
 						<b-form-group :label="$t('File')" label-for="studioFile">
-							<b-form-file id="studioFile" v-model="fileToBeUploaded" :state="getValidationState(validationContext)" :placeholder="$t('Choose a file or drop it here...')" :drop-placeholder="$t('Drop file here...')" :accept="studioType === 'photo' ? 'image/*' : 'video/mp4,video/x-m4v,video/*'" />
+							<b-form-file
+								id="studioFile"
+								v-model="fileToBeUploaded"
+								:state="getValidationState(validationContext)"
+								:placeholder="$t('Choose a file or drop it here...')"
+								:drop-placeholder="$t('Drop file here...')"
+								:accept="studioType === 'photo' ? 'image/*' : 'video/mp4,video/x-m4v,video/*'"
+							/>
+							<b-form-invalid-feedback>
+								{{ validationContext.errors[0] }}
+							</b-form-invalid-feedback>
+						</b-form-group>
+					</validation-provider>
+
+					<!-- Or Link -->
+					<validation-provider #default="validationContext" vid="link" :name="$t('Link')">
+						<b-form-group :label="$t('Or from link')" label-for="link">
+							<b-form-input id="link" v-model="fileLink" :state="getValidationState(validationContext)" />
 							<b-form-invalid-feedback>
 								{{ validationContext.errors[0] }}
 							</b-form-invalid-feedback>
@@ -89,11 +117,13 @@
 			const resetstudioData = () => {
 				fileToBeUploaded.value = null
 			}
+			const fileLink = ref("")
 
 			const onSubmit = () => {
 				// Convert to FormData to upload the file
 				const studioData = new FormData()
-				studioData.append("studioFile", fileToBeUploaded.value)
+				studioData.append("studioFile", fileToBeUploaded.value ? fileToBeUploaded.value : "")
+				studioData.append("link", fileLink.value)
 
 				store
 					.dispatch("app-studio/addFile", { studioData, studioType: props.studioType })
@@ -118,6 +148,7 @@
 				getValidationState,
 				resetForm,
 				required,
+				fileLink,
 			}
 		},
 	}
