@@ -55,5 +55,13 @@ export default {
 					.catch((error) => reject(error))
 			})
 		},
+		toggleVolunteer(ctx, { id }) {
+			return new Promise((resolve, reject) => {
+				axios
+					.post(`/volunteers/${id}/toggle`)
+					.then((response) => resolve(response))
+					.catch((error) => reject(error))
+			})
+		},
 	},
 }

@@ -23,6 +23,27 @@
 			<validation-observer #default="{ handleSubmit }" ref="refFormObserver">
 				<!-- Form -->
 				<b-form class="p-2" @submit.prevent="handleSubmit(onSubmit)" @reset.prevent="resetForm">
+					<!-- National id -->
+					<validation-provider
+						#default="validationContext"
+						vid="national_id"
+						:name="$t('National id')"
+						rules="required"
+					>
+						<b-form-group :label="$t('National id')" label-for="national_id">
+							<b-form-input
+								id="national_id"
+								v-model="volunteerData.national_id"
+								autofocus
+								:state="getValidationState(validationContext)"
+								trim
+							/>
+							<b-form-invalid-feedback>
+								{{ validationContext.errors[0] }}
+							</b-form-invalid-feedback>
+						</b-form-group>
+					</validation-provider>
+
 					<!-- Full Name (Arabic) -->
 					<validation-provider
 						#default="validationContext"
@@ -225,6 +246,33 @@
 						</b-form-group>
 					</validation-provider>
 
+					<!-- City -->
+					<validation-provider
+						#default="validationContext"
+						vid="city"
+						:name="$t('City')"
+						v-if="volunteerData.country == 0"
+					>
+						<b-form-group
+							:label="$t('City')"
+							label-for="city"
+							:state="getValidationState(validationContext)"
+						>
+							<v-select
+								v-model="volunteerData.city"
+								:dir="$store.state.appConfig.isRTL ? 'ltr' : 'rtl'"
+								:options="$cities['Saudi Arabia']"
+								:reduce="(city) => city.value"
+								:clearable="false"
+								input-id="volunteer-city"
+								:value="volunteerData.city"
+							/>
+							<b-form-invalid-feedback :state="getValidationState(validationContext)">
+								{{ validationContext.errors[0] }}
+							</b-form-invalid-feedback>
+						</b-form-group>
+					</validation-provider>
+
 					<!-- Branch -->
 					<validation-provider
 						#default="validationContext"
@@ -322,7 +370,7 @@
 	import vSelect from "vue-select"
 	import countries from "@/@fake-db/data/other/countries"
 	import store from "@/store"
-	import { $genders, $mobileCodes, $countries, $branches } from "@siteConfig"
+	import { $genders, $mobileCodes, $countries, $branches, $cities } from "@siteConfig"
 	import volunteerStoreModule from "../volunteerStoreModule"
 
 	export default {
@@ -373,6 +421,7 @@
 			})
 
 			const blankVolunteerData = {
+				national_id: "",
 				fname_ar: "",
 				sname_ar: "",
 				tname_ar: "",
@@ -383,6 +432,7 @@
 				mobile_key: "",
 				mobile: "",
 				country: "",
+				city: "",
 				branch: "",
 				nationality: "",
 			}
@@ -419,6 +469,7 @@
 				$mobileCodes,
 				$countries,
 				$branches,
+				$cities,
 			}
 		},
 	}
