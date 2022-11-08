@@ -200,6 +200,16 @@
 	"for other questionnaires": "for other questionnaires",
 	"Delete questionnaire?": "Delete questionnaire?",
 	"Are you sure you want to delete this questionnaire? You won't be able to undo this step and all questionnaire data will be delete with no way to retreive.": "Are you sure you want to delete this questionnaire? You won't be able to undo this step and all questionnaire data will be delete with no way to retreive.",
+	"No questions added for this questionnaire": "No questions added for this questionnaire",
+
+	"Add new question": "Add new question",
+	"Questions": "Questions",
+	"Question": "Question",
+	"MCQ": "MCQ",
+	"yes": "yes",
+	"Answer": "Answer",
+	"Edit question": "Edit question",
+	"Error fetching question data": "Error fetching question data",
 
 	"/*********** Courses ************/": "/*********** Courses ************/",
 	"courses": "courses",
