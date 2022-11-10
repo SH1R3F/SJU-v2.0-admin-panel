@@ -1040,3 +1040,13 @@ export const $certcodes = [
 	{ label: i18n.t("Bottom center"), value: "bottom:1mm;right:50%" },
 	{ label: i18n.t("Bottom left"), value: "bottom:1mm;left:1mm" },
 ]
+
+export const $qualifications = [
+	{ label: i18n.t("Primary school"), value: "0" },
+	{ label: i18n.t("Prepatatory school"), value: "1" },
+	{ label: i18n.t("High school"), value: "2" },
+	{ label: i18n.t("Diploma"), value: "3" },
+	{ label: i18n.t("Bachelor's degree"), value: "4" },
+	{ label: i18n.t("Master's degree"), value: "5" },
+	{ label: i18n.t("PHD degree"), value: "6" },
+]
