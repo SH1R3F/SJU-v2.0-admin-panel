@@ -41,7 +41,9 @@
 								<b-col cols="12">
 									<validation-provider #default="validationContext" vid="type" :name="$t('MCQ')">
 										<b-form-group :label="$t('MCQ')" label-for="type">
-											<b-form-checkbox v-model="formData.type"> {{ $t("yes") }} </b-form-checkbox>
+											<b-form-checkbox v-model="formData.type" value="1" unchecked-value="0">
+												{{ $t("yes") }}
+											</b-form-checkbox>
 											<b-form-invalid-feedback>
 												{{ validationContext.errors[0] }}
 											</b-form-invalid-feedback>
@@ -50,7 +52,7 @@
 								</b-col>
 							</b-row>
 
-							<div v-if="formData.type">
+							<div v-if="formData.type == 1">
 								<!-- Field: Answer 1 -->
 								<b-row>
 									<b-col cols="12">

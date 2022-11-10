@@ -930,17 +930,17 @@ export const $genders = [
 ]
 
 export const $languages = [
-	{ label: i18n.t("Arabic"), value: 0 },
-	{ label: i18n.t("English"), value: 1 },
+	{ label: i18n.t("Arabic"), value: "ar" },
+	{ label: i18n.t("English"), value: "en" },
 ]
 
 export const $layouts = [
-	{ label: i18n.t("A4 landscape"), value: 0 },
-	{ label: i18n.t("A4 portrait"), value: 1 },
-	{ label: i18n.t("Letter landscape"), value: 2 },
-	{ label: i18n.t("Letter portrait"), value: 3 },
-	{ label: i18n.t("A3 landscape"), value: 4 },
-	{ label: i18n.t("A3 portrait"), value: 5 },
+	{ label: i18n.t("A4 landscape"), value: "A4-L" },
+	{ label: i18n.t("A4 portrait"), value: "A4" },
+	{ label: i18n.t("Letter landscape"), value: "Letter-L" },
+	{ label: i18n.t("Letter portrait"), value: "Letter" },
+	{ label: i18n.t("A3 landscape"), value: "A3-L" },
+	{ label: i18n.t("A3 portrait"), value: "A3" },
 ]
 
 export const $days = [
@@ -998,4 +998,45 @@ export const $serviceProviders = [
 export const $courseAttendance = [
 	{ label: i18n.t("Unpassed"), value: 0 },
 	{ label: i18n.t("Passed"), value: 1 },
+]
+
+// Templates
+export const $fields = [
+	{ label: i18n.t("Free text"), value: "{free_text}" },
+	{ label: i18n.t("Course name"), value: "{اسم_الفعالية}" },
+	{ label: i18n.t("Trainee name"), value: "{اسم_المتدرب}" },
+	{ label: i18n.t("Day"), value: "{اليوم}" },
+	{ label: i18n.t("Date"), value: "{الموافق}" },
+	{ label: i18n.t("Duration"), value: "{المدة}" },
+]
+
+export const $fontsizes = [
+	{ label: "40", value: "40px" },
+	{ label: "35", value: "35px" },
+	{ label: "30", value: "30px" },
+	{ label: "25", value: "25px" },
+	{ label: "20", value: "20px" },
+	{ label: "18", value: "18px" },
+	{ label: "16", value: "16px" },
+	{ label: "14", value: "14px" },
+]
+
+export const $fonttypes = [
+	{ label: "gess عربي", value: "gess" },
+	{ label: "almarai عربي", value: "almarai" },
+	{ label: "tajawal عربي", value: "tajawal" },
+	{ label: "amiri عربي", value: "amiri" },
+	{ label: "XBRiyaz عربي", value: "xbriyaz" },
+	{ label: "Uthman عربي", value: "kfgqpcuthmantahanaskh" },
+	{ label: "dejavusans انجليزي", value: "dejavusans" },
+]
+
+export const $certcodes = [
+	{ label: i18n.t("No"), value: "none" },
+	{ label: i18n.t("Top right"), value: "top:1mm;right:1mm" },
+	{ label: i18n.t("Top center"), value: "top:1mm;right:50%" },
+	{ label: i18n.t("Top left"), value: "top:1mm;left:1mm" },
+	{ label: i18n.t("Bottom right"), value: "bottom:1mm;right:1mm" },
+	{ label: i18n.t("Bottom center"), value: "bottom:1mm;right:50%" },
+	{ label: i18n.t("Bottom left"), value: "bottom:1mm;left:1mm" },
 ]

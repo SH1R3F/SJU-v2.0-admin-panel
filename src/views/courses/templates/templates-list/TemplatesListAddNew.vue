@@ -1,5 +1,16 @@
 <template>
-	<b-sidebar id="add-new-template-sidebar" :visible="isAddNewTemplateSidebarActive" bg-variant="white" sidebar-class="sidebar-lg" shadow backdrop no-header right @hidden="resetForm" @change="(val) => $emit('update:is-add-new-template-sidebar-active', val)">
+	<b-sidebar
+		id="add-new-template-sidebar"
+		:visible="isAddNewTemplateSidebarActive"
+		bg-variant="white"
+		sidebar-class="sidebar-lg"
+		shadow
+		backdrop
+		no-header
+		right
+		@hidden="resetForm"
+		@change="(val) => $emit('update:is-add-new-template-sidebar-active', val)"
+	>
 		<template #default="{ hide }">
 			<!-- Header -->
 			<div class="d-flex justify-content-between align-items-center content-sidebar-header px-2 py-1">
@@ -13,9 +24,20 @@
 				<!-- Form -->
 				<b-form class="p-2" @submit.prevent="handleSubmit(onSubmit)" @reset.prevent="resetForm">
 					<!-- Field: Name -->
-					<validation-provider #default="validationContext" vid="name" :name="$t('Name')" rules="required|min:3">
+					<validation-provider
+						#default="validationContext"
+						vid="name"
+						:name="$t('Name')"
+						rules="required|min:3"
+					>
 						<b-form-group :label="$t('Name')" label-for="name">
-							<b-form-input id="name" v-model="templateData.name" autofocus :state="getValidationState(validationContext)" trim />
+							<b-form-input
+								id="name"
+								v-model="templateData.name"
+								autofocus
+								:state="getValidationState(validationContext)"
+								trim
+							/>
 							<b-form-invalid-feedback>
 								{{ validationContext.errors[0] }}
 							</b-form-invalid-feedback>
@@ -23,9 +45,20 @@
 					</validation-provider>
 
 					<!-- Field: File -->
-					<validation-provider #default="validationContext" vid="templatefile" :name="$t('File')" rules="required">
+					<validation-provider
+						#default="validationContext"
+						vid="templatefile"
+						:name="$t('File')"
+						rules="required"
+					>
 						<b-form-group :label="$t('File')" label-for="templatefile">
-							<b-form-file id="templatefile" v-model="fileToBeUploaded" :state="getValidationState(validationContext)" :placeholder="$t('Choose a file or drop it here...')" :drop-placeholder="$t('Drop file here...')" />
+							<b-form-file
+								id="templatefile"
+								v-model="fileToBeUploaded"
+								:state="getValidationState(validationContext)"
+								:placeholder="$t('Choose a file or drop it here...')"
+								:drop-placeholder="$t('Drop file here...')"
+							/>
 							<b-form-invalid-feedback>
 								{{ validationContext.errors[0] }}
 							</b-form-invalid-feedback>
@@ -33,9 +66,22 @@
 					</validation-provider>
 
 					<!-- Field: Language -->
-					<validation-provider #default="validationContext" vid="language" :name="$t('Language')" rules="required">
+					<validation-provider
+						#default="validationContext"
+						vid="language"
+						:name="$t('Language')"
+						rules="required"
+					>
 						<b-form-group :label="$t('Language')" label-for="language">
-							<v-select v-model="templateData.language" :dir="$store.state.appConfig.isRTL ? 'ltr' : 'rtl'" :options="$languages" :reduce="(language) => language.value" :clearable="false" input-id="subscriber-language" :state="getValidationState(validationContext)" />
+							<v-select
+								v-model="templateData.language"
+								:dir="$store.state.appConfig.isRTL ? 'ltr' : 'rtl'"
+								:options="$languages"
+								:reduce="(language) => language.value"
+								:clearable="false"
+								input-id="subscriber-language"
+								:state="getValidationState(validationContext)"
+							/>
 							<b-form-invalid-feedback>
 								{{ validationContext.errors[0] }}
 							</b-form-invalid-feedback>
@@ -44,9 +90,22 @@
 
 					<!-- Field: Layout -->
 
-					<validation-provider #default="validationContext" vid="layout" :name="$t('Layout')" rules="required">
+					<validation-provider
+						#default="validationContext"
+						vid="layout"
+						:name="$t('Layout')"
+						rules="required"
+					>
 						<b-form-group :label="$t('Layout')" label-for="layout">
-							<v-select v-model="templateData.layout" :dir="$store.state.appConfig.isRTL ? 'ltr' : 'rtl'" :options="$layouts" :reduce="(layout) => layout.value" :clearable="false" input-id="subscriber-layout" :state="getValidationState(validationContext)" />
+							<v-select
+								v-model="templateData.layout"
+								:dir="$store.state.appConfig.isRTL ? 'ltr' : 'rtl'"
+								:options="$layouts"
+								:reduce="(layout) => layout.value"
+								:clearable="false"
+								input-id="subscriber-layout"
+								:state="getValidationState(validationContext)"
+							/>
 							<b-form-invalid-feedback>
 								{{ validationContext.errors[0] }}
 							</b-form-invalid-feedback>
@@ -55,8 +114,20 @@
 
 					<!-- Form Actions -->
 					<div class="d-flex mt-2">
-						<b-button v-ripple.400="'rgba(255, 255, 255, 0.15)'" variant="primary" class="mr-2" type="submit">{{ $t("Add") }}</b-button>
-						<b-button v-ripple.400="'rgba(186, 191, 199, 0.15)'" type="button" variant="outline-secondary" @click="hide">{{ $t("Cancel") }}</b-button>
+						<b-button
+							v-ripple.400="'rgba(255, 255, 255, 0.15)'"
+							variant="primary"
+							class="mr-2"
+							type="submit"
+							>{{ $t("Add") }}</b-button
+						>
+						<b-button
+							v-ripple.400="'rgba(186, 191, 199, 0.15)'"
+							type="button"
+							variant="outline-secondary"
+							@click="hide"
+							>{{ $t("Cancel") }}</b-button
+						>
 					</div>
 				</b-form>
 			</validation-observer>
@@ -65,7 +136,18 @@
 </template>
 
 <script>
-	import { BSidebar, BFormFile, BForm, BFormGroup, BFormInput, BInputGroup, BInputGroupPrepend, BFormInvalidFeedback, BFormRadioGroup, BButton } from "bootstrap-vue"
+	import {
+		BSidebar,
+		BFormFile,
+		BForm,
+		BFormGroup,
+		BFormInput,
+		BInputGroup,
+		BInputGroupPrepend,
+		BFormInvalidFeedback,
+		BFormRadioGroup,
+		BButton,
+	} from "bootstrap-vue"
 	import { ValidationProvider, ValidationObserver } from "vee-validate"
 	import { onUnmounted, ref } from "@vue/composition-api"
 	import { required } from "@validations"
@@ -76,6 +158,7 @@
 	import { $languages, $layouts } from "@siteConfig"
 	import templateStoreModule from "../templateStoreModule"
 	import { useInputImageRenderer } from "@core/comp-functions/forms/form-utils"
+	import router from "@/router"
 
 	export default {
 		components: {
@@ -115,9 +198,11 @@
 		setup(props, { emit }) {
 			// Module configurations
 			const COURSE_TEMPLATE_STORE_MODULE_NAME = "course-template"
-			if (!store.hasModule(COURSE_TEMPLATE_STORE_MODULE_NAME)) store.registerModule(COURSE_TEMPLATE_STORE_MODULE_NAME, templateStoreModule)
+			if (!store.hasModule(COURSE_TEMPLATE_STORE_MODULE_NAME))
+				store.registerModule(COURSE_TEMPLATE_STORE_MODULE_NAME, templateStoreModule)
 			onUnmounted(() => {
-				if (store.hasModule(COURSE_TEMPLATE_STORE_MODULE_NAME)) store.unregisterModule(COURSE_TEMPLATE_STORE_MODULE_NAME)
+				if (store.hasModule(COURSE_TEMPLATE_STORE_MODULE_NAME))
+					store.unregisterModule(COURSE_TEMPLATE_STORE_MODULE_NAME)
 			})
 
 			const fileToBeUploaded = ref(null)
@@ -142,9 +227,9 @@
 
 				store
 					.dispatch("course-template/addTemplate", { templateData: converted })
-					.then(() => {
-						emit("refetch-data")
-						emit("update:is-add-new-template-sidebar-active", false)
+					.then((res) => {
+						// Redirect to edit this template page!
+						router.push({ name: "edit-template", params: { id: res.data.template.id } })
 					})
 					.catch((error) => {
 						if (error.response.status === 400) {
