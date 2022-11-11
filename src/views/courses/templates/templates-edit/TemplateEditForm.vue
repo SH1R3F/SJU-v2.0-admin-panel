@@ -264,7 +264,7 @@
 						</b-form-checkbox>
 					</b-form-group>
 
-					<b-row v-if="formData.with_title">
+					<b-row v-if="formData.with_title == 1">
 						<b-col md="4">
 							<b-form-group :label="$t('Male')" label-for="male">
 								<b-form-input id="male" v-model="formData.male_title" :placeholder="$t('Ex: Mr')" />
@@ -448,7 +448,7 @@
 							} catch (e) {}
 
 							// Refresh iframe?
-							preview.value.contentWindow.location.reload()
+							preview.value.contentWindow.location = response.template.preview
 						}
 					})
 					.catch((error) => {

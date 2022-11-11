@@ -63,6 +63,14 @@ export default {
 					.catch((error) => reject(error))
 			})
 		},
+		getCertificate(ctx, { id, type }) {
+			return new Promise((resolve, reject) => {
+				axios
+					.get(`/courses/${router.currentRoute.params.id}/certificate/${type}/${id}`)
+					.then((response) => resolve(response))
+					.catch((error) => reject(error))
+			})
+		},
 		deleteEnroller(ctx, { id, type }) {
 			return new Promise((resolve, reject) => {
 				axios
