@@ -1,17 +1,17 @@
-import { ref, watch, computed } from "@vue/composition-api";
-import store from "@/store";
-import i18n from "@/libs/i18n";
+import { ref, watch, computed } from "@vue/composition-api"
+import store from "@/store"
+import i18n from "@/libs/i18n"
 
 // Notification
-import { useToast } from "vue-toastification/composition";
-import ToastificationContent from "@core/components/toastification/ToastificationContent.vue";
-import router from "@/router";
+import { useToast } from "vue-toastification/composition"
+import ToastificationContent from "@core/components/toastification/ToastificationContent.vue"
+import router from "@/router"
 
 export default function useMembersList() {
 	// Use toast
-	const toast = useToast();
+	const toast = useToast()
 
-	const refMemberListTable = ref(null);
+	const refMemberListTable = ref(null)
 
 	// Table Handlers
 	const tableColumns = [
@@ -22,65 +22,86 @@ export default function useMembersList() {
 		{ key: "membership_type", sortable: true, label: i18n.t("Membership type") },
 		{ key: "city", sortable: true, label: i18n.t("City") },
 		{ key: "mobile", sortable: true, label: i18n.t("Mobile") },
-		{ key: "status", sortable: true, label: i18n.t("Status") },
-		{ key: "invoice_status", sortable: true, label: i18n.t("Invoice status") },
+		{ key: "status", label: i18n.t("Status"), pageRefused: false },
+		{ key: "invoice_status", label: i18n.t("Invoice status"), pageRefused: false },
+		{ key: "refusal_reason", label: i18n.t("Refuse reason"), pageRefused: true },
 		{ key: "actions", label: i18n.t("Actions") },
-	];
-	const perPage = ref(10);
-	const totalMembers = ref(0);
-	const currentPage = ref(1);
-	const perPageOptions = [10, 25, 50, 100];
-	const searchQuery = ref("");
-	const sortBy = ref("id");
-	const isSortDirDesc = ref(true);
-	const nameFilter = ref(null);
-	const mobileFilter = ref(null);
-	const emailFilter = ref(null);
-	const nationalIdFilter = ref(null);
-	const membershipNumberFilter = ref(null);
-	const membershipTypeFilter = ref(null);
-	const cityFilter = ref(null);
-	const yearFilter = ref(null);
+	]
+	const perPage = ref(10)
+	const totalMembers = ref(0)
+	const currentPage = ref(1)
+	const perPageOptions = [10, 25, 50, 100]
+	const searchQuery = ref("")
+	const sortBy = ref("id")
+	const isSortDirDesc = ref(true)
+	const nameFilter = ref(null)
+	const mobileFilter = ref(null)
+	const emailFilter = ref(null)
+	const nationalIdFilter = ref(null)
+	const membershipNumberFilter = ref(null)
+	const membershipTypeFilter = ref(null)
+	const cityFilter = ref(null)
+	const yearFilter = ref(null)
 
 	const dataMeta = computed(() => {
-		const localItemsCount = refMemberListTable.value ? refMemberListTable.value.localItems.length : 0;
+		const localItemsCount = refMemberListTable.value ? refMemberListTable.value.localItems.length : 0
 		return {
 			from: perPage.value * (currentPage.value - 1) + (localItemsCount ? 1 : 0),
 			to: perPage.value * (currentPage.value - 1) + localItemsCount,
 			of: totalMembers.value,
-		};
-	});
+		}
+	})
 
 	const refetchData = () => {
-		refMemberListTable.value.refresh();
-	};
+		refMemberListTable.value.refresh()
+	}
 
-	watch([currentPage, perPage, searchQuery, nameFilter, mobileFilter, emailFilter, nationalIdFilter, membershipNumberFilter, membershipTypeFilter, cityFilter, yearFilter], () => {
-		refetchData();
-	});
+	watch(
+		[
+			currentPage,
+			perPage,
+			searchQuery,
+			nameFilter,
+			mobileFilter,
+			emailFilter,
+			nationalIdFilter,
+			membershipNumberFilter,
+			membershipTypeFilter,
+			cityFilter,
+			yearFilter,
+		],
+		() => {
+			refetchData()
+		}
+	)
 
 	const fetchMembers = (ctx, callback) => {
-		let status;
+		let active
+		let approved
 		switch (router.currentRoute.name) {
 			case "all-members":
-				status = "all";
-				break;
+				active = [0, 1]
+				approved = 1
+				break
 
 			case "branch-waiting-members":
-				status = 0;
-				break;
+				active = -1
+				approved = 0
+				break
 
 			case "branch-accepted-members":
-				status = 1;
-				break;
+				active = -1
+				approved = 1
+				break
 
 			case "waiting-members":
-				status = 1;
-				break;
+				active = -1
+				approved = 1
+				break
 
 			case "refused-members":
-				status = 2;
-				break;
+				approved = -2
+				break
 		}
 
 		store
@@ -90,7 +111,8 @@ export default function useMembersList() {
 				page: currentPage.value,
 				sortBy: sortBy.value,
 				sortDesc: isSortDirDesc.value,
-				status,
+				active,
+				approved,
 
 				// Filtering
 				name: nameFilter.value,
@@ -103,9 +125,9 @@ export default function useMembersList() {
 				year: yearFilter.value,
 			})
 			.then((response) => {
-				const { members, total } = response.data;
-				callback(members);
-				totalMembers.value = total;
+				const { members, total } = response.data
+				callback(members)
+				totalMembers.value = total
 			})
 			.catch(() => {
 				toast({
@@ -115,20 +137,20 @@ export default function useMembersList() {
 						icon: "AlertTriangleIcon",
 						variant: "danger",
 					},
-				});
-			});
-	};
+				})
+			})
+	}
 
 	// *===============================================---*
 	// *--------- UI ---------------------------------------*
 	// *===============================================---*
 
 	const resolveUserStatusVariant = (status) => {
-		if (status === "pending") return "warning";
-		if (status === "active") return "success";
-		if (status === "inactive") return "secondary";
-		return "primary";
-	};
+		if (status === "pending") return "warning"
+		if (status === "active") return "success"
+		if (status === "inactive") return "secondary"
+		return "primary"
+	}
 
 	return {
 		fetchMembers,
@@ -153,5 +175,5 @@ export default function useMembersList() {
 		membershipTypeFilter,
 		cityFilter,
 		yearFilter,
-	};
+	}
 }

@@ -7,9 +7,9 @@
 </template>
 
 <script>
-	import { BRow, BCol, BTable } from "bootstrap-vue";
-	import { $genders, $newspaperTypes, $cities, $countries } from "@siteConfig";
-	import i18n from "@/libs/i18n";
+	import { BRow, BCol, BTable } from "bootstrap-vue"
+	import { $genders, $newspaperTypes, $cities, $countries, $nationalities } from "@siteConfig"
+	import i18n from "@/libs/i18n"
 
 	export default {
 		components: {
@@ -36,16 +36,28 @@
 					{ field: i18n.t("Gender"), value: $genders[props.memberData.gender].text },
 					{ field: `${i18n.t("Birth date")} (${i18n.t("Meladi")})`, value: props.memberData.birthday_meladi },
 					{ field: `${i18n.t("Birth date")} (${i18n.t("Hijri")})`, value: props.memberData.birthday_hijri },
-					{ field: i18n.t("Nationality"), value: props.memberData.nationality },
+					{
+						field: i18n.t("Nationality"),
+						value: $nationalities.find((n) => n.value === props.memberData.nationality).label,
+					},
 					{ field: i18n.t("Qualification"), value: props.memberData.qualification },
 					{ field: i18n.t("Major"), value: props.memberData.major },
-					{ field: `${i18n.t("Job title")} (${i18n.t("Journalist")})`, value: props.memberData.journalist_job_title },
-					{ field: `${i18n.t("Employer")} (${i18n.t("Journalist")})`, value: props.memberData.journalist_employer },
+					{
+						field: `${i18n.t("Job title")} (${i18n.t("Journalist")})`,
+						value: props.memberData.journalist_job_title,
+					},
+					{
+						field: `${i18n.t("Employer")} (${i18n.t("Journalist")})`,
+						value: props.memberData.journalist_employer,
+					},
 					{ field: i18n.t("Newspaper type"), value: $newspaperTypes[props.memberData.newspaper_type].label },
-					{ field: `${i18n.t("Job title")} (${i18n.t("Non-journalist")})`, value: props.memberData.job_title },
+					{
+						field: `${i18n.t("Job title")} (${i18n.t("Non-journalist")})`,
+						value: props.memberData.job_title,
+					},
 					{ field: `${i18n.t("Employer")} (${i18n.t("Non-journalist")})`, value: props.memberData.employer },
 				],
-			};
+			}
 		},
-	};
+	}
 </script>

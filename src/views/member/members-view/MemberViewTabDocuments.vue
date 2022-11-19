@@ -13,8 +13,8 @@
 </template>
 
 <script>
-	import { BRow, BTable } from "bootstrap-vue";
-	import i18n from "@/libs/i18n";
+	import { BRow, BTable } from "bootstrap-vue"
+	import i18n from "@/libs/i18n"
 
 	export default {
 		components: {
@@ -33,10 +33,11 @@
 					{ name: i18n.t("Profile image"), link: props.memberData.avatar },
 					{ name: i18n.t("National image"), link: props.memberData.national_image },
 					{ name: i18n.t("Employer letter"), link: props.memberData.employer_letter },
+					{ name: i18n.t("Newspaper license"), link: props.memberData.newspaper_license },
 				],
-			};
+			}
 		},
-	};
+	}
 </script>
 
 <style></style>

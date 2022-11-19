@@ -6,7 +6,13 @@
 				<b-col cols="21" xl="6" class="d-flex justify-content-between flex-column">
 					<!-- User Avatar & Action Buttons -->
 					<div class="d-flex justify-content-start">
-						<b-avatar :src="memberData.avatar" :text="avatarText(dblocalize(memberData, 'fname'))" :variant="memberData.avatar ? '' : `light-success`" size="104px" rounded />
+						<b-avatar
+							:src="memberData.avatar"
+							:text="avatarText(dblocalize(memberData, 'fname'))"
+							:variant="memberData.avatar ? '' : `light-success`"
+							size="104px"
+							rounded
+						/>
 						<div class="d-flex flex-column ml-1">
 							<div class="mb-1">
 								<h4 class="mb-0">
@@ -15,8 +21,14 @@
 								<span class="card-text">{{ memberData.email }}</span>
 							</div>
 							<div class="d-flex flex-wrap">
-								<b-button :to="{ name: 'edit-member', params: { id: memberData.id } }" variant="primary">{{ $t("Edit") }}</b-button>
-								<b-button variant="outline-danger" class="ml-1" v-b-modal.modal-danger>{{ $t("Delete") }}</b-button>
+								<b-button
+									:to="{ name: 'edit-member', params: { id: memberData.id } }"
+									variant="primary"
+									>{{ $t("Edit") }}</b-button
+								>
+								<b-button variant="outline-danger" class="ml-1" v-b-modal.modal-danger>{{
+									$t("Delete")
+								}}</b-button>
 							</div>
 						</div>
 					</div>
@@ -60,7 +72,11 @@
 								<span class="font-weight-bold">{{ $t("Membership type") }}</span>
 							</th>
 							<td class="pb-50 text-capitalize">
-								{{ memberData.membership_type === null ? "" : $membershipTypes[memberData.membership_type].label }}
+								{{
+									memberData.membership_type === null
+										? ""
+										: $membershipTypes.find((c) => c.value === memberData.subscription.type).label
+								}}
 							</td>
 						</tr>
 
@@ -101,20 +117,33 @@
 			</b-row>
 		</b-card>
 		<!-- Modal for member deletion -->
-		<b-modal id="modal-danger" ok-only ok-variant="danger" :ok-title="$t('Accept')" @ok="deleteMember" modal-class="modal-danger" centered :title="$t('Delete member?')">
-			<b-card-text>{{ $t("Are you sure you want to delete this member? You won't be able to undo this step and all member data will be delete with no way to retreive.") }}</b-card-text>
+		<b-modal
+			id="modal-danger"
+			ok-only
+			ok-variant="danger"
+			:ok-title="$t('Accept')"
+			@ok="deleteMember"
+			modal-class="modal-danger"
+			centered
+			:title="$t('Delete member?')"
+		>
+			<b-card-text>{{
+				$t(
+					"Are you sure you want to delete this member? You won't be able to undo this step and all member data will be delete with no way to retreive."
+				)
+			}}</b-card-text>
 		</b-modal>
 	</div>
 </template>
 
 <script>
-	import { BCard, BButton, BAvatar, BRow, BCol, BModal, BCardText } from "bootstrap-vue";
-	import { avatarText } from "@core/utils/filter";
-	import { $countries, $membershipTypes, $cities } from "@siteConfig";
-	import store from "@/store";
-	import { onUnmounted } from "vue-demi";
-	import memberStoreModule from "../memberStoreModule";
-	import router from "@/router";
+	import { BCard, BButton, BAvatar, BRow, BCol, BModal, BCardText } from "bootstrap-vue"
+	import { avatarText } from "@core/utils/filter"
+	import { $countries, $membershipTypes, $cities } from "@siteConfig"
+	import store from "@/store"
+	import { onUnmounted } from "vue-demi"
+	import memberStoreModule from "../memberStoreModule"
+	import router from "@/router"
 
 	export default {
 		components: {
@@ -134,11 +163,12 @@
 		},
 		setup() {
 			// MODULE CONFIGURATION
-			const MEMBER_APP_STORE_MODULE_NAME = "app-member";
-			if (!store.hasModule(MEMBER_APP_STORE_MODULE_NAME)) store.registerModule(MEMBER_APP_STORE_MODULE_NAME, memberStoreModule);
+			const MEMBER_APP_STORE_MODULE_NAME = "app-member"
+			if (!store.hasModule(MEMBER_APP_STORE_MODULE_NAME))
+				store.registerModule(MEMBER_APP_STORE_MODULE_NAME, memberStoreModule)
 			onUnmounted(() => {
-				if (store.hasModule(MEMBER_APP_STORE_MODULE_NAME)) store.unregisterModule(MEMBER_APP_STORE_MODULE_NAME);
-			});
+				if (store.hasModule(MEMBER_APP_STORE_MODULE_NAME)) store.unregisterModule(MEMBER_APP_STORE_MODULE_NAME)
+			})
 
 			const deleteMember = function () {
 				store
@@ -149,19 +179,19 @@
 							variant: "success",
 							solid: true,
 							autoHideDelay: 100,
-						});
+						})
 						setTimeout(() => {
-							router.push({ name: "all-members" });
-						}, 1500);
+							router.push({ name: "all-members" })
+						}, 1500)
 					})
 					.catch((error) => {
 						this.$bvToast.toast(error.message, {
 							variant: "danger",
 							solid: true,
-						});
-						return;
-					});
-			};
+						})
+						return
+					})
+			}
 
 			return {
 				avatarText,
@@ -169,9 +199,9 @@
 				$membershipTypes,
 				$cities,
 				deleteMember,
-			};
+			}
 		},
-	};
+	}
 </script>
 
 <style></style>
