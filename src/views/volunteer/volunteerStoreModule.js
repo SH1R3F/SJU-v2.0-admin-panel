@@ -14,6 +14,14 @@ export default {
 					.catch((error) => reject(error))
 			})
 		},
+		exportVolunteers(ctx, queryParams) {
+			return new Promise((resolve, reject) => {
+				axios
+					.post(`/volunteers/export`, queryParams)
+					.then((response) => resolve(response))
+					.catch((error) => reject(error))
+			})
+		},
 		fetchVolunteer(ctx, { id }) {
 			return new Promise((resolve, reject) => {
 				axios

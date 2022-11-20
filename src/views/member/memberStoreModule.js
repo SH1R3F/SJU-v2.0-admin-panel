@@ -14,6 +14,14 @@ export default {
 					.catch((error) => reject(error))
 			})
 		},
+		exportMembers(ctx, queryParams) {
+			return new Promise((resolve, reject) => {
+				axios
+					.post(`/members/export`, queryParams)
+					.then((response) => resolve(response))
+					.catch((error) => reject(error))
+			})
+		},
 		fetchMember(ctx, { id }) {
 			return new Promise((resolve, reject) => {
 				axios

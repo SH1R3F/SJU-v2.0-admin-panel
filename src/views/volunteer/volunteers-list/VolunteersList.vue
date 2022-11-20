@@ -19,16 +19,22 @@
 				<!-- Table Top -->
 				<b-row>
 					<!-- Per Page -->
-					<b-col cols="12" md="6" class="d-flex align-items-center justify-content-start mb-1 mb-md-0">
-						<label>{{ $t("Show") }}</label>
-						<v-select
-							v-model="perPage"
-							:dir="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'"
-							:options="perPageOptions"
-							:clearable="false"
-							class="per-page-selector d-inline-block mx-50"
-						/>
-						<label>{{ $t("entries") }}</label>
+					<b-col cols="12" md="6" class="d-flex align-items-center justify-content-between mb-1 mb-md-0">
+						<div>
+							<label>{{ $t("Show") }}</label>
+							<v-select
+								v-model="perPage"
+								:dir="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'"
+								:options="perPageOptions"
+								:clearable="false"
+								class="per-page-selector d-inline-block mx-50"
+							/>
+							<label>{{ $t("entries") }}</label>
+						</div>
+
+						<b-button variant="primary" size="sm" @click="exportData">
+							<span class="text-nowrap">{{ $t("Export") }}</span>
+						</b-button>
 					</b-col>
 
 					<!-- Search -->
@@ -266,6 +272,7 @@
 				isSortDirDesc,
 				refVolunteerListTable,
 				refetchData,
+				exportData,
 
 				// Extra Filters
 				nameFilter,
@@ -341,6 +348,7 @@
 				nameFilter,
 				mobileFilter,
 				emailFilter,
+				exportData,
 			}
 		},
 		watch: {

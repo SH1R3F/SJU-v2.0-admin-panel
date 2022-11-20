@@ -356,6 +356,7 @@
 	"Invoice id": "Invoice id",
 	"Membership status": "Membership status",
 	"Add New": "Add New",
+	"Export": "Export",
 	"Experiences": "Experiences",
 	"Experience": "Experience",
 	"Fields I want to contribute": "Fields I want to contribute",
@@ -1140,6 +1141,7 @@
 	"Refuse reason": "Refuse reason",
 	"Completing info": "Completing info",
 	"Waiting approval (after refuse)": "Waiting approval (after refuse)",
+	"Member unsubsubscribed": "Member unsubsubscribed",
 
 	"Subscribers": "Subscribers",
 	"Activated": "Activated",

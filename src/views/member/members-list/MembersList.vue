@@ -19,16 +19,22 @@
 				<!-- Table Top -->
 				<b-row>
 					<!-- Per Page -->
-					<b-col cols="12" md="6" class="d-flex align-items-center justify-content-start mb-1 mb-md-0">
-						<label>{{ $t("Show") }}</label>
-						<v-select
-							v-model="perPage"
-							:dir="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'"
-							:options="perPageOptions"
-							:clearable="false"
-							class="per-page-selector d-inline-block mx-50"
-						/>
-						<label>{{ $t("entries") }}</label>
+					<b-col cols="12" md="6" class="d-flex align-items-center justify-content-between mb-1 mb-md-0">
+						<div>
+							<label>{{ $t("Show") }}</label>
+							<v-select
+								v-model="perPage"
+								:dir="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'"
+								:options="perPageOptions"
+								:clearable="false"
+								class="per-page-selector d-inline-block mx-50"
+							/>
+							<label>{{ $t("entries") }}</label>
+							<!-- Add new -->
+						</div>
+						<b-button variant="primary" size="sm" @click="exportData">
+							<span class="text-nowrap">{{ $t("Export") }}</span>
+						</b-button>
 					</b-col>
 
 					<!-- Search -->
@@ -87,11 +93,9 @@
 				</template>
 
 				<!-- Column: Membership type -->
-				<!-- <template #cell(membership_type)="data">
-					{{
-						data.item.membership_type === null ? "" : $t($membershipTypes[data.item.membership_type].label)
-					}}
-				</template> -->
+				<template #cell(membership_type)="data">
+					{{ $membershipTypes.find((t) => t.value === data.item.subscription.type).label }}
+				</template>
 
 				<!-- Column: City -->
 				<template #cell(city)="data">
@@ -127,20 +131,37 @@
 							>{{ $t("Waiting approval (after refuse)") }}</span
 						>
 					</template>
-					<template v-else>
-						{{ $memberStatus.find((c) => c.value === data.item.active).label }}
+					<template v-else-if="data.item.active === -1 && data.item.approved === 0">
+						{{ $t("Waiting branch approval") }}
+					</template>
+					<template v-else-if="data.item.active === -1 && data.item.approved === 1">
+						{{ $t("Waiting admin approval") }}
+					</template>
+					<template v-else-if="data.item.active === 1 && data.item.approved === 1">
+						<template
+							v-if="
+								data.item.subscription.status === 1 &&
+								new Date() >= new Date(data.item.subscription.end_date)
+							"
+						>
+							{{ $t("Ended subscription") }}
+						</template>
+
+						<template v-else>
+							{{ $t("Waiting to pay") }}
+						</template>
 					</template>
 				</template>
 
 				<!-- Column: Invoice status -->
 				<template #cell(invoice_status)="data">
-					<!-- <b-badge
+					<b-badge
 						pill
-						:variant="data.item.invoice_status ? 'light-success' : 'light-danger'"
+						:variant="data.item.invoice.status ? 'light-success' : 'light-danger'"
 						class="text-capitalize"
 					>
-						{{ $t($invoiceStatus[data.item.invoice_status].label) }}
-					</b-badge> -->
+						{{ $t($invoiceStatus.find((s) => s.value === data.item.invoice.status).label) }}
+					</b-badge>
 				</template>
 
 				<!-- Column: Refusal reason -->
@@ -447,6 +468,7 @@
 				isSortDirDesc,
 				refMemberListTable,
 				refetchData,
+				exportData,
 
 				// Extra Filters
 				nameFilter,
@@ -657,6 +679,7 @@
 				accept,
 				unaccept,
 				toggleActivate,
+				exportData,
 			}
 		},
 		watch: {

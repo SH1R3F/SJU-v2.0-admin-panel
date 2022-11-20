@@ -15,6 +15,14 @@ export default {
 					.catch((error) => reject(error))
 			})
 		},
+		exportCourses(ctx, { queryParams }) {
+			return new Promise((resolve, reject) => {
+				axios
+					.post(`/courses/export`, queryParams)
+					.then((response) => resolve(response))
+					.catch((error) => reject(error))
+			})
+		},
 		fetchCourse(ctx, { id }) {
 			return new Promise((resolve, reject) => {
 				axios

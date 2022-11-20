@@ -1,7 +1,14 @@
 <template>
 	<div class="mb-2">
 		<!-- Filters -->
-		<courses-list-filters :sn-filter.sync="snFilter" :name-filter.sync="nameFilter" :region-filter.sync="regionFilter" :day-filter.sync="dayFilter" :month-filter.sync="monthFilter" :year-filter.sync="yearFilter" />
+		<courses-list-filters
+			:sn-filter.sync="snFilter"
+			:name-filter.sync="nameFilter"
+			:region-filter.sync="regionFilter"
+			:day-filter.sync="dayFilter"
+			:month-filter.sync="monthFilter"
+			:year-filter.sync="yearFilter"
+		/>
 
 		<!-- Table Container Card -->
 		<b-card class="mb-0">
@@ -10,16 +17,32 @@
 				<!-- Table Top -->
 				<b-row>
 					<!-- Per Page -->
-					<b-col cols="12" md="6" class="d-flex align-items-center justify-content-start mb-1 mb-md-0">
-						<label>{{ $t("Show") }}</label>
-						<v-select v-model="perPage" :dir="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'" :options="perPageOptions" :clearable="false" class="per-page-selector d-inline-block mx-50" />
-						<label>{{ $t("entries") }}</label>
+					<b-col cols="12" md="6" class="d-flex align-items-center justify-content-between mb-1 mb-md-0">
+						<div>
+							<label>{{ $t("Show") }}</label>
+							<v-select
+								v-model="perPage"
+								:dir="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'"
+								:options="perPageOptions"
+								:clearable="false"
+								class="per-page-selector d-inline-block mx-50"
+							/>
+							<label>{{ $t("entries") }}</label>
+						</div>
+
+						<b-button variant="primary" size="sm" @click="exportData">
+							<span class="text-nowrap">{{ $t("Export") }}</span>
+						</b-button>
 					</b-col>
 
 					<!-- Search -->
 					<b-col cols="12" md="6">
 						<div class="d-flex align-items-center justify-content-end">
-							<b-form-input v-model="searchQuery" class="d-inline-block mr-1" :placeholder="$t('Search')" />
+							<b-form-input
+								v-model="searchQuery"
+								class="d-inline-block mr-1"
+								:placeholder="$t('Search')"
+							/>
 
 							<!-- Add new -->
 							<b-button variant="primary" :to="{ name: 'create-course' }">
@@ -31,7 +54,18 @@
 			</div>
 			<!-- Header of table -->
 
-			<b-table ref="refCourseListTable" class="position-relative" :fields="tableColumns" :items="fetchCourses" responsive primary-key="id" :sort-by.sync="sortBy" show-empty :empty-text="$t('No matching records found')" :sort-desc.sync="isSortDirDesc">
+			<b-table
+				ref="refCourseListTable"
+				class="position-relative"
+				:fields="tableColumns"
+				:items="fetchCourses"
+				responsive
+				primary-key="id"
+				:sort-by.sync="sortBy"
+				show-empty
+				:empty-text="$t('No matching records found')"
+				:sort-desc.sync="isSortDirDesc"
+			>
 				<!-- Column: # -->
 				<template #cell(#)="data"> {{ (currentPage - 1) * perPage + (data.index + 1) }} </template>
 
@@ -39,9 +73,17 @@
 				<template #cell(name_ar)="data">
 					<b-media vertical-align="center" class="align-items-center">
 						<template #aside>
-							<b-avatar size="32" :text="avatarText(data.item.name_ar)" variant="light-success" :to="{ name: 'edit-course', params: { id: data.item.id } }" />
+							<b-avatar
+								size="32"
+								:text="avatarText(data.item.name_ar)"
+								variant="light-success"
+								:to="{ name: 'edit-course', params: { id: data.item.id } }"
+							/>
 						</template>
-						<b-link :to="{ name: 'show-course', params: { id: data.item.id } }" class="font-weight-bold d-block text-nowrap">
+						<b-link
+							:to="{ name: 'show-course', params: { id: data.item.id } }"
+							class="font-weight-bold d-block text-nowrap"
+						>
 							{{ data.item.name_ar }}
 						</b-link>
 					</b-media>
@@ -80,12 +122,32 @@
 			<!-- Table footer -->
 			<div class="mx-2 mb-2">
 				<b-row>
-					<b-col cols="12" sm="6" class="d-flex align-items-center justify-content-center justify-content-sm-start">
-						<span class="text-muted">{{ $t("Showing") }} {{ dataMeta.from }} {{ $t("to") }} {{ dataMeta.to }} {{ $t("of") }} {{ dataMeta.of }} {{ $t("entries") }}</span>
+					<b-col
+						cols="12"
+						sm="6"
+						class="d-flex align-items-center justify-content-center justify-content-sm-start"
+					>
+						<span class="text-muted"
+							>{{ $t("Showing") }} {{ dataMeta.from }} {{ $t("to") }} {{ dataMeta.to }} {{ $t("of") }}
+							{{ dataMeta.of }} {{ $t("entries") }}</span
+						>
 					</b-col>
 					<!-- Pagination -->
-					<b-col cols="12" sm="6" class="d-flex align-items-center justify-content-center justify-content-sm-end">
-						<b-pagination v-model="currentPage" :total-rows="totalCourses" :per-page="perPage" first-number last-number class="mb-0 mt-1 mt-sm-0" prev-class="prev-item" next-class="next-item">
+					<b-col
+						cols="12"
+						sm="6"
+						class="d-flex align-items-center justify-content-center justify-content-sm-end"
+					>
+						<b-pagination
+							v-model="currentPage"
+							:total-rows="totalCourses"
+							:per-page="perPage"
+							first-number
+							last-number
+							class="mb-0 mt-1 mt-sm-0"
+							prev-class="prev-item"
+							next-class="next-item"
+						>
 							<template #prev-text>
 								<feather-icon icon="ChevronLeftIcon" size="18" />
 							</template>
@@ -99,14 +161,42 @@
 			<!-- Table footer -->
 		</b-card>
 		<!-- Modal for courses deletion -->
-		<b-modal id="modal-danger" ok-only ok-variant="danger" :ok-title="$t('Accept')" @ok="deleteCourse" modal-class="modal-danger" centered :title="$t('Delete course?')">
-			<b-card-text>{{ $t("Are you sure you want to delete this course? You won't be able to undo this step and all course data will be delete with no way to retreive.") }}</b-card-text>
+		<b-modal
+			id="modal-danger"
+			ok-only
+			ok-variant="danger"
+			:ok-title="$t('Accept')"
+			@ok="deleteCourse"
+			modal-class="modal-danger"
+			centered
+			:title="$t('Delete course?')"
+		>
+			<b-card-text>{{
+				$t(
+					"Are you sure you want to delete this course? You won't be able to undo this step and all course data will be delete with no way to retreive."
+				)
+			}}</b-card-text>
 		</b-modal>
 	</div>
 </template>
 
 <script>
-	import { BCard, BRow, BCol, BFormInput, BButton, BTable, BMedia, BAvatar, BLink, BBadge, BDropdown, BDropdownItem, BPagination, BCardText } from "bootstrap-vue"
+	import {
+		BCard,
+		BRow,
+		BCol,
+		BFormInput,
+		BButton,
+		BTable,
+		BMedia,
+		BAvatar,
+		BLink,
+		BBadge,
+		BDropdown,
+		BDropdownItem,
+		BPagination,
+		BCardText,
+	} from "bootstrap-vue"
 	import vSelect from "vue-select"
 	import store from "@/store"
 	import { ref, onUnmounted } from "@vue/composition-api"
@@ -143,7 +233,8 @@
 		setup() {
 			const APP_COURSE_STORE_MODULE_NAME = "app-course"
 			// Register module
-			if (!store.hasModule(APP_COURSE_STORE_MODULE_NAME)) store.registerModule(APP_COURSE_STORE_MODULE_NAME, courseStoreModule)
+			if (!store.hasModule(APP_COURSE_STORE_MODULE_NAME))
+				store.registerModule(APP_COURSE_STORE_MODULE_NAME, courseStoreModule)
 			// UnRegister on leave
 			onUnmounted(() => {
 				if (store.hasModule(APP_COURSE_STORE_MODULE_NAME)) store.unregisterModule(APP_COURSE_STORE_MODULE_NAME)
@@ -162,6 +253,7 @@
 				isSortDirDesc,
 				refCourseListTable,
 				refetchData,
+				exportData,
 
 				// Extra Filters
 				snFilter,
@@ -231,6 +323,7 @@
 				isSortDirDesc,
 				refCourseListTable,
 				refetchData,
+				exportData,
 
 				// Filter
 				avatarText,

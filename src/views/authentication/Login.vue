@@ -19,7 +19,9 @@
 			<!-- Login-->
 			<b-col lg="4" class="d-flex align-items-center auth-bg px-2 p-lg-5">
 				<b-col sm="8" md="6" lg="12" class="px-xl-2 mx-auto">
-					<b-card-title class="mb-1 font-weight-bold" title-tag="h2"> {{ `${$t("Welcome to")} ${$siteName}` }} 👋 </b-card-title>
+					<b-card-title class="mb-1 font-weight-bold" title-tag="h2">
+						{{ `${$t("Welcome to")} ${$siteName}` }} 👋
+					</b-card-title>
 					<b-card-text class="mb-2">{{ $t("Please sign-in to your account") }}</b-card-text>
 
 					<!-- form -->
@@ -27,8 +29,18 @@
 						<b-form class="auth-login-form mt-2" @submit.prevent="login">
 							<!-- email -->
 							<b-form-group :label="$t('Email')" label-for="login-email">
-								<validation-provider #default="{ errors }" name="Email" vid="email" rules="required|email">
-									<b-form-input id="login-email" v-model="userEmail" :state="errors.length > 0 ? false : null" name="login-email" />
+								<validation-provider
+									#default="{ errors }"
+									name="Email"
+									vid="email"
+									rules="required|email"
+								>
+									<b-form-input
+										id="login-email"
+										v-model="userEmail"
+										:state="errors.length > 0 ? false : null"
+										name="login-email"
+									/>
 									<small class="text-danger">{{ errors[0] }}</small>
 								</validation-provider>
 							</b-form-group>
@@ -41,11 +53,31 @@
 										<small>{{ $t("Forgot Password?") }}</small>
 									</b-link>
 								</div> -->
-								<validation-provider #default="{ errors }" name="Password" vid="password" rules="required">
-									<b-input-group class="input-group-merge" :class="errors.length > 0 ? 'is-invalid' : null">
-										<b-form-input id="login-password" v-model="password" :state="errors.length > 0 ? false : null" class="form-control-merge" :type="passwordFieldType" name="login-password" placeholder="Password" />
+								<validation-provider
+									#default="{ errors }"
+									name="Password"
+									vid="password"
+									rules="required"
+								>
+									<b-input-group
+										class="input-group-merge"
+										:class="errors.length > 0 ? 'is-invalid' : null"
+									>
+										<b-form-input
+											id="login-password"
+											v-model="password"
+											:state="errors.length > 0 ? false : null"
+											class="form-control-merge"
+											:type="passwordFieldType"
+											name="login-password"
+											placeholder="Password"
+										/>
 										<b-input-group-append is-text>
-											<feather-icon class="cursor-pointer" :icon="passwordToggleIcon" @click="togglePasswordVisibility" />
+											<feather-icon
+												class="cursor-pointer"
+												:icon="passwordToggleIcon"
+												@click="togglePasswordVisibility"
+											/>
 										</b-input-group-append>
 									</b-input-group>
 									<small class="text-danger">{{ errors[0] }}</small>
@@ -54,11 +86,15 @@
 
 							<!-- checkbox -->
 							<b-form-group>
-								<b-form-checkbox id="remember-me" v-model="status" name="checkbox-1"> {{ $t("Remember Me") }} </b-form-checkbox>
+								<b-form-checkbox id="remember-me" v-model="status" name="checkbox-1">
+									{{ $t("Remember Me") }}
+								</b-form-checkbox>
 							</b-form-group>
 
 							<!-- submit buttons -->
-							<b-button type="submit" variant="primary" block :disabled="invalid"> {{ $t("Sign in") }} </b-button>
+							<b-button type="submit" variant="primary" block :disabled="invalid">
+								{{ $t("Sign in") }}
+							</b-button>
 						</b-form>
 					</validation-observer>
 
@@ -100,7 +136,23 @@
 	/* eslint-disable global-require */
 	import { ValidationProvider, ValidationObserver } from "vee-validate"
 	import SjuLogo from "@core/layouts/components/SjuLogo.vue"
-	import { BRow, BCol, BLink, BFormGroup, BFormInput, BInputGroupAppend, BInputGroup, BFormCheckbox, BCardText, BCardTitle, BImg, BForm, BButton, BAlert, VBTooltip } from "bootstrap-vue"
+	import {
+		BRow,
+		BCol,
+		BLink,
+		BFormGroup,
+		BFormInput,
+		BInputGroupAppend,
+		BInputGroup,
+		BFormCheckbox,
+		BCardText,
+		BCardTitle,
+		BImg,
+		BForm,
+		BButton,
+		BAlert,
+		VBTooltip,
+	} from "bootstrap-vue"
 	import useJwt from "@/auth/jwt/useJwt"
 	import { required, email } from "@validations"
 	import { togglePasswordVisibility } from "@core/mixins/ui/forms"
@@ -191,21 +243,21 @@
 										// );
 
 										// ? This is just for demo purpose. Don't think CASL is role based in this case, we used role in if condition just for ease
-										this.$router
-											// .replace(getHomeRouteForLoggedInUser(userData.role))
-											.replace("/")
-											.then(() => {
-												this.$toast({
-													component: ToastificationContent,
-													position: "top-right",
-													props: {
-														title: `${i18n.t("Welcome")} ${userData.fullName || userData.username}`,
-														icon: "CoffeeIcon",
-														variant: "success",
-														text: i18n.t("You have successfully logged in"),
-													},
-												})
-											})
+										window.location = "/"
+										// this.$router.push('/')
+										// .replace("/")
+										// .then(() => {
+										// 	this.$toast({
+										// 		component: ToastificationContent,
+										// 		position: "top-right",
+										// 		props: {
+										// 			title: `${i18n.t("Welcome")} ${userData.fullName || userData.username}`,
+										// 			icon: "CoffeeIcon",
+										// 			variant: "success",
+										// 			text: i18n.t("You have successfully logged in"),
+										// 		},
+										// 	})
+										// })
 									})
 									.catch((error) => {
 										this.$toast({

@@ -141,6 +141,70 @@ export default function useMembersList() {
 			})
 	}
 
+	const exportData = (ctx, callback) => {
+		let active
+		let approved
+		switch (router.currentRoute.name) {
+			case "all-members":
+				active = [0, 1]
+				approved = 1
+				break
+
+			case "branch-waiting-members":
+				active = -1
+				approved = 0
+				break
+
+			case "branch-accepted-members":
+				active = -1
+				approved = 1
+				break
+
+			case "waiting-members":
+				active = -1
+				approved = 1
+				break
+
+			case "refused-members":
+				approved = -2
+				break
+		}
+
+		store
+			.dispatch("app-member/exportMembers", {
+				q: searchQuery.value,
+				perPage: perPage.value,
+				page: currentPage.value,
+				sortBy: sortBy.value,
+				sortDesc: isSortDirDesc.value,
+				active,
+				approved,
+
+				// Filtering
+				name: nameFilter.value,
+				mobile: mobileFilter.value,
+				email: emailFilter.value,
+				nationalId: nationalIdFilter.value,
+				membershipNumber: membershipNumberFilter.value,
+				membershipType: membershipTypeFilter.value,
+				city: cityFilter.value,
+				year: yearFilter.value,
+			})
+			.then((response) => {
+				window.location = response.data.excel
+			})
+			.catch(() => {
+				toast({
+					component: ToastificationContent,
+					props: {
+						title: i18n.t("Error fetching members list"),
+						icon: "AlertTriangleIcon",
+						variant: "danger",
+					},
+				})
+			})
+	}
+
 	// *===============================================---*
 	// *--------- UI ---------------------------------------*
 	// *===============================================---*
@@ -165,7 +229,7 @@ export default function useMembersList() {
 		isSortDirDesc,
 		refMemberListTable,
 		refetchData,
-
+		exportData,
 		// Extra Filters
 		nameFilter,
 		mobileFilter,
