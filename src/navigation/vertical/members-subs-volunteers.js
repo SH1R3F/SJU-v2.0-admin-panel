@@ -47,6 +47,12 @@ export default [
 				resource: "member",
 				action: "read",
 			},
+			{
+				title: "Invoices",
+				route: "list-invoices",
+				resource: "member",
+				action: "read",
+			},
 		],
 	},
 	{
@@ -85,4 +91,4 @@ export default [
 			},
 		],
 	},
-];
+]

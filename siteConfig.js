@@ -1179,9 +1179,9 @@ export const $packages = [
 
 // Members
 export const $membershipTypes = [
-	{ label: i18n.t("Full time"), value: 1 },
-	{ label: i18n.t("Part time"), value: 2 },
-	{ label: i18n.t("Affiliated"), value: 3 },
+	{ label: i18n.t("Full time"), value: 1, price: 250 },
+	{ label: i18n.t("Part time"), value: 2, price: 200 },
+	{ label: i18n.t("Affiliated"), value: 3, price: 150 },
 ]
 // Members
 export const $activeStatus = [

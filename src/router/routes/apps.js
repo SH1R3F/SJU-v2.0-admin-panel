@@ -260,6 +260,48 @@ export default [
 	},
 
 	// *===============================================---*
+	// *------------------- Invoices ------------------*
+	// *===============================================---*
+	{
+		path: "/invoices",
+		name: "list-invoices",
+		component: () => import("@/views/invoice/invoice-list/InvoiceList.vue"),
+		meta: {
+			resource: "member",
+			action: "read",
+			pageTitle: "Members invoices",
+			breadcrumb: [
+				{
+					text: "Members",
+				},
+				{
+					text: "Invoices",
+					active: true,
+				},
+			],
+		},
+	},
+	{
+		path: "/invoices/:id",
+		name: "show-invoice",
+		component: () => import("@/views/invoice/invoice-preview/InvoicePreview.vue"),
+		meta: {
+			resource: "member",
+			action: "read",
+			pageTitle: "Members invoices",
+			breadcrumb: [
+				{
+					text: "Members",
+				},
+				{
+					text: "Invoice data",
+					active: true,
+				},
+			],
+		},
+	},
+
+	// *===============================================---*
 	// *------------------- Subscribers ------------------*
 	// *===============================================---*
 	{
