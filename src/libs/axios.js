@@ -16,6 +16,14 @@ const axiosIns = axios.create({
 	},
 })
 
+axiosIns.interceptors.response.use(undefined, function (error) {
+	if (error.response.status === 403) {
+		router.push({ name: "not-authorized" })
+	} else if (error.response.status === 404) {
+		router.push({ name: "error-404" })
+	}
+})
+
 Vue.prototype.$http = axiosIns
 
 export default axiosIns

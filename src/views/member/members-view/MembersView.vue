@@ -20,13 +20,13 @@
 </template>
 
 <script>
-	import store from "@/store";
-	import router from "@/router";
-	import { ref, onUnmounted } from "@vue/composition-api";
-	import { BRow, BCol, BAlert, BLink } from "bootstrap-vue";
-	import memberStoreModule from "../memberStoreModule";
-	import MemberViewMemberInfoCard from "./MemberViewMemberInfoCard.vue";
-	import MemberViewMemberTabs from "./MemberViewMemberTabs.vue";
+	import store from "@/store"
+	import router from "@/router"
+	import { ref, onUnmounted } from "@vue/composition-api"
+	import { BRow, BCol, BAlert, BLink } from "bootstrap-vue"
+	import memberStoreModule from "../memberStoreModule"
+	import MemberViewMemberInfoCard from "./MemberViewMemberInfoCard.vue"
+	import MemberViewMemberTabs from "./MemberViewMemberTabs.vue"
 
 	export default {
 		components: {
@@ -40,34 +40,35 @@
 			MemberViewMemberTabs,
 		},
 		setup() {
-			const memberData = ref(null);
+			const memberData = ref(null)
 
-			const MEMBER_APP_STORE_MODULE_NAME = "app-member";
+			const MEMBER_APP_STORE_MODULE_NAME = "app-member"
 
 			// Register module
-			if (!store.hasModule(MEMBER_APP_STORE_MODULE_NAME)) store.registerModule(MEMBER_APP_STORE_MODULE_NAME, memberStoreModule);
+			if (!store.hasModule(MEMBER_APP_STORE_MODULE_NAME))
+				store.registerModule(MEMBER_APP_STORE_MODULE_NAME, memberStoreModule)
 
 			// UnRegister on leave
 			onUnmounted(() => {
-				if (store.hasModule(MEMBER_APP_STORE_MODULE_NAME)) store.unregisterModule(MEMBER_APP_STORE_MODULE_NAME);
-			});
+				if (store.hasModule(MEMBER_APP_STORE_MODULE_NAME)) store.unregisterModule(MEMBER_APP_STORE_MODULE_NAME)
+			})
 
 			store
 				.dispatch("app-member/fetchMember", { id: router.currentRoute.params.id })
 				.then((response) => {
-					memberData.value = response.data;
+					memberData.value = response.data
 				})
 				.catch((error) => {
 					if (error.response.status === 404) {
-						memberData.value = undefined;
+						memberData.value = undefined
 					}
-				});
+				})
 
 			return {
 				memberData,
-			};
+			}
 		},
-	};
+	}
 </script>
 
 <style></style>

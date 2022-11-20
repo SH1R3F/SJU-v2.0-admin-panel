@@ -102,5 +102,13 @@ export default {
 					.catch((error) => reject(error))
 			})
 		},
+		getCard(ctx, { id }) {
+			return new Promise((resolve, reject) => {
+				axios
+					.get(`/members/card/${id}`)
+					.then((response) => resolve(response))
+					.catch((error) => reject(error))
+			})
+		},
 	},
 }
