@@ -50,7 +50,10 @@
 						field: `${i18n.t("Employer")} (${i18n.t("Journalist")})`,
 						value: props.memberData.journalist_employer,
 					},
-					{ field: i18n.t("Newspaper type"), value: $newspaperTypes[props.memberData.newspaper_type].label },
+					{
+						field: i18n.t("Newspaper type"),
+						value: $newspaperTypes.find((t) => t.value === props.memberData.newspaper_type).label,
+					},
 					{
 						field: `${i18n.t("Job title")} (${i18n.t("Non-journalist")})`,
 						value: props.memberData.job_title,

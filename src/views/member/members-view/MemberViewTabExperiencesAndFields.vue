@@ -18,8 +18,8 @@
 </template>
 
 <script>
-	import { BRow, BTable } from "bootstrap-vue";
-	import { $levels } from "@siteConfig";
+	import { BRow, BTable } from "bootstrap-vue"
+	import { $levels } from "@siteConfig"
 
 	export default {
 		components: {
@@ -33,23 +33,23 @@
 			},
 		},
 		setup(props) {
-			const { languages = [], experiences = [], fields = [] } = props.memberData.experiences_and_fields || {};
+			const { languages = [], experiences = [], fields = [] } = props.memberData.experiences_and_fields || {}
 
-			let langs = [];
+			let langs = []
 			languages.forEach((language) => {
 				langs.push({
 					name: language.name,
-					level: $levels[language.level].label,
-				});
-			});
+					level: $levels.find((l) => l.value === language.level).label,
+				})
+			})
 
 			return {
 				experiences,
 				fields,
 				languages: langs,
-			};
+			}
 		},
-	};
+	}
 </script>
 
 <style></style>

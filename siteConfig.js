@@ -1233,10 +1233,10 @@ export const $newspaperTypes = [
 	{ label: i18n.t("E-newspaper"), value: 2 },
 ]
 export const $levels = [
-	{ label: i18n.t("Fair"), value: 0 },
-	{ label: i18n.t("Good"), value: 1 },
-	{ label: i18n.t("Very good"), value: 2 },
-	{ label: i18n.t("Excelent"), value: 3 },
+	{ label: i18n.t("Fair"), value: "مقبول" },
+	{ label: i18n.t("Good"), value: "جيد" },
+	{ label: i18n.t("Very good"), value: "جيد جدا" },
+	{ label: i18n.t("Excelent"), value: "ممتاز" },
 ]
 
 export const $serviceProviders = [
