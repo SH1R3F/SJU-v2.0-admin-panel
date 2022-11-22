@@ -75,7 +75,7 @@
 								{{
 									memberData.membership_type === null
 										? ""
-										: $membershipTypes.find((c) => c.value === memberData.subscription.type).label
+										: $membershipTypes.find((c) => c.value == memberData.subscription.type).label
 								}}
 							</td>
 						</tr>

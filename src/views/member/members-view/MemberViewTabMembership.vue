@@ -24,23 +24,23 @@
 		},
 		setup(props) {
 			const membershipStatus = (member, subscription) => {
-				if (member.approved === -2) {
+				if (member.approved == -2) {
 					return i18n.t("Refused")
-				} else if (member.approved === null) {
+				} else if (member.approved == null) {
 					return i18n.t("Completing info")
-				} else if (member.approved === 0) {
+				} else if (member.approved == 0) {
 					if (member.refusal_reason) {
 						return i18n.t("Waiting approval (after refuse)")
 					} else {
 						return i18n.t("Waiting branch approval")
 					}
-				} else if (member.approved === 1) {
-					if (member.active === -1) {
+				} else if (member.approved == 1) {
+					if (member.active == -1) {
 						return i18n.t("Waiting admin approval")
-					} else if (member.active === 0) {
+					} else if (member.active == 0) {
 						return i18n.t("Inactive")
-					} else if (member.active === 1) {
-						if (subscription.status === 1) {
+					} else if (member.active == 1) {
+						if (subscription.status == 1) {
 							if (new Date() < new Date(subscription.end_date)) {
 								return i18n.t("Active")
 							} else {
@@ -63,7 +63,7 @@
 					{ field: i18n.t("Invoice id"), value: props.memberData.invoice.invoice_number },
 					{
 						field: i18n.t("Invoice status"),
-						value: $invoiceStatus.find((s) => s.value === props.memberData.invoice.status).label,
+						value: $invoiceStatus.find((s) => s.value == props.memberData.invoice.status).label,
 					},
 					{
 						field: i18n.t("Membership status"),

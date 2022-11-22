@@ -362,7 +362,7 @@
 								<v-select
 									v-model="formData.city"
 									:dir="$store.state.appConfig.isRTL ? 'ltr' : 'rtl'"
-									:options="$cities[formData.country]"
+									:options="Object.values($cities)[parseInt(formData.country)]"
 									:reduce="(city) => city.value"
 									:clearable="false"
 									input-id="subscriber-city"

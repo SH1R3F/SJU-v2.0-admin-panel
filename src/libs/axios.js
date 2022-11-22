@@ -6,6 +6,7 @@ import i18n from "./i18n"
 import router from "@/router"
 import useJwt from "@/auth/jwt/useJwt"
 import { initialAbility } from "@/libs/acl/config"
+import store from "@/store"
 
 const axiosIns = axios.create({
 	// You can add your headers here
@@ -18,6 +19,7 @@ const axiosIns = axios.create({
 	},
 })
 
+// Add a request interceptor
 axiosIns.interceptors.response.use(undefined, function (error) {
 	if (error.response.status === 401) {
 		// Logout

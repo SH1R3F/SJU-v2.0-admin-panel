@@ -94,7 +94,7 @@
 
 				<!-- Column: Membership type -->
 				<template #cell(membership_type)="data">
-					{{ $membershipTypes.find((t) => t.value === data.item.subscription.type).label }}
+					{{ $membershipTypes.find((t) => t.value == data.item.subscription.type).label }}
 				</template>
 
 				<!-- Column: City -->
@@ -160,7 +160,7 @@
 						:variant="data.item.invoice.status ? 'light-success' : 'light-danger'"
 						class="text-capitalize"
 					>
-						{{ $t($invoiceStatus.find((s) => s.value === data.item.invoice.status).label) }}
+						{{ $t($invoiceStatus.find((s) => s.value == data.item.invoice.status).label) }}
 					</b-badge>
 				</template>
 

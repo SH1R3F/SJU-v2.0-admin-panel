@@ -38,7 +38,7 @@
 					{ field: `${i18n.t("Birth date")} (${i18n.t("Hijri")})`, value: props.memberData.birthday_hijri },
 					{
 						field: i18n.t("Nationality"),
-						value: $nationalities.find((n) => n.value === props.memberData.nationality).label,
+						value: $nationalities.find((n) => n.value == props.memberData.nationality).label,
 					},
 					{ field: i18n.t("Qualification"), value: props.memberData.qualification },
 					{ field: i18n.t("Major"), value: props.memberData.major },
@@ -52,7 +52,7 @@
 					},
 					{
 						field: i18n.t("Newspaper type"),
-						value: $newspaperTypes.find((t) => t.value === props.memberData.newspaper_type).label,
+						value: $newspaperTypes.find((t) => t.value == props.memberData.newspaper_type).label,
 					},
 					{
 						field: `${i18n.t("Job title")} (${i18n.t("Non-journalist")})`,
