@@ -108,9 +108,9 @@
 						responsive
 						:items="[
 							{
-								paidFor: $membershipTypes.find((t) => t.value === invoiceData.subscription_data.type)
+								paidFor: $membershipTypes.find((t) => t.value == invoiceData.subscription_data.type)
 									.label,
-								amount: $membershipTypes.find((t) => t.value === invoiceData.subscription_data.type)
+								amount: $membershipTypes.find((t) => t.value == invoiceData.subscription_data.type)
 									.price,
 							},
 						]"
@@ -130,7 +130,7 @@
 										<p class="invoice-total-amount">
 											{{
 												$membershipTypes.find(
-													(t) => t.value === invoiceData.subscription_data.type
+													(t) => t.value == invoiceData.subscription_data.type
 												).price
 											}}
 										</p>
@@ -138,7 +138,7 @@
 									<div class="invoice-total-item">
 										<p class="invoice-total-title">{{ $t("Delivery fees") }}:</p>
 										<p class="invoice-total-amount">
-											{{ invoiceData.member.delivery_method === 2 ? 30 : 0 }}
+											{{ invoiceData.member.delivery_method == 2 ? 30 : 0 }}
 										</p>
 									</div>
 									<hr class="my-50" />

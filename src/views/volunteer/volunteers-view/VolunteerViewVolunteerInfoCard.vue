@@ -6,7 +6,13 @@
 				<b-col cols="21" xl="6" class="d-flex justify-content-between flex-column">
 					<!-- User Avatar & Action Buttons -->
 					<div class="d-flex justify-content-start">
-						<b-avatar :src="volunteerData.avatar" :text="avatarText(dblocalize(volunteerData, 'fname'))" :variant="volunteerData.avatar ? '' : `light-success`" size="104px" rounded />
+						<b-avatar
+							:src="volunteerData.avatar"
+							:text="avatarText(dblocalize(volunteerData, 'fname'))"
+							variant="light-success"
+							size="104px"
+							rounded
+						/>
 						<div class="d-flex flex-column ml-1">
 							<div class="mb-1">
 								<h4 class="mb-0">
@@ -15,8 +21,14 @@
 								<span class="card-text">{{ volunteerData.email }}</span>
 							</div>
 							<div class="d-flex flex-wrap">
-								<b-button :to="{ name: 'edit-volunteer', params: { id: volunteerData.id } }" variant="primary">{{ $t("Edit") }}</b-button>
-								<b-button variant="outline-danger" class="ml-1" v-b-modal.modal-danger>{{ $t("Delete") }}</b-button>
+								<b-button
+									:to="{ name: 'edit-volunteer', params: { id: volunteerData.id } }"
+									variant="primary"
+									>{{ $t("Edit") }}</b-button
+								>
+								<b-button variant="outline-danger" class="ml-1" v-b-modal.modal-danger>{{
+									$t("Delete")
+								}}</b-button>
 							</div>
 						</div>
 					</div>
@@ -59,7 +71,7 @@
 								<span class="font-weight-bold">{{ $t("Country") }}</span>
 							</th>
 							<td class="pb-50">
-								{{ $countries[volunteerData.country].label }}
+								{{ $countries[volunteerData.country] ? $countries[volunteerData.country].label : "" }}
 							</td>
 						</tr>
 						<tr>
@@ -76,20 +88,33 @@
 			</b-row>
 		</b-card>
 		<!-- Modal for volunteer deletion -->
-		<b-modal id="modal-danger" ok-only ok-variant="danger" :ok-title="$t('Accept')" @ok="deleteVolunteer" modal-class="modal-danger" centered :title="$t('Delete volunteer?')">
-			<b-card-text>{{ $t("Are you sure you want to delete this volunteer? You won't be able to undo this step and all volunteer data will be delete with no way to retreive.") }}</b-card-text>
+		<b-modal
+			id="modal-danger"
+			ok-only
+			ok-variant="danger"
+			:ok-title="$t('Accept')"
+			@ok="deleteVolunteer"
+			modal-class="modal-danger"
+			centered
+			:title="$t('Delete volunteer?')"
+		>
+			<b-card-text>{{
+				$t(
+					"Are you sure you want to delete this volunteer? You won't be able to undo this step and all volunteer data will be delete with no way to retreive."
+				)
+			}}</b-card-text>
 		</b-modal>
 	</div>
 </template>
 
 <script>
-	import { BCard, BButton, BAvatar, BRow, BCol, BModal, BCardText } from "bootstrap-vue";
-	import { avatarText } from "@core/utils/filter";
-	import { $countries, $status, $genders } from "@siteConfig";
-	import store from "@/store";
-	import { onUnmounted } from "vue-demi";
-	import volunteerStoreModule from "../volunteerStoreModule";
-	import router from "@/router";
+	import { BCard, BButton, BAvatar, BRow, BCol, BModal, BCardText } from "bootstrap-vue"
+	import { avatarText } from "@core/utils/filter"
+	import { $countries, $status, $genders } from "@siteConfig"
+	import store from "@/store"
+	import { onUnmounted } from "vue-demi"
+	import volunteerStoreModule from "../volunteerStoreModule"
+	import router from "@/router"
 
 	export default {
 		components: {
@@ -109,11 +134,13 @@
 		},
 		setup() {
 			// MODULE CONFIGURATION
-			const VOLUNTEER_APP_STORE_MODULE_NAME = "app-volunteer";
-			if (!store.hasModule(VOLUNTEER_APP_STORE_MODULE_NAME)) store.registerModule(VOLUNTEER_APP_STORE_MODULE_NAME, volunteerStoreModule);
+			const VOLUNTEER_APP_STORE_MODULE_NAME = "app-volunteer"
+			if (!store.hasModule(VOLUNTEER_APP_STORE_MODULE_NAME))
+				store.registerModule(VOLUNTEER_APP_STORE_MODULE_NAME, volunteerStoreModule)
 			onUnmounted(() => {
-				if (store.hasModule(VOLUNTEER_APP_STORE_MODULE_NAME)) store.unregisterModule(VOLUNTEER_APP_STORE_MODULE_NAME);
-			});
+				if (store.hasModule(VOLUNTEER_APP_STORE_MODULE_NAME))
+					store.unregisterModule(VOLUNTEER_APP_STORE_MODULE_NAME)
+			})
 
 			const deleteVolunteer = function () {
 				store
@@ -124,19 +151,19 @@
 							variant: "success",
 							solid: true,
 							autoHideDelay: 100,
-						});
+						})
 						setTimeout(() => {
-							router.push({ name: "active-volunteers" });
-						}, 1500);
+							router.push({ name: "active-volunteers" })
+						}, 1500)
 					})
 					.catch((error) => {
 						this.$bvToast.toast(error.message, {
 							variant: "danger",
 							solid: true,
-						});
-						return;
-					});
-			};
+						})
+						return
+					})
+			}
 
 			return {
 				avatarText,
@@ -144,9 +171,9 @@
 				$status,
 				$genders,
 				deleteVolunteer,
-			};
+			}
 		},
-	};
+	}
 </script>
 
 <style></style>

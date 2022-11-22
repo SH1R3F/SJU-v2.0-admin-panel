@@ -33,6 +33,7 @@
 					{ name: i18n.t("Profile image"), link: props.memberData.avatar },
 					{ name: i18n.t("National image"), link: props.memberData.national_image },
 					{ name: i18n.t("Employer letter"), link: props.memberData.employer_letter },
+					{ name: i18n.t("Job contract"), link: props.memberData.job_contract },
 					{ name: i18n.t("Newspaper license"), link: props.memberData.newspaper_license },
 				],
 			}

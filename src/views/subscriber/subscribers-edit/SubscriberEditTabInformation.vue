@@ -387,7 +387,7 @@
 								<v-select
 									v-model="formData.nationality"
 									:dir="$store.state.appConfig.isRTL ? 'ltr' : 'rtl'"
-									:options="$countries"
+									:options="$nationalities"
 									:reduce="(nationality) => nationality.value"
 									:clearable="false"
 									input-id="subscriber-nationality"
@@ -483,7 +483,7 @@
 		BButton,
 	} from "bootstrap-vue"
 	import vSelect from "vue-select"
-	import { $genders, $countries, $cities, $qualifications } from "@siteConfig"
+	import { $genders, $countries, $nationalities, $cities, $qualifications } from "@siteConfig"
 	import { ValidationProvider, ValidationObserver } from "vee-validate"
 	import { required, min } from "@validations"
 	import { onUnmounted, ref } from "@vue/composition-api"
@@ -598,6 +598,7 @@
 			return {
 				$genders,
 				$countries,
+				$nationalities,
 				$cities,
 				$qualifications,
 				refFormObserver,

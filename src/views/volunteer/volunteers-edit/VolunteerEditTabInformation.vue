@@ -334,13 +334,13 @@
 								rules="required"
 							>
 								<v-select
-									v-model="formData.branch"
+									v-model="formData.city"
 									:dir="$store.state.appConfig.isRTL ? 'ltr' : 'rtl'"
 									:options="$branches"
 									:reduce="(branch) => branch.value"
 									:clearable="false"
 									input-id="volunteer-branch"
-									:value="formData.branch"
+									:value="formData.city"
 									:state="getValidationState(validationContext)"
 								/>
 								<b-form-invalid-feedback>
@@ -361,7 +361,7 @@
 								<v-select
 									v-model="formData.nationality"
 									:dir="$store.state.appConfig.isRTL ? 'ltr' : 'rtl'"
-									:options="$countries"
+									:options="$nationalities"
 									:reduce="(nationality) => nationality.value"
 									:clearable="false"
 									input-id="volunteer-nationality"
@@ -457,7 +457,7 @@
 		BButton,
 	} from "bootstrap-vue"
 	import vSelect from "vue-select"
-	import { $genders, $countries, $branches } from "@siteConfig"
+	import { $genders, $countries, $nationalities, $branches } from "@siteConfig"
 	import { ValidationProvider, ValidationObserver } from "vee-validate"
 	import { required, min } from "@validations"
 	import { onUnmounted, ref } from "@vue/composition-api"
@@ -512,6 +512,7 @@
 				employer,
 				country,
 				branch,
+				city,
 				nationality,
 				post_box,
 				post_code,
@@ -532,6 +533,7 @@
 				employer,
 				country,
 				branch,
+				city,
 				nationality,
 				post_box,
 				post_code,
@@ -568,6 +570,7 @@
 			return {
 				$genders,
 				$countries,
+				$nationalities,
 				$branches,
 				refFormObserver,
 				required,

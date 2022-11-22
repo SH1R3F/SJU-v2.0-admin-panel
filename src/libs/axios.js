@@ -4,6 +4,8 @@ import Vue from "vue"
 import axios from "axios"
 import i18n from "./i18n"
 import router from "@/router"
+import useJwt from "@/auth/jwt/useJwt"
+import { initialAbility } from "@/libs/acl/config"
 
 const axiosIns = axios.create({
 	// You can add your headers here
@@ -17,7 +19,12 @@ const axiosIns = axios.create({
 })
 
 axiosIns.interceptors.response.use(undefined, function (error) {
-	if (error.response.status === 403) {
+	if (error.response.status === 401) {
+		// Logout
+		window.localStorage.removeItem(useJwt.jwtConfig.storageTokenKeyName)
+		window.localStorage.removeItem("userData")
+		router.push({ name: "auth-login" })
+	} else if (error.response.status === 403) {
 		router.push({ name: "not-authorized" })
 	} else if (error.response.status === 404) {
 		router.push({ name: "error-404" })

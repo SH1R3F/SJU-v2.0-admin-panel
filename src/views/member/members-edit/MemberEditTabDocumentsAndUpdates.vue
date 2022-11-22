@@ -67,6 +67,36 @@
 				</b-col>
 			</b-row>
 
+			<!-- Field: Job contract file -->
+			<b-row>
+				<b-col cols="12" md="6">
+					<b-form-group :label="$t('Job contract')" label-for="job_contract">
+						<validation-provider #default="validationContext" vid="job_contract" :name="$t('Job contract')">
+							<b-form-file
+								v-model="JobContractFile"
+								id="job_contract"
+								:state="getValidationState(validationContext)"
+							/>
+							<b-form-invalid-feedback>
+								{{ validationContext.errors[0] }}
+							</b-form-invalid-feedback>
+							<b-card-text class="my-1">
+								{{ $t("Current file:") }}
+								<a
+									v-if="memberData.job_contract"
+									class="font-weight-bolder"
+									target="_blank"
+									:href="memberData.job_contract"
+								>
+									{{ $t("Job contract") }}
+								</a>
+								<a v-else>{{ $t("Unspecified") }}</a>
+							</b-card-text>
+						</validation-provider>
+					</b-form-group>
+				</b-col>
+			</b-row>
+
 			<!-- Field: Newspaper license file -->
 			<b-row>
 				<b-col cols="12" md="6">
@@ -310,21 +340,24 @@
 			})
 
 			// Form config for submit & rest
-			const { national_image, employer_letter, newspaper_license } = props.memberData
+			const { national_image, employer_letter, job_contract, newspaper_license } = props.memberData
 			const oldData = {
 				national_image,
 				employer_letter,
+				job_contract,
 				newspaper_license,
 			}
 			const formData = ref(JSON.parse(JSON.stringify(oldData)))
 			const NationalImageFile = ref(null)
 			const EmployerLetterFile = ref(null)
+			const JobContractFile = ref(null)
 			const NewspaperLicenseFile = ref(null)
 
 			const resetmemberData = () => {
 				formData.value = JSON.parse(JSON.stringify(oldData))
 				NationalImageFile.value = null
 				EmployerLetterFile.value = null
+				JobContractFile.value = null
 				NewspaperLicenseFile.value = null
 			}
 
@@ -334,6 +367,7 @@
 				formData.value.NationalImageFile = NationalImageFile.value
 				formData.value.EmployerLetterFile = EmployerLetterFile.value
 				formData.value.NewspaperLicenseFile = NewspaperLicenseFile.value
+				formData.value.JobContractFile = JobContractFile.value
 				const converted = new FormData()
 				Object.keys(formData.value).forEach((key) => converted.append(key, formData.value[key]))
 				converted.append("_method", "PUT")
@@ -372,6 +406,7 @@
 				NationalImageFile,
 				EmployerLetterFile,
 				NewspaperLicenseFile,
+				JobContractFile,
 			}
 		},
 	}

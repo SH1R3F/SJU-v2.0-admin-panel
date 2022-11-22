@@ -18,7 +18,12 @@
 				<!-- chart -->
 				<b-col sm="10" class="d-flex justify-content-center">
 					<!-- apex chart -->
-					<vue-apex-charts type="radialBar" height="270" :options="supportTrackerRadialBar.chartOptions" :series="[Math.round((data.closed * 100) / data.total)]" />
+					<vue-apex-charts
+						type="radialBar"
+						height="270"
+						:options="supportTrackerRadialBar.chartOptions"
+						:series="[Math.round((data.closed * 100) / data.total) || 0]"
+					/>
 				</b-col>
 				<!--/ chart -->
 			</b-row>
@@ -43,7 +48,17 @@
 </template>
 
 <script>
-	import { BCard, BCardHeader, BCardTitle, BDropdown, BDropdownItem, BCardBody, BRow, BCol, BCardText } from "bootstrap-vue"
+	import {
+		BCard,
+		BCardHeader,
+		BCardTitle,
+		BDropdown,
+		BDropdownItem,
+		BCardBody,
+		BRow,
+		BCol,
+		BCardText,
+	} from "bootstrap-vue"
 	import VueApexCharts from "vue-apexcharts"
 	import { $themeColors } from "@themeConfig"
 	import i18n from "@/libs/i18n"

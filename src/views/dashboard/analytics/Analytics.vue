@@ -5,10 +5,20 @@
 				<analytics-congratulation :user="user" :data="data.congratulations" />
 			</b-col>
 			<b-col lg="3" sm="6">
-				<statistic-card-with-area-chart v-if="stats.subscribers" icon="UsersIcon" :statistic="kFormatter(stats.subscribers)" :statistic-title="$t('Subscribers')" :chart-data="[{ name: $t('Subscribers'), data: [0, stats.subscribers] }]" />
+				<statistic-card-with-area-chart
+					icon="UsersIcon"
+					:statistic="kFormatter(stats.subscribers)"
+					:statistic-title="$t('Subscribers')"
+					:chart-data="[{ name: $t('Subscribers'), data: [0, stats.subscribers] }]"
+				/>
 			</b-col>
 			<b-col lg="3" sm="6">
-				<statistic-card-with-area-chart v-if="stats.members" icon="UsersIcon" :statistic="kFormatter(stats.members)" :statistic-title="$t('Members')" :chart-data="[{ name: $t('Members'), data: [0, stats.members] }]" />
+				<statistic-card-with-area-chart
+					icon="UsersIcon"
+					:statistic="kFormatter(stats.members)"
+					:statistic-title="$t('Members')"
+					:chart-data="[{ name: $t('Members'), data: [0, stats.members] }]"
+				/>
 			</b-col>
 		</b-row>
 
