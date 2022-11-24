@@ -9,7 +9,7 @@ export default {
 		fetchCategories(ctx) {
 			return new Promise((resolve, reject) => {
 				axios
-					.get(`/blog/categories/`)
+					.get(`/blog/categories`)
 					.then((response) => resolve(response))
 					.catch((error) => reject(error))
 			})

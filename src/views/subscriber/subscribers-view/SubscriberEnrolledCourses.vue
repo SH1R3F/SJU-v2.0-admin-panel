@@ -88,6 +88,7 @@
 						variant="primary"
 						class="btn-icon"
 						size="sm"
+						@click="getCertificate(data.item.id)"
 					>
 						<feather-icon icon="DownloadIcon" />
 					</b-button>
@@ -162,6 +163,10 @@
 	import subscriberStoreModule from "../subscriberStoreModule"
 	import { $courseAttendance } from "@siteConfig"
 	import Ripple from "vue-ripple-directive"
+	import { useToast } from "vue-toastification/composition"
+	import ToastificationContent from "@core/components/toastification/ToastificationContent.vue"
+	import router from "@/router"
+	import axios from "@axios"
 
 	export default {
 		components: {
@@ -211,11 +216,31 @@
 				refCoursesListTable,
 				refetchData,
 			} = useCoursesList()
+			const toast = useToast()
+
+			const getCertificate = (event) => {
+				const url = `${process.env.VUE_APP_API_BASEURL}/courses/${event}/certificate/subscriber/${router.currentRoute.params.id}`
+				axios
+					.get(url)
+					.then((response) => {
+						window.open(response.data.certificate, "_blank")
+					})
+					.catch((error) => {
+						toast({
+							component: ToastificationContent,
+							props: {
+								title: "Error fetching certificate",
+								icon: "AlertTriangleIcon",
+								variant: "danger",
+							},
+						})
+					})
+			}
 
 			return {
 				// Sidebar
 				isAddNewUserSidebarActive,
-
+				getCertificate,
 				fetchCourses,
 				tableColumns,
 				perPage,

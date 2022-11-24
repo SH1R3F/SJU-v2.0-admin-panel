@@ -9,7 +9,7 @@ export default {
 		fetchMenus(ctx) {
 			return new Promise((resolve, reject) => {
 				axios
-					.get(`/menus/`)
+					.get(`/menus`)
 					.then((response) => resolve(response))
 					.catch((error) => reject(error))
 			})

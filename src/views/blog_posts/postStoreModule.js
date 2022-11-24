@@ -9,7 +9,7 @@ export default {
 		fetchPosts(ctx, { queryParams }) {
 			return new Promise((resolve, reject) => {
 				axios
-					.get(`blog/posts/`, { params: queryParams })
+					.get(`blog/posts`, { params: queryParams })
 					.then((response) => resolve(response))
 					.catch((error) => reject(error))
 			})
@@ -17,7 +17,7 @@ export default {
 		fetchCategories(ctx) {
 			return new Promise((resolve, reject) => {
 				axios
-					.get(`blog/categories/`)
+					.get(`blog/categories`)
 					.then((response) => resolve(response))
 					.catch((error) => reject(error))
 			})

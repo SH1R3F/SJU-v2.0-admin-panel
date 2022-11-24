@@ -334,13 +334,13 @@
 								rules="required"
 							>
 								<v-select
-									v-model="formData.city"
+									v-model="formData.branch"
 									:dir="$store.state.appConfig.isRTL ? 'ltr' : 'rtl'"
 									:options="$branches"
 									:reduce="(branch) => branch.value"
 									:clearable="false"
 									input-id="volunteer-branch"
-									:value="formData.city"
+									:value="formData.branch"
 									:state="getValidationState(validationContext)"
 								/>
 								<b-form-invalid-feedback>

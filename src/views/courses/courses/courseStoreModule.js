@@ -10,7 +10,7 @@ export default {
 		fetchCourses(ctx, { queryParams }) {
 			return new Promise((resolve, reject) => {
 				axios
-					.get(`/courses/`, { params: queryParams })
+					.get(`/courses`, { params: queryParams })
 					.then((response) => resolve(response))
 					.catch((error) => reject(error))
 			})

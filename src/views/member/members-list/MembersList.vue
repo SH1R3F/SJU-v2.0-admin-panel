@@ -99,7 +99,11 @@
 
 				<!-- Column: City -->
 				<template #cell(city)="data">
-					{{ data.item.city && $t($cities["Saudi Arabia"][data.item.city].label) }}
+					{{
+						data.item.city && $cities["Saudi Arabia"][data.item.city]
+							? $cities["Saudi Arabia"][data.item.city].label
+							: ""
+					}}
 				</template>
 
 				<!-- Column: Status -->
