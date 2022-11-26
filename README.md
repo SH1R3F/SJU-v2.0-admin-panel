@@ -1,9 +1,9 @@
-<h1>SJU - Vuejs, HTML & Laravel Admin Dashboard Template</h1>
+<h1>SJU - Vuejs, HTML & Laravel Admin Dashboard</h1>
 
 
-<b>SJU – Vuejs, HTML & Laravel Admin Dashboard Template</b>
+<b>SJU – Vuejs, HTML & Laravel Admin Dashboard</b>
 <p>
-The most developer friendly & highly customizable Admin Dashboard Template based on Bootstrap 4, Bootstrap Vue.</p>
+The most developer friendly & highly customizable Admin Dashboard based on Bootstrap 4, Bootstrap Vue.</p>
 
 <h2>Setup</h2>
 <p>Make sure to install dependencies & update environment variables and axios api url</p>
