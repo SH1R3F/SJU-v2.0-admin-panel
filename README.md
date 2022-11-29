@@ -33,4 +33,4 @@ npm install
 </ul>
 
 <h2>Preview Video</h2>
-[![Saudi journalists' association admin dashboard](https://i.imgur.com/vKb2F1B.png)](https://dms.licdn.com/playlist/C4D05AQGyWkvZuCjqOg/mp4-720p-30fp-crf28/0/1669758003689?e=1670364000&v=beta&t=Er6w6qfdywieH76RZCVRzgqPTbdCI3AkFB3YwKVrorY)
+[![Saudi journalists' association admin dashboard]([https://i.imgur.com/vKb2F1B.png](https://media-exp1.licdn.com/dms/image/C4D05AQGyWkvZuCjqOg/videocover-low/0/1669757962440?e=1670364000&v=beta&t=uo2EyQSo70ORSJxbfblrqP_NBZoaoKzXL0SmZi3SnLo))](https://dms.licdn.com/playlist/C4D05AQGyWkvZuCjqOg/mp4-720p-30fp-crf28/0/1669758003689?e=1670364000&v=beta&t=Er6w6qfdywieH76RZCVRzgqPTbdCI3AkFB3YwKVrorY)
