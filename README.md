@@ -31,3 +31,6 @@ npm install
     <li>Simple blog implemented</li>
     <li>Technical support tickets and chats</li>
 </ul>
+
+<h2>Preview Video</h2>
+[![Saudi journalists' association admin dashboard](https://i.imgur.com/vKb2F1B.png)](https://dms.licdn.com/playlist/C4D05AQGyWkvZuCjqOg/mp4-720p-30fp-crf28/0/1669758003689?e=1670364000&v=beta&t=Er6w6qfdywieH76RZCVRzgqPTbdCI3AkFB3YwKVrorY)
