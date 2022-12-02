@@ -20,18 +20,24 @@ const axiosIns = axios.create({
 })
 
 // Add a request interceptor
-axiosIns.interceptors.response.use(undefined, function (error) {
-	if (error.response.status === 401) {
-		// Logout
-		window.localStorage.removeItem(useJwt.jwtConfig.storageTokenKeyName)
-		window.localStorage.removeItem("userData")
-		router.push({ name: "auth-login" })
-	} else if (error.response.status === 403) {
-		router.push({ name: "not-authorized" })
-	} else if (error.response.status === 404) {
-		router.push({ name: "error-404" })
+axiosIns.interceptors.response.use(
+	function (response) {
+		return response
+	},
+	function (error) {
+		if (error.response.status === 401) {
+			// Logout
+			window.localStorage.removeItem(useJwt.jwtConfig.storageTokenKeyName)
+			window.localStorage.removeItem("userData")
+			router.push({ name: "auth-login" })
+		} else if (error.response.status === 403) {
+			router.push({ name: "not-authorized" })
+		} else if (error.response.status === 404) {
+			router.push({ name: "error-404" })
+		}
+		return Promise.reject(error)
 	}
-})
+)
 
 Vue.prototype.$http = axiosIns
 

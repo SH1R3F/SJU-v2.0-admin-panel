@@ -79,7 +79,7 @@
 								size="32"
 								:src="data.item.avatar"
 								:text="avatarText(data.item.fullName.split(' ')[0])"
-								:variant="data.item.avatar ? '' : 'light-success'"
+								variant="light-success"
 								:to="{ name: 'show-member', params: { id: data.item.id } }"
 							/>
 						</template>

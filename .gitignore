@@ -22,8 +22,11 @@ yarn-error.log*
 !.vscode/*.code-snippets
 
 # script
-/dist
+dist.zip
+dist
+dist/*
 /vuexy-scripts
+
 
 # Docs
 /docs/.temp

@@ -103,12 +103,7 @@
 					</validation-provider>
 
 					<!-- Branch -->
-					<validation-provider
-						#default="validationContext"
-						vid="branch_id"
-						:name="$t('Branch')"
-						rules="required"
-					>
+					<validation-provider #default="validationContext" vid="branch_id" :name="$t('Branch')">
 						<b-form-group
 							:label="$t('Branch')"
 							label-for="branch"
@@ -259,7 +254,6 @@
 							// Set errors
 							refFormObserver.value.setErrors(error.response.data)
 						}
-						console.log(error)
 					})
 			}
 
